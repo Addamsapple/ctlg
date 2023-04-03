@@ -15,11 +15,11 @@ FieldConstructor<T, Ts...>::FieldConstructor(StringVector &&arguments) {
 }
 
 template<typename T, typename... Ts>
-Field * FieldConstructor<T, Ts...>::construct(std::string &&string) {
+Field * FieldConstructor<T, Ts...>::construct(std::string &&string) const {
 	return new T(std::make_from_tuple<T>(std::tuple_cat(std::make_tuple(std::move(string)), _arguments)));
 }
 
 template<typename T, typename... Ts>
-void FieldConstructor<T, Ts...>::reassign(Field *field, std::string &&string) {
+void FieldConstructor<T, Ts...>::reassign(Field *field, std::string &&string) const {
 	std::apply(static_cast<void (T::*)(std::string &&, Ts...)>(&T::reassign), std::tuple_cat(std::make_tuple(static_cast<T *>(field), std::move(string)), _arguments));
 }

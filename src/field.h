@@ -24,8 +24,8 @@ class Field {
 
 class FieldConstructorInterface {
 	public:
-		virtual Field * construct(std::string &&string) = 0;
-		virtual void reassign(Field *field, std::string &&string) = 0;
+		virtual Field * construct(std::string &&string) const = 0;
+		virtual void reassign(Field *field, std::string &&string) const = 0;
 };
 
 using StringVector = std::vector<std::string>;
@@ -37,8 +37,8 @@ class FieldConstructor : public FieldConstructorInterface {
 	public:
 		FieldConstructor(StringVector &&arguments);
 
-		Field * construct(std::string &&string) override;
-		void reassign(Field *field, std::string &&string) override;
+		Field * construct(std::string &&string) const override;
+		void reassign(Field *field, std::string &&string) const override;
 };
 
 #include "field_t.cpp"
