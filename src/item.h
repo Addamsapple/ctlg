@@ -33,6 +33,9 @@ class Item {
 		Item(const std::string &string, const size_t size);
 		Item(const std::string &string);
 
+		void insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position);
+		void deleteField(const size_t position);
+
 		Field & operator[](size_t field);
 		const Field & operator[](size_t field) const;
 

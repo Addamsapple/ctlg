@@ -51,6 +51,15 @@ Item::Item(const std::string &string, const ItemConstructor &constructor) : Item
 Item::Item(const std::string &string, const size_t fields) : Item(splitItem(string), fields) {}
 Item::Item(const std::string &string) : Item(splitItem(string)) {}
 
+void Item::insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position) {
+	_fields.insert(_fields.begin() + position, std::unique_ptr<Field>(constructor.construct(std::move(string))));
+	//move uptr?
+}
+
+void Item::deleteField(const size_t position) {
+	_fields.erase(begin() + position);
+}
+
 Field & Item::operator[](size_t field) {
 	return *_fields[field];
 }
@@ -110,6 +119,7 @@ ItemConstructor makeItemConstructor(const Item &item) {
 	ItemConstructor result;
 	result.reserve(item.size());
 	FieldConstructorInterface *constructor;
+	//rename variable to type?/field?
 	for (auto iterator = item.cbegin(); iterator != item.cend(); iterator++)
 		if (typeProcessor.match(iterator->get()->string(), constructor) == FULL_MATCH)
 			result.push_back(constructor);
