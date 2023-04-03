@@ -2,6 +2,7 @@
 
 #include "catalogue.h"
 #include "return.h"
+#include "type_proc.h"
 
 template<typename T>
 void Catalogue::setTypes(T string) {//call rename argument to item????
@@ -44,6 +45,23 @@ void Catalogue::insertItem(const std::string &item, const size_t position, const
 
 void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
 	insertItem(item, items(), ignoreErrors);
+}
+
+//could probably get rid of makeItemConstructor methods and reuse the code in here
+//need version that accepts title string as well
+void Catalogue::insertColumn(std::string &&type, const size_t position) {
+	FieldConstructorInterface *constructor;
+	if (typeProcessor.match(type, constructor) == FULL_MATCH)
+		for (auto item = begin(); item != end(); item++)
+			item->insertField("", *constructor, position);
+	//add string to _types
+	//add string to _titles
+	//returnCode processing here
+}
+
+void Catalogue::deleteColumn(const size_t position) {
+	for (auto item = begin(); item != end(); item++)
+		item->deleteField(position);
 }
 
 void Catalogue::deleteItem(const size_t item) {
