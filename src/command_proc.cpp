@@ -1,6 +1,7 @@
 #include "command_proc.h"
 #include "delete_item.h"//testing
 #include "insert_item.h"//testing
+#include "insert_column.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 template<typename T>
@@ -41,6 +42,7 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE(Redo, 'r');
 	ADD_INC_RULE(InsertItem, "ii");
 
+
 	incrementalProcessor.reset();
 }
 
@@ -51,6 +53,10 @@ void loadImmediateCommands() {
 	ADD_IMM_RULE(Load, "e ", STR_TOKEN);
 	ADD_IMM_RULE(Quit, ":q");
 	ADD_IMM_RULE(EditType, "rr", NUM_TOKEN);
+
+	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
+
+
 
 	immediateProcessor.reset();
 }
