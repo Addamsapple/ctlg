@@ -1,6 +1,7 @@
 #include "insert_column.h"
 #include "interface.h"
 #include "navigate.h"
+#include "return.h"
 
 bool InsertColumn::_execute(StringVector arguments) {
 	_position = startingItemColumn + selectedItemColumn;
