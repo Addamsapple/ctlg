@@ -60,12 +60,8 @@ void Item::deleteField(const size_t position) {
 	_fields.erase(begin() + position);
 }
 
-Field & Item::operator[](size_t field) {
-	return *_fields[field];
-}
-
-const Field & Item::operator[](size_t field) const {
-	return *_fields[field];
+std::unique_ptr<Field> & Item::operator[](size_t field) {
+	return _fields[field];
 }
 
 FieldIterator Item::begin() {

@@ -36,8 +36,7 @@ class Item {
 		void insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position);
 		void deleteField(const size_t position);
 
-		Field & operator[](size_t field);
-		const Field & operator[](size_t field) const;
+		std::unique_ptr<Field> & operator[](size_t field);
 
 		FieldIterator begin();
 		FieldIterator end();

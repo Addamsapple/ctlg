@@ -182,7 +182,7 @@ void GoToItemColumn::execute(StringVector arguments) {
 }
 
 void ViewField::execute(StringVector arguments) {
-	setOutput(catalogue[startingItem + selectedItem][startingItemColumn + selectedItemColumn].string());
+	setOutput(catalogue[startingItem + selectedItem][startingItemColumn + selectedItemColumn]->string());
 }
 
 //rather modify some global variable, so that program termination is easier to follow
@@ -194,7 +194,7 @@ void Quit::execute(StringVector arguments) {
 void EditType::execute(StringVector arguments) {
 	//setOutput("asdf");
 	setIOColourPair(IO_ERROR);
-	setOutput(catalogue.typeHeader()[stoi(arguments[0])].string());
+	setOutput(catalogue.typeHeader()[stoi(arguments[0])]->string());
 	if (getInput()) {
 		//FieldConstructorInterface *constructor;
 		//typeProcessor.match(arguments[0], constructor);
