@@ -48,20 +48,25 @@ void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
 }
 
 //could probably get rid of makeItemConstructor methods and reuse the code in here
-//need version that accepts title string as well
-void Catalogue::insertColumn(std::string &&type, const size_t position) {
+void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, const size_t position) {
+	setReturnCode(0, "");
 	FieldConstructorInterface *constructor;
-	if (typeProcessor.match(type, constructor) == FULL_MATCH)
+	if (typeProcessor.match(type->string(), constructor) == FULL_MATCH) {
 		for (auto item = begin(); item != end(); item++)
 			item->insertField("", *constructor, position);
-	//add string to _types
-	//add string to _titles
-	//returnCode processing here
+		_typeHeader.insertField(std::move(type), position);
+		_titleHeader.insertField(std::move(title), position);
+	} else {
+		setReturnCode(2222, "Invalid column type");
+	}
 }
 
 void Catalogue::deleteColumn(const size_t position) {
 	for (auto item = begin(); item != end(); item++)
 		item->deleteField(position);
+	_typeHeader.deleteField(position);
+	_titleHeader.deleteField(position);
+	_itemConstructor.erase(_itemConstructor.begin() + position);
 }
 
 void Catalogue::deleteItem(const size_t item) {

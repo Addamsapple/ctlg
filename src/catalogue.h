@@ -24,11 +24,13 @@ class Catalogue {
 
 		void insertItem(Item &&item, const size_t position);
 		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+
+		//why have an appendItem at all, can be handled by insertItem no?
 		void appendItem(const std::string &string, const bool ignoreErrors);
 
 		void deleteItem(const size_t item);
 
-		void insertColumn(std::string &&type, const size_t position);
+		void insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, const size_t position);
 
 		void deleteColumn(const size_t position);
 
