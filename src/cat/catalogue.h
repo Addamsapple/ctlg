@@ -35,9 +35,9 @@ class Catalogue {
 
 		void deleteColumn(const size_t position);
 
-		void reassignField(std::string &&string, const size_t item, const size_t field);
-
 		void save(const std::string &);
+
+		const ItemConstructor & itemConstructor() const;
 
 		Item & typeHeader();
 		const Item & typeHeader() const;

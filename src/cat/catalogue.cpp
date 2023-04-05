@@ -92,8 +92,8 @@ void Catalogue::deleteItem(const size_t item) {
 		setReturnCode(424242, "item x out of range");
 }
 
-void Catalogue::reassignField(std::string &&string, const size_t item, const size_t field) {
-	_itemConstructor[field]->reassign(_items[item][field].get(), std::move(string));
+const ItemConstructor & Catalogue::itemConstructor() const {
+	return _itemConstructor;
 }
 
 Item & Catalogue::typeHeader() {
