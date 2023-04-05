@@ -2,7 +2,7 @@
 #define PROCESSOR_H
 
 #include "commands.h"
-#include "field.h"
+#include "field_constructor.h"
 #include "matcher.h"
 
 inline constexpr int NO_MATCH = -2;
