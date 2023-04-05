@@ -2,6 +2,8 @@
 #include "delete_item.h"//testing
 #include "insert_item.h"//testing
 #include "insert_column.h"
+#include "delete_column.h"
+#include "edit_field.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 template<typename T>
@@ -42,6 +44,9 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE(Redo, 'r');
 	ADD_INC_RULE(InsertItem, "ii");
 
+	ADD_INC_RULE(DeleteColumn, "dc");
+
+	ADD_INC_RULE(EditField, "ec");
 
 	incrementalProcessor.reset();
 }
