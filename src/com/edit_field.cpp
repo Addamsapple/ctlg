@@ -3,6 +3,7 @@
 #include "navigate.h"
 #include "io.h"
 #include "interface.h"
+#include "render.h"
 
 //need access to catalogue's _itemConstructor to use the correct reassign method
 //or just define a reassignItemField method, etc to access it use it 
@@ -16,8 +17,8 @@ bool EditField::_execute(StringVector arguments) {
 	_string = catalogue[_item][_position]->string();
 	setOutput(_string);
 	if (getInput()) {
-		//need to access reassign in _itemConstructor
-
+		catalogue.reassignField(std::string(ioString.data()), _item, _position);
+		return true;
 	}
 	return false;
 }
