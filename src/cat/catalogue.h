@@ -30,9 +30,12 @@ class Catalogue {
 
 		void deleteItem(const size_t item);
 
+		void insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, std::vector<std::unique_ptr<Field>> &fields, const size_t position);
 		void insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, const size_t position);
 
 		void deleteColumn(const size_t position);
+
+		void reassignField(std::string &&string, const size_t item, const size_t field);
 
 		void save(const std::string &);
 

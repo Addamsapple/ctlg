@@ -56,6 +56,21 @@ void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Fiel
 			item->insertField("", *constructor, position);
 		_typeHeader.insertField(std::move(type), position);
 		_titleHeader.insertField(std::move(title), position);
+		_itemConstructor.insert(_itemConstructor.begin() + position, constructor);
+	} else {
+		setReturnCode(2222, "Invalid column type");
+	}
+}
+
+void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, std::vector<std::unique_ptr<Field>> &fields, const size_t position) {
+	setReturnCode(0, "");
+	FieldConstructorInterface *constructor;
+	if (typeProcessor.match(type->string(), constructor) == FULL_MATCH) {
+		for (size_t item = 0; item < items(); item++)
+			_items[item].insertField(std::move(fields[item]), position);
+		_typeHeader.insertField(std::move(type), position);
+		_titleHeader.insertField(std::move(title), position);
+		_itemConstructor.insert(_itemConstructor.begin() + position, constructor);
 	} else {
 		setReturnCode(2222, "Invalid column type");
 	}
@@ -75,6 +90,10 @@ void Catalogue::deleteItem(const size_t item) {
 		_items.erase(begin() + item);
 	else
 		setReturnCode(424242, "item x out of range");
+}
+
+void Catalogue::reassignField(std::string &&string, const size_t item, const size_t field) {
+	_itemConstructor[field]->reassign(_items[item][field].get(), std::move(string));
 }
 
 Item & Catalogue::typeHeader() {
