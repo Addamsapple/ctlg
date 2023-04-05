@@ -2,10 +2,6 @@
 
 Field::Field(std::string &&string) : _string(std::move(string)) {}
 
-void Field::reassign(std::string &&string) {
-	_string = string;
-}
-
 bool Field::operator<(const Field &field) const {
 	return _string < field._string;
 }

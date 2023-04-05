@@ -3,29 +3,25 @@
 
 #include "return.h"
 
-//why assign string then reassign? just construct _value first, then assign _string
-//field and hence string member will definitely be constructed first, but if its getting overwritten anyways, rather keep in a temp variable 
+//opportunity to make this a variadic template function
 template<typename Type>
-Number<Type>::Number(std::string &&string, const int precision) : Field(std::move(string)), _value(strton(this->_string)) {
-	//check if string is empty, then set default value?
-	this->_string = ntostr(_value, precision);
+Number<Type>::Number(const std::string &string, const int precision) : Field("") {
+	Type value = strton(string);
+	if (returnCode() == 0)
+		_value = value;
+	else
+		_value = 0;
+	_string = ntostr(_value, precision);
 }
 
 template<typename Type>
-Number<Type>::Number(std::string &&string) : Field(std::move(string)), _value(strton(this->_string)) {
-	this->_string = ntostr(_value);
-}
-
-template<typename Type>
-void Number<Type>::reassign(std::string &&string, const int precision) {
-	_value = strton(string);
-	this->_string = ntostr(_value, precision);
-}
-
-template<typename Type>
-void Number<Type>::reassign(std::string &&string) {
-	_value = strton(string);
-	this->_string = ntostr(_value);
+Number<Type>::Number(const std::string &string) : Field("") {
+	Type value = strton(string);
+	if (returnCode() == 0)
+		_value = value;
+	else
+		_value = 0;
+	_string = ntostr(_value);
 }
 
 template<typename Type, Type (*callback)(const char *, char **)>

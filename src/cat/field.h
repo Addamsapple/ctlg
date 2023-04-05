@@ -11,9 +11,7 @@ class Field {
 		std::string _string;
 
 	public:
-		explicit Field(std::string &&string);
-
-		virtual void reassign(std::string &&string);
+		Field(std::string &&string);
 
 		virtual bool operator<(const Field &field) const;
 
@@ -22,10 +20,10 @@ class Field {
 		size_t length() const;
 };
 
+//move this to a different source/header?
 class FieldConstructorInterface {
 	public:
 		virtual Field * construct(std::string &&string) const = 0;
-		virtual void reassign(Field *field, std::string &&string) const = 0;
 };
 
 using StringVector = std::vector<std::string>;
@@ -38,7 +36,6 @@ class FieldConstructor : public FieldConstructorInterface {
 		FieldConstructor(StringVector &&arguments);
 
 		Field * construct(std::string &&string) const override;
-		void reassign(Field *field, std::string &&string) const override;
 };
 
 #include "field_t.cpp"
