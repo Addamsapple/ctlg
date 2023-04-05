@@ -19,7 +19,7 @@ class Command {
 	};
 
 class UndoableCommand : public Command {
-	private:
+	protected:
 		virtual bool _execute(StringVector arguments) = 0;
 	public:
 		virtual void execute(StringVector arguments) override;
@@ -29,7 +29,7 @@ class UndoableCommand : public Command {
 };
 
 #define OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS\
-	private:\
+	protected:\
 		virtual bool _execute(StringVector arguments) override;\
 	public:\
 		virtual void undo() override;\
