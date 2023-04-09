@@ -21,6 +21,7 @@ inline constexpr int MINIMUM_SCREEN_WIDTH = COLUMN_WIDTH;
 inline constexpr int NORMAL_ITEM = 1;
 inline constexpr int HIGHLIGHTED_ITEM = 2;
 inline constexpr int HIGHLIGHTED_FIELD = 3;
+inline constexpr int NORMAL_TITLE = 7;
 inline constexpr int NORMAL_IO = 4;
 inline constexpr int IO_WARNING = 5;
 inline constexpr int IO_ERROR = 6;

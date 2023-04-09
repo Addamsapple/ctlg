@@ -14,8 +14,9 @@ void initialize() {
 	//enable colours
 	start_color();
 	init_pair(NORMAL_ITEM, COLOR_WHITE, COLOR_BLACK);
-	init_pair(HIGHLIGHTED_ITEM, COLOR_WHITE, COLOR_CYAN);
-	init_pair(HIGHLIGHTED_FIELD, COLOR_WHITE, COLOR_YELLOW);
+	init_pair(HIGHLIGHTED_ITEM, COLOR_BLACK, COLOR_CYAN);
+	init_pair(HIGHLIGHTED_FIELD, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(NORMAL_TITLE, COLOR_BLACK, COLOR_GREEN);
 	init_pair(NORMAL_IO, COLOR_WHITE, COLOR_BLACK);
 	init_pair(IO_WARNING, COLOR_WHITE, COLOR_YELLOW);
 	init_pair(IO_ERROR, COLOR_WHITE, COLOR_RED);//change to RED
@@ -35,7 +36,7 @@ void initialize() {
 	disableCursor();
 	//prevent screen clear on first refresh() call
 	//untouchwin(stdscr);//is this necessary?
-	wattron(headerWindow, A_UNDERLINE);
+	wattr_set(headerWindow, A_NORMAL, NORMAL_TITLE, 0);
 }
 
 //move this logic to navigate?
