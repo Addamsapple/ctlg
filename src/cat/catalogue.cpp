@@ -56,7 +56,7 @@ void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Fiel
 			item->insertField("", *constructor, position);
 		_typeHeader.insertField(std::move(type), position);
 		_titleHeader.insertField(std::move(title), position);
-		_itemConstructor.insert(_itemConstructor.begin() + position, constructor);
+		_itemConstructor.insert(_itemConstructor.begin() + position, std::unique_ptr<FieldConstructorInterface>(constructor));
 	} else {
 		setReturnCode(2222, "Invalid column type");
 	}
@@ -70,7 +70,7 @@ void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Fiel
 			_items[item].insertField(std::move(fields[item]), position);
 		_typeHeader.insertField(std::move(type), position);
 		_titleHeader.insertField(std::move(title), position);
-		_itemConstructor.insert(_itemConstructor.begin() + position, constructor);
+		_itemConstructor.insert(_itemConstructor.begin() + position, std::unique_ptr<FieldConstructorInterface>(constructor));
 	} else {
 		setReturnCode(2222, "Invalid column type");
 	}

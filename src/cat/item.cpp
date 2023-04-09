@@ -46,7 +46,6 @@ Item::Item(StringVector &&item, const size_t fields) : Item(fields) {
 	//auto constructor = FieldConstructor<Field>({});
 	//
 	for (std::string &field : item)
-		//_fields.emplace_back(constructor.construct(std::move(field)));
 		_fields.emplace_back(FIELD_CONSTRUCTOR.construct(std::move(field)));
 }
 
@@ -131,7 +130,7 @@ ItemConstructor makeItemConstructor(const Item &item) {
 	//rename variable to type?/field?
 	for (auto iterator = item.cbegin(); iterator != item.cend(); iterator++)
 		if (typeProcessor.match(iterator->get()->string(), constructor) == FULL_MATCH)
-			result.push_back(constructor);
+			result.emplace_back(constructor);
 		else {
 			setReturnCode(ITEM_CONSTRUCTOR_TYPE_ERROR, "type mismatch");
 			break;
@@ -142,6 +141,6 @@ ItemConstructor makeItemConstructor(const Item &item) {
 ItemConstructor makeItemConstructor(const size_t fields) {
 	ItemConstructor result;
 	for (size_t field = 0; field < fields; field++)
-		result.push_back(new FieldConstructor<Field>({}));
+		result.emplace_back(new FieldConstructor<Field>({}));
 	return result;
 }

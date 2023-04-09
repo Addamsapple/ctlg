@@ -11,7 +11,7 @@ using FieldVector = std::vector<std::unique_ptr<Field>>;
 using FieldIterator = FieldVector::iterator;
 using ConstFieldIterator = FieldVector::const_iterator;
 
-using ItemConstructor = std::vector<FieldConstructorInterface *>;
+using ItemConstructor = std::vector<std::unique_ptr<FieldConstructorInterface>>;
 
 class Item {
 	protected:
