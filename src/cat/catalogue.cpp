@@ -47,6 +47,7 @@ void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
 	insertItem(item, items(), ignoreErrors);
 }
 
+//get rid of title parameter, handle with separate function
 //could probably get rid of makeItemConstructor methods and reuse the code in here
 void Catalogue::insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, const size_t position) {
 	setReturnCode(0, "");
@@ -110,6 +111,11 @@ Item & Catalogue::titleHeader() {
 
 const Item & Catalogue::titleHeader() const {
 	return _titleHeader;
+}
+
+
+std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) {
+	return _itemConstructor[column];
 }
 
 Item & Catalogue::operator[](size_t item) {

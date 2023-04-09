@@ -95,6 +95,8 @@ void ProcessImmediateCommand::execute(StringVector arguments) {
 	if (getInput()) {
 		std::string command = std::string(&ioString[0]);
 		setOutput("");
+		//should redefine to accept pointer to command, and then can execute here instead of inside the processor class?
+		//beter for memory handling or not?
 		immediateProcessor.match(command);
 	}
 }
@@ -189,17 +191,6 @@ void ViewField::execute(StringVector arguments) {
 void Quit::execute(StringVector arguments) {
 	terminate();
 	exit(0);
-}
-
-void EditType::execute(StringVector arguments) {
-	//setOutput("asdf");
-	setIOColourPair(IO_ERROR);
-	setOutput(catalogue.typeHeader()[stoi(arguments[0])]->string());
-	if (getInput()) {
-		//FieldConstructorInterface *constructor;
-		//typeProcessor.match(arguments[0], constructor);
-	} else
-		setOutput("");
 }
 
 #include "commands.h"

@@ -19,7 +19,9 @@ class Catalogue {
 
 		ItemConstructor _itemConstructor;
 	public:
+		//rename to load types?
 		template<typename T> void setTypes(T string);
+		//rename to load titles?
 		void setTitles(const std::string &string);
 
 		void insertItem(Item &&item, const size_t position);
@@ -38,6 +40,8 @@ class Catalogue {
 		void save(const std::string &);
 
 		const ItemConstructor & itemConstructor() const;
+
+		std::unique_ptr<FieldConstructorInterface> & fieldConstructor(size_t column);
 
 		Item & typeHeader();
 		const Item & typeHeader() const;

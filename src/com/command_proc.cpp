@@ -4,6 +4,7 @@
 #include "insert_column.h"
 #include "delete_column.h"
 #include "edit_field.h"
+#include "edit_type.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 template<typename T>
@@ -47,6 +48,7 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE(DeleteColumn, "dc");
 
 	ADD_INC_RULE(EditField, "ec");
+	ADD_INC_RULE(EditType, "et");
 
 	incrementalProcessor.reset();
 }
@@ -57,7 +59,6 @@ void loadIncrementalCommands() {
 void loadImmediateCommands() {
 	ADD_IMM_RULE(Load, "e ", STR_TOKEN);
 	ADD_IMM_RULE(Quit, ":q");
-	ADD_IMM_RULE(EditType, "rr", NUM_TOKEN);
 
 	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
 

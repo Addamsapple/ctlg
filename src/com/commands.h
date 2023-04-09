@@ -32,7 +32,4 @@ B_COMMAND(Quit);
 B_COMMAND(Undo);
 B_COMMAND(Redo);
 
-//for testing
-B_COMMAND(EditType);
-
 #endif
