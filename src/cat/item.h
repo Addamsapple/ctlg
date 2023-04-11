@@ -40,6 +40,7 @@ class Item {
 		void deleteField(const size_t position);
 
 		std::unique_ptr<Field> & operator[](size_t field);
+		const Field & get(size_t field) const;
 
 		FieldIterator begin();
 		FieldIterator end();
@@ -57,5 +58,7 @@ StringVector splitItem(const std::string &item);
 
 ItemConstructor makeItemConstructor(const Item &item);
 ItemConstructor makeItemConstructor(const size_t fields);
+
+std::ostream & operator<<(std::ostream &stream, const Item &item);
 
 #endif

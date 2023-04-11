@@ -76,6 +76,10 @@ std::unique_ptr<Field> & Item::operator[](size_t field) {
 	return _fields[field];
 }
 
+const Field & Item::get(size_t field) const {
+	return *_fields[field];
+}
+
 FieldIterator Item::begin() {
 	return _fields.begin();
 }
@@ -98,6 +102,14 @@ size_t Item::size() const {
 
 void Item::clear() {
 	_fields.clear();
+}
+
+std::ostream & operator<<(std::ostream &stream, const Item &item) {
+	if (item.size() > 0)
+		stream << item.get(0).string();
+	for (size_t field = 1; field < item.size(); field++)
+		stream << KEY_DELIMITER << item.get(field).string();
+	return stream;
 }
 
 std::string repeatField(const std::string &string, const size_t fields) {
