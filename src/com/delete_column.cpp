@@ -2,7 +2,7 @@
 #include "interface.h"
 #include "navigate.h"
 
-bool DeleteColumn::_execute(StringVector arguments) {
+bool DeleteColumn::execute(StringVector arguments) {
 	_position = startingItemColumn + selectedItemColumn;
 	_claimFields();
 	catalogue.deleteColumn(_position);

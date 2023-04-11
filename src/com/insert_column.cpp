@@ -3,7 +3,7 @@
 #include "navigate.h"
 #include "return.h"
 
-bool InsertColumn::_execute(StringVector arguments) {
+bool InsertColumn::execute(StringVector arguments) {
 	_position = startingItemColumn + selectedItemColumn;
 	catalogue.insertColumn(std::make_unique<Field>(std::move(arguments[0])), std::make_unique<Field>(""), _position);
 	return returnCode() == 0;

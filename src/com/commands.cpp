@@ -11,6 +11,7 @@
 #include "type_proc.h"
 #include "undo.h"
 
+//not clearing properly when new file loaded
 void loadTypeHeader(const std::string &item, bool &ignoredItem) {
 	auto item_ = splitItem(item);
 	catalogue.setTypes<StringVector &>(item_);
@@ -73,7 +74,7 @@ void loadItem(const std::string &item, bool &haltOnError, bool &ignoreErrors) {
 }
 
 //ioString is not reset at end of function, so if errors occur, the last one will be in the ioString when the command finishes executing
-void Load::execute(StringVector arguments) {
+bool Load::execute(StringVector arguments) {
 	bool ignoredTypeHeader = false;//find a more appropriate name
 	bool haltOnError = true;
 	bool ignoreErrors = false;
@@ -87,9 +88,10 @@ void Load::execute(StringVector arguments) {
 	while (std::getline(file, item))
 		loadItem(item, haltOnError, ignoreErrors);
 	load();
+	return true;
 }
 
-void ProcessImmediateCommand::execute(StringVector arguments) {
+bool ProcessImmediateCommand::execute(StringVector arguments) {
 	setIOColourPair(NORMAL_IO);
 	setOutput(":");
 	if (getInput()) {
@@ -99,106 +101,125 @@ void ProcessImmediateCommand::execute(StringVector arguments) {
 		//beter for memory handling or not?
 		immediateProcessor.match(command);
 	}
+	return true;
 }
 
 //change choice of string to int conversion function
 
-void ScrollUp::execute(StringVector arguments) {
+bool ScrollUp::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
 	scrollUpThroughItems(items);
+	return true;
 }
 
-void ScrollDown::execute(StringVector arguments) {
+bool ScrollDown::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
 	scrollDownThroughItems(items);
+	return true;
 }
 
-void ScrollLeft::execute(StringVector arguments) {
+bool ScrollLeft::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
 	scrollLeftThroughItems(columns);
+	return true;
 }
 
-void ScrollRight::execute(StringVector arguments) {
+bool ScrollRight::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
 	scrollRightThroughItems(columns);
+	return true;
 }
 
-void MoveUp::execute(StringVector arguments) {
+bool MoveUp::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
 	moveUpThroughItems(items);
+	return true;
 }
 
-void MoveDown::execute(StringVector arguments) {
+bool MoveDown::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
 	moveDownThroughItems(items);
+	return true;
 }
 
-void MoveLeft::execute(StringVector arguments) {
+bool MoveLeft::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
 	moveLeftThroughItems(columns);
+	return true;
 }
 
-void MoveRight::execute(StringVector arguments) {
+bool MoveRight::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
 	moveRightThroughItems(columns);
+	return true;
 }
 
-void GoToFirstItem::execute(StringVector arguments) {
+bool GoToFirstItem::execute(StringVector arguments) {
 	moveToItem(0);
+	return true;
 }
 
-void GoToLastItem::execute(StringVector arguments) {
+bool GoToLastItem::execute(StringVector arguments) {
 	moveToItem(catalogue.items() - 1);
+	return true;
 }
 
-void GoToItem::execute(StringVector arguments) {
+bool GoToItem::execute(StringVector arguments) {
 	moveToItem(stoi(arguments[0]));
+	return true;
 }
 
-void GoToFirstItemColumn::execute(StringVector arguments) {
+bool GoToFirstItemColumn::execute(StringVector arguments) {
 	moveToItemColumn(0);
+	return true;
 }
 
-void GoToLastItemColumn::execute(StringVector arguments) {
+bool GoToLastItemColumn::execute(StringVector arguments) {
 	moveToItemColumn(catalogue.fields() - 1);
+	return true;
 }
 
-void GoToItemColumn::execute(StringVector arguments) {
+bool GoToItemColumn::execute(StringVector arguments) {
 	moveToItemColumn(stoi(arguments[0]));
+	return true;
 }
 
-void ViewField::execute(StringVector arguments) {
+bool ViewField::execute(StringVector arguments) {
 	setOutput(catalogue[startingItem + selectedItem][startingItemColumn + selectedItemColumn]->string());
+	return true;
 }
 
 //rather modify some global variable, so that program termination is easier to follow
-void Quit::execute(StringVector arguments) {
+bool Quit::execute(StringVector arguments) {
 	terminate();
 	exit(0);
+	return true;
 }
 
 #include "commands.h"
 
-void Undo::execute(StringVector arguments) {
+bool Undo::execute(StringVector arguments) {
 	undoCommand();
+	return true;
 }
 
-void Redo::execute(StringVector arguments) {
+bool Redo::execute(StringVector arguments) {
 	redoCommand();
+	return true;
 }

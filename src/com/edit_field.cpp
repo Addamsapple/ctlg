@@ -7,7 +7,7 @@
 #include "return.h"
 
 //rename class to EditItemField???
-bool EditField::_execute(StringVector arguments) {
+bool EditField::execute(StringVector arguments) {
 	_item = startingItem + selectedItem;
 	_position = startingItemColumn + selectedItemColumn;
 	setOutput(catalogue[_item][_position]->string());

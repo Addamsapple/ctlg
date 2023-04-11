@@ -7,7 +7,7 @@
 #include "render.h"
 #include "type_proc.h"
 
-bool EditType::_execute(StringVector arguments) {
+bool EditType::execute(StringVector arguments) {
 	_position = startingItemColumn + selectedItemColumn;
 	_fields.reserve(catalogue.items());
 	setOutput(catalogue.typeHeader()[_position]->string());

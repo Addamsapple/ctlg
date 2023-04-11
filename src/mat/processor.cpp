@@ -1,6 +1,8 @@
 #include "item.h"
 #include "processor.h"
 
+#include "undo.h"
+
 int PatternProcessor::match(const char character, const bool returnOnFirstMatch) {
 	for (size_t matcher = 0; matcher < _remainingMatchers.size();) {
 		if (!_matchers[_remainingMatchers[matcher]].match(character))
@@ -48,7 +50,9 @@ template<>
 void Processor<CommandConstructor>::invoke(const int rule) {
 	//memory leak
 	Command *command = _callbacks[rule]();
-	command->execute(std::move(_processor._matchers[rule].arguments()));
+	command->execute(_processor._matchers[rule].arguments());
+	if (UndoableCommand *command_ = dynamic_cast<UndoableCommand *>(command); command_ != nullptr)
+		recordCommand(command_);
 }
 
 template<>
