@@ -10,6 +10,7 @@ class Command {
 	public:
 		//should this not take a reference to a string vector instead?
 		virtual bool execute(StringVector arguments) = 0;
+		virtual ~Command() = default;
 };
 
 //make subclass that accepts  function callback for simple commands, then dont need to create a new class for each commnad, just the 

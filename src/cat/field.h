@@ -11,6 +11,7 @@ class Field {
 
 	public:
 		Field(std::string &&string);
+		virtual ~Field() = default;
 
 		virtual bool operator<(const Field &field) const;
 
