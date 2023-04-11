@@ -10,8 +10,8 @@ bool InsertColumn::execute(StringVector arguments) {
 }
 
 void InsertColumn::undo() {
-	_type = std::move(catalogue.typeHeader()[_position]);
-	_title = std::move(catalogue.titleHeader()[_position]);
+	_type = std::move(catalogue.types()[_position]);
+	_title = std::move(catalogue.titles()[_position]);
 	catalogue.deleteColumn(_position);
 }
 

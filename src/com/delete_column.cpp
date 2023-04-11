@@ -20,8 +20,8 @@ void DeleteColumn::redo() {
 }
 
 void DeleteColumn::_claimFields() {
-	_type = std::move(catalogue.typeHeader()[_position]);
-	_title = std::move(catalogue.titleHeader()[_position]);
+	_type = std::move(catalogue.types()[_position]);
+	_title = std::move(catalogue.titles()[_position]);
 	_fields.reserve(catalogue.items());
 	for (auto item = catalogue.begin(); item != catalogue.end(); item++)
 		_fields.push_back(std::move((*item)[_position]));

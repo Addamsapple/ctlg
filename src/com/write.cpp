@@ -5,8 +5,8 @@
 
 bool Write::execute(StringVector arguments) {
 	std::ofstream file(arguments[0]);
-	file << catalogue.typeHeader() << '\n';
-	file << catalogue.titleHeader() << '\n';
+	file << catalogue.types() << '\n';
+	file << catalogue.titles() << '\n';
 	for (auto item = catalogue.begin(); item != catalogue.end(); item++)
 		file << *item << '\n';
 	return true;

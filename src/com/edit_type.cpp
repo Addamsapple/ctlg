@@ -10,7 +10,7 @@
 bool EditType::execute(StringVector arguments) {
 	_position = startingItemColumn + selectedItemColumn;
 	_fields.reserve(catalogue.items());
-	setOutput(catalogue.typeHeader()[_position]->string());
+	setOutput(catalogue.types()[_position]->string());
 	while (getInput()) {
 		_type = std::make_unique<Field>(ioString.data());
 		setReturnCode(0, "");
@@ -40,7 +40,7 @@ void EditType::redo() {
 }
 
 void EditType::_swap() {
-	catalogue.typeHeader()[_position].swap(_type);
+	catalogue.types()[_position].swap(_type);
 	catalogue.fieldConstructor(_position).swap(_constructor);
 	for (size_t item = 0; item < _fields.size(); item++)
 		catalogue[item][_position].swap(_fields[item]);

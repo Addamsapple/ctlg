@@ -13,8 +13,8 @@ using ConstItemIterator = ItemVector::const_iterator;
 class Catalogue {
 	protected:
 		//rename to _types, _titles?
-		Item _typeHeader;
-		Item _titleHeader;
+		Item _types;
+		Item _titles;
 		ItemVector _items;
 
 		ItemConstructor _itemConstructor;
@@ -43,11 +43,11 @@ class Catalogue {
 
 		std::unique_ptr<FieldConstructorInterface> & fieldConstructor(size_t column);
 
-		Item & typeHeader();
-		const Item & typeHeader() const;
+		Item & types();
+		const Item & types() const;
 
-		Item & titleHeader();
-		const Item & titleHeader() const;
+		Item & titles();
+		const Item & titles() const;
 
 		Item & operator[](size_t item);
 		const Item & operator[](size_t item) const;

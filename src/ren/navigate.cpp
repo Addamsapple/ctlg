@@ -6,7 +6,7 @@
 
 void populateTitles(const int sc, const int ec) {
 	int ec_ = std::min(ec, std::min(visibleItemColumns, (int) catalogue.fields() - startingItemColumn) - sc);//change variable types
-	auto begin = catalogue.titleHeader().cbegin() + startingItemColumn + sc;
+	auto begin = catalogue.titles().cbegin() + startingItemColumn + sc;
 	mvwaddfields(headerWindow, 0, sc * COLUMN_WIDTH, begin, begin + ec_ - sc);
 	wnoutrefresh(headerWindow);
 }
