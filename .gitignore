@@ -1,4 +1,5 @@
 bin/
 tmp/
+.*
 *.txt
 *.swp
