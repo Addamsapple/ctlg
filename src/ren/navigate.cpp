@@ -32,8 +32,8 @@ void populateItems(const int sr, const int er, const int sc, const int ec) {
 
 //might need to redefine these to clear in case that columns are deleted
 void clearExcessTitles() {
-	int column = COLUMN_WIDTH * visibleItemColumns;
-	if (itemPadWidth > column && catalogue.fields() >= visibleItemColumns) {
+	int column = COLUMN_WIDTH * std::min((size_t) visibleItemColumns, catalogue.fields());
+	if (column < itemPadWidth) {
 		wmove(headerWindow, 0, column);
 		wclrtoeol(headerWindow);
 		wnoutrefresh(headerWindow);
@@ -41,8 +41,8 @@ void clearExcessTitles() {
 }
 
 void clearExcessItemColumns() {
-	int column = COLUMN_WIDTH * visibleItemColumns;
-	if (itemPadWidth > column && catalogue.fields() >= visibleItemColumns) {
+	int column = COLUMN_WIDTH * std::min((size_t) visibleItemColumns, catalogue.fields());
+	if (column < itemPadWidth) {
 		for (int item = 0; item < itemPadHeight && item < catalogue.items(); item++) {
 			wmove(itemWindow, item, column);
 			wclrtoeol(itemWindow);
