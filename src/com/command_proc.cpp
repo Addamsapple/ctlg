@@ -6,6 +6,8 @@
 #include "edit_field.h"
 #include "edit_type.h"
 
+#include "write.h"
+
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 template<typename T>
 Command * commandConstructor() {
@@ -61,7 +63,7 @@ void loadImmediateCommands() {
 	ADD_IMM_RULE(Quit, ":q");
 
 	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
-
+	ADD_IMM_RULE(Write, "w ", STR_TOKEN);
 
 
 	immediateProcessor.reset();
