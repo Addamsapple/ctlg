@@ -4,7 +4,7 @@
 #include "return.h"
 
 bool InsertColumn::execute(StringVector arguments) {
-	_position = startingItemColumn + selectedItemColumn;
+	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	catalogue.insertColumn(std::make_unique<Field>(std::move(arguments[0])), std::make_unique<Field>(""), _position);
 	return returnCode() == 0;
 }

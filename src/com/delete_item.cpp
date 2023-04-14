@@ -7,7 +7,7 @@
 //handle #dd, e.g. 22dd to execute dd 22 times, but group together so that undo/redo executes all
 
 bool DeleteItem::execute(StringVector arguments) {
-	_position = startingItem + selectedItem;
+	_position = itemView.firstElement() + itemView.selectedElement();
 	if (_position < catalogue.items() && returnCode() == 0) {
 		_item = std::move(catalogue[_position]);
 		catalogue.deleteItem(_position);

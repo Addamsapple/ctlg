@@ -12,8 +12,7 @@ void setIOColourPair(const int colourPair) {
 void setOutput(const std::string &string) {
 	ioString = std::vector<char>(string.cbegin(), string.cend());
 	ioString.push_back('\0');
-	startingIOColumn = 0;
-	selectedIOColumn = std::min((int) ioString.size() - 1, screenWidth - 1);
+	ioView.moveForward(ioString.size() - 1);
 	updateIO();
 }
 
@@ -29,29 +28,29 @@ void displayReturnMessage() {
 }
 
 void inschToIO(const chtype character) {
-	ioString.insert(ioString.cbegin() + startingIOColumn + selectedIOColumn, character);
-	moveTowardLastIOColumn(1);
+	ioString.insert(ioString.cbegin() + ioView.firstElement() + ioView.selectedElement(), character);
+	ioView.moveForward(1);
 }
 
 //delch with backspace key
 void delchFromIOB() {
-	int effectiveIOColumn = startingIOColumn + selectedIOColumn;
+	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn > 0) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn - 1);
-		if (ioString.size() - startingIOColumn == screenWidth - 1 && startingIOColumn > 0)//change to < screenWidth (from == screenWidth - 1)
-			moveTowardLastIOColumn(0);
+		if (ioString.size() - ioView.firstElement() == screenWidth - 1 && ioView.firstElement() > 0)//change to < screenWidth (from == screenWidth - 1)
+			ioView.moveForward(0);
 		else
-			moveTowardFirstIOColumn(1);
+			ioView.moveBackward(1);
 	}
 }
 
 //delch with delete key
 void delchFromIOD() {
-	int effectiveIOColumn = startingIOColumn + selectedIOColumn;
+	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn < (int) ioString.size() - 1) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn);
-		if (ioString.size() - startingIOColumn == screenWidth - 1 && startingIOColumn > 0)//change to < screenWidth
-			moveTowardFirstIOColumn(1);
+		if (ioString.size() - ioView.firstElement() == screenWidth - 1 && ioView.firstElement() > 0)//change to < screenWidth
+			ioView.moveForward(0);
 	}
 }
 
@@ -66,13 +65,13 @@ bool getInput() {
 		else if (character >= 32 && character <= 126) inschToIO(character);
 		else if (character == '\b' || character == KEY_BACKSPACE) delchFromIOB();
 		else if (character == KEY_DC) delchFromIOD();
-		else if (character == KEY_LEFT) moveTowardFirstIOColumn(1);
-		else if (character == KEY_RIGHT) moveTowardLastIOColumn(1);
-		else if (character == KEY_SLEFT) scrollTowardFirstIOColumn(1);
-		else if (character == KEY_SRIGHT) scrollTowardLastIOColumn(1);
-		else if (character == KEY_HOME) moveTowardFirstIOColumn(startingIOColumn + selectedIOColumn);
-		else if (character == KEY_END) moveTowardLastIOColumn(ioString.size() - 1);
-		updateIO();
+		else if (character == KEY_LEFT) ioView.moveBackward(1);
+		else if (character == KEY_RIGHT) ioView.moveForward(1);
+		else if (character == KEY_SLEFT) ioView.scrollBackward(1);
+		else if (character == KEY_SRIGHT) ioView.scrollForward(1);
+		else if (character == KEY_HOME) ioView.moveBackward(ioView.firstElement() + ioView.selectedElement());
+		else if (character == KEY_END) ioView.moveForward(ioString.size() - 1);
+		updateIO();//temp
 		doupdate();
 	}
 	disableCursor();

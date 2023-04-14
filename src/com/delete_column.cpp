@@ -3,7 +3,7 @@
 #include "navigate.h"
 
 bool DeleteColumn::execute(StringVector arguments) {
-	_position = startingItemColumn + selectedItemColumn;
+	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	_claimFields();
 	catalogue.deleteColumn(_position);
 	return true;

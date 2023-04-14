@@ -8,8 +8,8 @@
 
 //rename class to EditItemField???
 bool EditField::execute(StringVector arguments) {
-	_item = startingItem + selectedItem;
-	_position = startingItemColumn + selectedItemColumn;
+	_item = itemView.firstElement() + itemView.selectedElement();
+	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();//rename
 	setOutput(catalogue[_item][_position]->string());
 	while (getInput()) {
 		_field = std::unique_ptr<Field>(catalogue.itemConstructor()[_position]->construct(ioString.data()));

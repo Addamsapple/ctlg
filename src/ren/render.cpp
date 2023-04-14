@@ -47,12 +47,9 @@ void load() {
 	wresize(itemWindow, itemPadHeight, itemPadWidth);
 	wresize(ioWindow, IO_WINDOW_HEIGHT, itemPadWidth);
 	//initialize variables
-	startingItem = 0;
-	startingItemColumn = 0;
-	selectedItem = 0;
-	selectedItemColumn = 0;
-	visibleItemColumns = screenWidth / COLUMN_WIDTH;
-
+	visibleItemColumns = screenWidth / COLUMN_WIDTH;//this must be called before viewports updated?
+	itemView.selectElement(0);
+	itemColumnView.selectElement(0);
 	//updateIO();//included here temporarily
 }
 
@@ -63,7 +60,7 @@ void terminate() {
 void enableCursor() {
 	curs_set(2);
 	cursorEnabled = true;
-	wmove(ioWindow, 0, selectedIOColumn);
+	wmove(ioWindow, 0, ioView.selectedElement());
 }
 
 void disableCursor() {
@@ -73,9 +70,9 @@ void disableCursor() {
 
 void updateIO() {
 	werase(ioWindow);
-	mvwaddnstr(ioWindow, 0, 0, ioString.data() + startingIOColumn, screenWidth - 1);
+	mvwaddnstr(ioWindow, 0, 0, ioString.data() + ioView.firstElement(), screenWidth - 1);
 	if (cursorEnabled)
-		wmove(ioWindow, 0, selectedIOColumn);
+		wmove(ioWindow, 0, ioView.selectedElement());
 	wnoutrefresh(ioWindow);
 }
 

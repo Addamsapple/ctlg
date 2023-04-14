@@ -8,7 +8,7 @@
 #include "type_proc.h"
 
 bool EditType::execute(StringVector arguments) {
-	_position = startingItemColumn + selectedItemColumn;
+	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	_fields.reserve(catalogue.items());
 	setOutput(catalogue.types()[_position]->string());
 	while (getInput()) {

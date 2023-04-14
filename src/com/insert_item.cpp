@@ -13,7 +13,7 @@ bool InsertItem::execute(StringVector arguments) {
 		if (returnCode() != 0)
 			return false;
 	} else
-		_position = startingItem + selectedItem;
+		_position = itemView.firstElement() + itemView.selectedElement();
 	catalogue.insertItem(repeatField("", catalogue.fields()), _position, true);
 	return true;
 }
