@@ -52,6 +52,7 @@ void clearExcessItemColumns() {
 }
 
 //still bugged
+//using itemPadHeight, but that is not changed by resize.cpp
 void clearExcessItems() {
 	size_t item = catalogue.items() - startingItem;
 	if (item < itemPadHeight) {
@@ -69,115 +70,77 @@ void populateScreen() {
 	clearExcessItems();
 }
 
-//make function to centre item/column, which should be useful for redo/undo
-
-int scrolledTowardStart(int &startingRC, const int rcs, const int minRC) {
-	int newRCs = std::min(rcs, startingRC - minRC);
-	startingRC -= newRCs;
-	return newRCs;
+template<const int & (*Function)(const int &, const int &)>
+int moveTowardBound(int &rc, int rcs, int &rcBound) {
+	int moved = Function(rc + rcs, rcBound) - rc;
+	rc += moved;
+	return moved;
 }
 
-int scrolledTowardEnd(int &startingRC, const int rcs, const int visibleRCs, const int maxRC) {
-	int newRCs = std::min(rcs, std::max(maxRC - visibleRCs + 1, startingRC) - startingRC);
-	startingRC += newRCs;
-	return newRCs;
+void moveTowardStart(int &startingRC, int &selectedRC, int rcs, int minStartingRC, int minSelectedRC) {
+	int moved = moveTowardBound<std::max<int>>(selectedRC, -rcs, minSelectedRC);
+	int scrolled = moveTowardBound<std::max<int>>(startingRC, -rcs - moved, minStartingRC);
 }
 
-std::pair<int, int> movedTowardStart(int &startingRC, int &activeRC, const int rcs, const int minRC) {
-	int newRCs = std::min(rcs, startingRC + activeRC - minRC);
-	if (activeRC - newRCs < 0) {
-		int moved = activeRC;
-		activeRC = 0;
-		return std::make_pair(moved, scrolledTowardStart(startingRC, newRCs - moved, minRC));
-	}
-	activeRC -= newRCs;
-	return std::make_pair(newRCs, 0);
+void moveTowardEnd(int &startingRC, int &selectedRC, int rcs, int maxStartingRC, int maxSelectedRC) {
+	int moved = moveTowardBound<std::min<int>>(selectedRC, rcs, maxSelectedRC);
+	int scrolled = moveTowardBound<std::min<int>>(startingRC, rcs - moved, maxStartingRC);
 }
 
-std::pair<int, int> movedTowardEnd(int &startingRC, int &activeRC, const int rcs, const int visibleRCs, const int maxRC) {
-	int newRCs = std::min(rcs, maxRC - startingRC - activeRC);
-	if (activeRC + newRCs > visibleRCs - 1) {
-		int moved = visibleRCs - 1 - activeRC;
-		activeRC = visibleRCs - 1;
-		return std::make_pair(moved, scrolledTowardEnd(startingRC, newRCs - moved, visibleRCs, maxRC));
-	}
-	activeRC += newRCs;
-	return std::make_pair(newRCs, 0);
+void scrollTowardStart(int &startingRC, int &selectedRC, int rcs, int minStartingRC, int maxSelectedRC) {
+	int scrolled = moveTowardBound<std::max<int>>(startingRC, -rcs, minStartingRC);
+	int moved = moveTowardBound<std::min<int>>(selectedRC, -scrolled, maxSelectedRC);
 }
 
-void scrollUpThroughItems(const int items) {
-	scrolledTowardStart(startingItem, items, 0);
+void scrollTowardEnd(int &startingRC, int &selectedRC, int rcs, int maxStartingRC, int minSelectedRC) {
+	int scrolled = moveTowardBound<std::min<int>>(startingRC, rcs, maxStartingRC);
+	int moved = moveTowardBound<std::max<int>>(selectedRC, -scrolled, minSelectedRC);
 }
 
-void scrollDownThroughItems(const int items) {
-	std::min(scrolledTowardEnd(startingItem, items, itemPadHeight, catalogue.items() - 1), itemPadHeight);
+void moveTowardFirstItem(int items) {
+	moveTowardStart(startingItem, selectedItem, items, 0, 0);
 }
 
-void scrollLeftThroughItems(const int columns) {
-	scrolledTowardStart(startingItemColumn, columns, 0);
+void moveTowardLastItem(int items) {
+	moveTowardEnd(startingItem, selectedItem, items, std::max((int) catalogue.items() - itemPadHeight, 0), std::min((int) catalogue.items(), itemPadHeight) - 1);
 }
 
-void scrollRightThroughItems(const int columns) {
-	scrolledTowardEnd(startingItemColumn, columns, visibleItemColumns, catalogue.fields() - 1);
+void scrollTowardFirstItem(int items) {
+	scrollTowardStart(startingItem, selectedItem, items, 0, std::min((int) catalogue.items(), itemPadHeight) - 1);
 }
 
-void moveUpThroughItems(const int items) {
-	movedTowardStart(startingItem, selectedItem, items, 0);
+void scrollTowardLastItem(int items) {
+	scrollTowardEnd(startingItem, selectedItem, items, std::max((int) catalogue.items() - itemPadHeight, 0), 0);
 }
 
-void moveDownThroughItems(const int items) {
-	movedTowardEnd(startingItem, selectedItem, items, itemPadHeight, catalogue.items() - 1);
+void moveTowardFirstItemColumn(int columns) {
+	moveTowardStart(startingItemColumn, selectedItemColumn, columns, 0, 0);
 }
 
-void moveLeftThroughItems(const int columns) {
-	movedTowardStart(startingItemColumn, selectedItemColumn, columns, 0);
+void moveTowardLastItemColumn(int columns) {
+	moveTowardEnd(startingItemColumn, selectedItemColumn, columns, std::max((int) catalogue.fields() - visibleItemColumns, 0), std::min((int) catalogue.fields(), visibleItemColumns) - 1);
 }
 
-void moveRightThroughItems(const int columns) {
-	movedTowardEnd(startingItemColumn, selectedItemColumn, columns, visibleItemColumns, catalogue.fields() - 1);
+void scrollTowardFirstItemColumn(int columns) {
+	scrollTowardStart(startingItemColumn, selectedItemColumn, columns, 0, std::min((int) catalogue.fields(), visibleItemColumns) - 1);
 }
 
-void moveToItem(const int item) {
-	if (startingItem + selectedItem > item)
-		moveUpThroughItems(startingItem + selectedItem - item);
-	else
-		moveDownThroughItems(item - startingItem - selectedItem);
+void scrollTowardLastItemColumn(int columns) {
+	scrollTowardEnd(startingItemColumn, selectedItemColumn, columns, std::max((int) catalogue.fields() - visibleItemColumns, 0), 0);
 }
 
-void moveToItemColumn(const int column) {
-	if (startingItemColumn + selectedItemColumn > column)
-		moveLeftThroughItems(startingItemColumn + selectedItemColumn - column);
-	else
-		moveRightThroughItems(column - startingItemColumn - selectedItemColumn);
+void moveTowardFirstIOColumn(int columns) {
+	moveTowardStart(startingIOColumn, selectedIOColumn, columns, 0, 0);
 }
 
-//call updateIO() in main loop rather
-void scrollLeftThroughIO(const int columns) {
-	if (scrolledTowardStart(startingIOColumn, columns, 0) > 0)
-		updateIO();
+void moveTowardLastIOColumn(int columns) {
+	moveTowardEnd(startingIOColumn, selectedIOColumn, columns, std::max((int) ioString.size() - screenWidth, 0), std::min((int) ioString.size(), screenWidth) - 1);
 }
 
-void scrollRightThroughIO(const int columns) {
-	if (scrolledTowardEnd(startingIOColumn, columns, screenWidth, ioString.size() - 1) > 0)
-		updateIO();
+void scrollTowardFirstIOColumn(int columns) {
+	scrollTowardStart(startingIOColumn, selectedIOColumn, columns, 0, std::min((int) ioString.size(), screenWidth) - 1);
 }
 
-void moveLeftThroughIO(const int columns) {
-	auto result = movedTowardStart(startingIOColumn, selectedIOColumn, columns, 0);
-	if (std::get<0>(result) + std::get<1>(result) > 0)
-		updateIO();
+void scrollTowardLastIOColumn(int columns) {
+	scrollTowardEnd(startingIOColumn, selectedIOColumn, columns, std::max((int) ioString.size() - screenWidth, 0), 0);
 }
-
-void moveRightThroughIO(const int columns) {
-	auto result = movedTowardEnd(startingIOColumn, selectedIOColumn, columns, screenWidth, ioString.size() - 1);
-	if (std::get<0>(result) + std::get<1>(result) > 0)
-		updateIO();
-}
-
-void moveThroughIO(const int column) {
-	if (startingIOColumn + selectedIOColumn > column)
-		moveLeftThroughIO(startingIOColumn + selectedIOColumn - column);
-	else
-		moveRightThroughIO(column - startingIOColumn - selectedIOColumn);
-}
-

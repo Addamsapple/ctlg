@@ -18,7 +18,7 @@ bool DeleteItem::execute(StringVector arguments) {
 
 void DeleteItem::undo() {
 	catalogue.insertItem(std::move(_item), _position);
-	moveToItem(_position);
+	//moveToItem(_position);
 }
 
 void DeleteItem::redo() {

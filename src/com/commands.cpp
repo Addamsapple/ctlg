@@ -110,7 +110,7 @@ bool ScrollUp::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
-	scrollUpThroughItems(items);
+	scrollTowardFirstItem(items);
 	return true;
 }
 
@@ -118,7 +118,7 @@ bool ScrollDown::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
-	scrollDownThroughItems(items);
+	scrollTowardLastItem(items);
 	return true;
 }
 
@@ -126,7 +126,7 @@ bool ScrollLeft::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
-	scrollLeftThroughItems(columns);
+	scrollTowardFirstItemColumn(columns);
 	return true;
 }
 
@@ -134,7 +134,7 @@ bool ScrollRight::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
-	scrollRightThroughItems(columns);
+	scrollTowardLastItemColumn(columns);
 	return true;
 }
 
@@ -142,7 +142,7 @@ bool MoveUp::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
-	moveUpThroughItems(items);
+	moveTowardFirstItem(items);
 	return true;
 }
 
@@ -150,7 +150,7 @@ bool MoveDown::execute(StringVector arguments) {
 	int items = 1;
 	if (arguments.size() == 1)
 		items = stoi(arguments[0]);
-	moveDownThroughItems(items);
+	moveTowardLastItem(items);
 	return true;
 }
 
@@ -158,7 +158,7 @@ bool MoveLeft::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
-	moveLeftThroughItems(columns);
+	moveTowardFirstItemColumn(columns);
 	return true;
 }
 
@@ -166,37 +166,47 @@ bool MoveRight::execute(StringVector arguments) {
 	int columns = 1;
 	if (arguments.size() == 1)
 		columns = stoi(arguments[0]);
-	moveRightThroughItems(columns);
+	moveTowardLastItemColumn(columns);
 	return true;
 }
 
 bool GoToFirstItem::execute(StringVector arguments) {
-	moveToItem(0);
+	startingItem = 0;
+	selectedItem = 0;
 	return true;
 }
 
 bool GoToLastItem::execute(StringVector arguments) {
-	moveToItem(catalogue.items() - 1);
+	moveTowardLastItem(catalogue.items() - 1);
 	return true;
 }
 
 bool GoToItem::execute(StringVector arguments) {
-	moveToItem(stoi(arguments[0]));
+	int items = stoi(arguments[0]) - (startingItem + selectedItem);
+	if (items < 0)
+		moveTowardFirstItem(-items);
+	else
+		moveTowardLastItem(items);
 	return true;
 }
 
 bool GoToFirstItemColumn::execute(StringVector arguments) {
-	moveToItemColumn(0);
+	startingItemColumn = 0;
+	selectedItemColumn = 0;
 	return true;
 }
 
 bool GoToLastItemColumn::execute(StringVector arguments) {
-	moveToItemColumn(catalogue.fields() - 1);
+	moveTowardLastItemColumn(catalogue.fields() -1);
 	return true;
 }
 
 bool GoToItemColumn::execute(StringVector arguments) {
-	moveToItemColumn(stoi(arguments[0]));
+	int columns = stoi(arguments[0]) - (startingItemColumn + selectedItemColumn);
+	if (columns < 0)
+		moveTowardFirstItemColumn(-columns);
+	else
+		moveTowardLastItemColumn(columns);
 	return true;
 }
 
