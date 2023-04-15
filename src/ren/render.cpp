@@ -20,15 +20,13 @@ void initialize() {
 	init_pair(NORMAL_IO, COLOR_WHITE, COLOR_BLACK);
 	init_pair(IO_WARNING, COLOR_WHITE, COLOR_YELLOW);
 	init_pair(IO_ERROR, COLOR_WHITE, COLOR_RED);//change to RED
-	//initialize variables
-	screenWidth = std::max(getmaxx(stdscr), MINIMUM_SCREEN_WIDTH);
-	screenHeight = std::max(getmaxy(stdscr), MINIMUM_SCREEN_HEIGHT);
-	itemPadWidth = screenWidth;
-	itemPadHeight = screenHeight - HEADER_PAD_HEIGHT - IO_WINDOW_HEIGHT - 1;
-	//initialize pads/windows
-	headerWindow = newwin(HEADER_PAD_HEIGHT, screenWidth, 0, 0);
-	itemWindow = newwin(itemPadHeight, screenWidth, 1, 0);//use constants here for height
-	ioWindow = newwin(IO_WINDOW_HEIGHT, screenWidth, screenHeight - IO_WINDOW_HEIGHT, 0);
+	//initialize windows
+	headerWindow = newwin(1, 1, 0, 0);
+	itemWindow = newwin(1, 1, 0, 0);
+	ioWindow = newwin(1, 1, 0, 0);
+	headerWindow = newwin(HEADER_PAD_HEIGHT, std::max(screenWidth, 1), 0, 0);
+	itemWindow = newwin(std::max(screenHeight - HEADER_PAD_HEIGHT - IO_WINDOW_HEIGHT - 1, 1), headerWindowWidth, HEADER_PAD_HEIGHT, 0);
+	ioWindow = newwin(IO_WINDOW_HEIGHT, headerWindowWidth, HEADER_PAD_HEIGHT + itemWindowHeight + 1, 0);
 	//configure keyboard
 	set_escdelay(50);
 	intrflush(ioWindow, FALSE);
@@ -41,12 +39,11 @@ void initialize() {
 
 //move this logic to navigate?
 void load() {
-	itemPadWidth = std::max(COLUMN_WIDTH * (int) catalogue.fields(), MINIMUM_SCREEN_WIDTH);
-	//allocate memory to pads
-	wresize(headerWindow, HEADER_PAD_HEIGHT, itemPadWidth);
-	wresize(itemWindow, itemPadHeight, itemPadWidth);
-	wresize(ioWindow, IO_WINDOW_HEIGHT, itemPadWidth);
-	//initialize variables
+	//itemWindowWidth = std::max(COLUMN_WIDTH * (int) catalogue.fields(), MINIMUM_SCREEN_WIDTH);
+	
+	wresize(headerWindow, HEADER_PAD_HEIGHT, std::max(COLUMN_WIDTH * (int) catalogue.fields(), MINIMUM_SCREEN_WIDTH));
+	wresize(itemWindow, itemWindowHeight, headerWindowWidth);
+	wresize(ioWindow, IO_WINDOW_HEIGHT, std::max(screenWidth, 1));
 	visibleItemColumns = screenWidth / COLUMN_WIDTH;//this must be called before viewports updated?
 	itemView.selectElement(0);
 	itemColumnView.selectElement(0);
@@ -70,7 +67,8 @@ void disableCursor() {
 
 void updateIO() {
 	werase(ioWindow);
-	mvwaddnstr(ioWindow, 0, 0, ioString.data() + ioView.firstElement(), screenWidth - 1);
+	//UNCOMMENT THE LINE BELOW
+	//mvwaddnstr(ioWindow, 0, 0, ioString.data() + ioView.firstElement(), screenWidth - 1);
 	if (cursorEnabled)
 		wmove(ioWindow, 0, ioView.selectedElement());
 	wnoutrefresh(ioWindow);

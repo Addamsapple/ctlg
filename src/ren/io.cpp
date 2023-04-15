@@ -37,7 +37,7 @@ void delchFromIOB() {
 	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn > 0) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn - 1);
-		if (ioString.size() - ioView.firstElement() == screenWidth - 1 && ioView.firstElement() > 0)//change to < screenWidth (from == screenWidth - 1)
+		if (ioString.size() - ioView.firstElement() == ioWindowWidth - 1 && ioView.firstElement() > 0)
 			ioView.moveForward(0);
 		else
 			ioView.moveBackward(1);
@@ -49,7 +49,7 @@ void delchFromIOD() {
 	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn < (int) ioString.size() - 1) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn);
-		if (ioString.size() - ioView.firstElement() == screenWidth - 1 && ioView.firstElement() > 0)//change to < screenWidth
+		if (ioString.size() - ioView.firstElement() == ioWindowWidth - 1 && ioView.firstElement() > 0)
 			ioView.moveForward(0);
 	}
 }

@@ -26,17 +26,27 @@ inline constexpr int NORMAL_IO = 4;
 inline constexpr int IO_WARNING = 5;
 inline constexpr int IO_ERROR = 6;
 
-//screen variables
-inline int screenWidth;
-inline int screenHeight;
-
 inline WINDOW *headerWindow;
 inline WINDOW *itemWindow;
 inline WINDOW *ioWindow;
 
-//rename
-inline int itemPadWidth;
-inline int itemPadHeight;
+#define screenWidth\
+	getmaxx(stdscr)
+
+#define screenHeight\
+	getmaxy(stdscr)
+
+#define headerWindowWidth\
+	getmaxx(headerWindow)
+
+#define itemWindowWidth\
+	getmaxx(itemWindow)
+
+#define itemWindowHeight\
+	getmaxy(itemWindow)
+
+#define ioWindowWidth\
+	getmaxx(ioWindow)
 
 //make this a size_t
 inline int visibleItemColumns;//move this elsewhere?

@@ -5,7 +5,7 @@
 #include "viewport.h"
 
 Viewport itemView(
-		[]() -> int {return itemPadHeight;},
+		[]() -> int {return itemWindowHeight;},
 		[]() -> int {return catalogue.items();}
 );
 
@@ -15,7 +15,7 @@ Viewport itemColumnView(
 );
 
 Viewport ioView(
-		[]() -> int {return screenWidth;},
+		[]() -> int {return ioWindowWidth;},
 		[]() -> int {return ioString.size();}
 );
 
@@ -28,7 +28,7 @@ void populateTitles(const int sc, const int ec) {
 }
 
 void populateItems(const int sr, const int er, const int sc, const int ec) {
-	int er_ = std::min(er, std::min(itemPadHeight, (int) catalogue.items() - itemView.firstElement()) - sr);
+	int er_ = std::min(er, std::min(itemWindowHeight, (int) catalogue.items() - itemView.firstElement()) - sr);
 	int ec_ = std::min(ec, std::min(visibleItemColumns, (int) catalogue.fields() - itemColumnView.firstElement()) - sc);//change variable types
 	auto ibegin = catalogue.cbegin() + itemView.firstElement() + sr;
 	for (auto iterator = ibegin; iterator < ibegin + er_ - sr; iterator++) {
@@ -49,7 +49,7 @@ void populateItems(const int sr, const int er, const int sc, const int ec) {
 //might need to redefine these to clear in case that columns are deleted
 void clearExcessTitles() {
 	int column = COLUMN_WIDTH * std::min((size_t) visibleItemColumns, catalogue.fields());
-	if (column < itemPadWidth) {
+	if (column < itemWindowWidth) {
 		wmove(headerWindow, 0, column);
 		wclrtoeol(headerWindow);
 		wnoutrefresh(headerWindow);
@@ -58,8 +58,8 @@ void clearExcessTitles() {
 
 void clearExcessItemColumns() {
 	int column = COLUMN_WIDTH * std::min((size_t) visibleItemColumns, catalogue.fields());
-	if (column < itemPadWidth) {
-		for (int item = 0; item < itemPadHeight && item < catalogue.items(); item++) {
+	if (column < itemWindowWidth) {
+		for (int item = 0; item < itemWindowHeight && item < catalogue.items(); item++) {
 			wmove(itemWindow, item, column);
 			wclrtoeol(itemWindow);
 		}
@@ -68,10 +68,10 @@ void clearExcessItemColumns() {
 }
 
 //still bugged
-//using itemPadHeight, but that is not changed by resize.cpp
+//using itemWindowHeight, but that is not changed by resize.cpp
 void clearExcessItems() {
 	size_t item = catalogue.items() - itemView.firstElement();
-	if (item < itemPadHeight) {
+	if (item < itemWindowHeight) {
 		wmove(itemWindow, item, 0);
 		wclrtobot(itemWindow);
 		wnoutrefresh(itemWindow);
@@ -81,7 +81,7 @@ void clearExcessItems() {
 void populateScreen() {
 	populateTitles(0, visibleItemColumns);
 	clearExcessTitles();
-	populateItems(0, itemPadHeight, 0, visibleItemColumns);
+	populateItems(0, itemWindowHeight, 0, visibleItemColumns);
 	clearExcessItemColumns();
 	clearExcessItems();
 }
