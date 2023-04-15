@@ -1,6 +1,6 @@
 #include "insert_column.h"
 #include "interface.h"
-#include "navigate.h"
+#include "populate.h"
 #include "return.h"
 
 bool InsertColumn::execute(StringVector arguments) {

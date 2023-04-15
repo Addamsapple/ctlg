@@ -4,7 +4,7 @@
 #include "command_proc.h"
 #include "interface.h"
 #include "io.h"
-#include "navigate.h"
+#include "populate.h"
 #include "number.h"
 #include "render.h"
 #include "return.h"

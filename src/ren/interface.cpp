@@ -2,7 +2,7 @@
 
 #include "io.h"
 #include "command_proc.h"
-#include "navigate.h"
+#include "populate.h"
 #include "render.h"
 #include "resize.h"
 #include "type_proc.h"

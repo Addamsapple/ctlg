@@ -1,6 +1,6 @@
 #include "io.h"
 #include "keys.h"
-#include "navigate.h"
+#include "populate.h"
 #include "resize.h"
 #include "render.h"
 #include "return.h"

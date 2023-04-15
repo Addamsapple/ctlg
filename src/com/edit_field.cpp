@@ -1,6 +1,6 @@
 #include "edit_field.h"
 
-#include "navigate.h"
+#include "populate.h"
 #include "io.h"
 #include "interface.h"
 #include "render.h"

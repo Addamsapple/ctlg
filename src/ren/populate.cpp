@@ -1,8 +1,24 @@
 #include <algorithm>
 
 #include "interface.h"
-#include "navigate.h"
 #include "render.h"
+#include "viewport.h"
+
+Viewport itemView(
+		[]() -> int {return itemPadHeight;},
+		[]() -> int {return catalogue.items();}
+);
+
+Viewport itemColumnView(
+		[]() -> int {return visibleItemColumns;},
+		[]() -> int {return catalogue.fields();}
+);
+
+Viewport ioView(
+		[]() -> int {return screenWidth;},
+		[]() -> int {return ioString.size();}
+);
+
 
 void populateTitles(const int sc, const int ec) {
 	int ec_ = std::min(ec, std::min(visibleItemColumns, (int) catalogue.fields() - itemColumnView.firstElement()) - sc);//change variable types

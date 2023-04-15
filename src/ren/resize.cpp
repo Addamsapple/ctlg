@@ -1,6 +1,6 @@
 #include "interface.h"
 #include "io.h"
-#include "navigate.h"
+#include "populate.h"
 #include "render.h"
 
 //just resize windows unconditionally?

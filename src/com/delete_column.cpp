@@ -1,6 +1,6 @@
 #include "delete_column.h"
 #include "interface.h"
-#include "navigate.h"
+#include "populate.h"
 
 bool DeleteColumn::execute(StringVector arguments) {
 	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();

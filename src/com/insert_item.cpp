@@ -1,6 +1,6 @@
 #include "interface.h"
 #include "insert_item.h"
-#include "navigate.h"
+#include "populate.h"
 #include "number.h"
 
 //need to extend token/matcher functionality to accomodate variadic string lists, for items that may have an arbitrary number of fields

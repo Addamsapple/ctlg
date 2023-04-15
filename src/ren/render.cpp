@@ -1,6 +1,6 @@
 #include "io.h"
 #include "interface.h"
-#include "navigate.h"
+#include "populate.h"
 #include "render.h"
 
 //forward declarations

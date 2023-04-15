@@ -1,7 +1,7 @@
 #include "edit_type.h"
 #include "interface.h"
 #include "io.h"
-#include "navigate.h"
+#include "populate.h"
 
 #include "return.h"
 #include "render.h"
