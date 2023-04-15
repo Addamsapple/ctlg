@@ -10,6 +10,8 @@ TMP_FOLDERS = $(patsubst $(SRC_DIR)%, $(TMP_DIR)%, $(SRC_FOLDERS))
 SRC_FILES = $(shell find $(SRC_DIR) -name "*.cpp" ! -name "*_t.cpp")
 TMP_FILES = $(patsubst $(SRC_DIR)%.cpp, $(TMP_DIR)%.o, $(SRC_FILES))
 
+BINARY = $(BIN_DIR)/ctlg
+
 COMPILER_FLAG = -std=c++20 -Wall -O3
 
 LIB_FLAG = -L ~
@@ -20,12 +22,16 @@ release: LIB_FLAG += -lncurses -ltinfo
 debug: COMPILER_FLAG += -g
 debug: LIB_FLAG += -lncurses_g -ltinfo_g
 
-release debug: $(TMP_FOLDERS) $(BIN_DIR) $(BIN_DIR)/ctlg
+release debug: $(TMP_FOLDERS) $(BIN_DIR) $(BINARY)
 
 $(BIN_DIR) $(TMP_FOLDERS):
 	mkdir -p $@
 
-$(BIN_DIR)/ctlg: $(TMP_FILES)
+clean:
+	rm -f $(BINARY)
+	rm -f $(TMP_FILES)
+
+$(BINARY): $(TMP_FILES)
 	$(COMPILER) $^ -o $@ $(LIB_FLAG) $(COMPILER_FLAG)
 
 $(TMP_DIR)/%.o: $(SRC_DIR)/%.cpp
