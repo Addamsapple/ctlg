@@ -68,7 +68,6 @@ void clearExcessItemColumns() {
 }
 
 //still bugged
-//using itemWindowHeight, but that is not changed by resize.cpp
 void clearExcessItems() {
 	size_t item = catalogue.items() - itemView.firstElement();
 	if (item < itemWindowHeight) {

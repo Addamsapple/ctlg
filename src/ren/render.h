@@ -39,6 +39,9 @@ inline WINDOW *ioWindow;
 #define headerWindowWidth\
 	getmaxx(headerWindow)
 
+#define headerWindowHeight\
+	getmaxy(headerWindow)
+
 #define itemWindowWidth\
 	getmaxx(itemWindow)
 
@@ -47,6 +50,9 @@ inline WINDOW *ioWindow;
 
 #define ioWindowWidth\
 	getmaxx(ioWindow)
+
+#define ioWindowHeight\
+	getmaxy(ioWindow)
 
 //make this a size_t
 inline int visibleItemColumns;//move this elsewhere?

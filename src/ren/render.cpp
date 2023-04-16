@@ -24,9 +24,6 @@ void initialize() {
 	headerWindow = newwin(1, 1, 0, 0);
 	itemWindow = newwin(1, 1, 0, 0);
 	ioWindow = newwin(1, 1, 0, 0);
-	headerWindow = newwin(HEADER_PAD_HEIGHT, std::max(screenWidth, 1), 0, 0);
-	itemWindow = newwin(std::max(screenHeight - HEADER_PAD_HEIGHT - IO_WINDOW_HEIGHT - 1, 1), headerWindowWidth, HEADER_PAD_HEIGHT, 0);
-	ioWindow = newwin(IO_WINDOW_HEIGHT, headerWindowWidth, HEADER_PAD_HEIGHT + itemWindowHeight + 1, 0);
 	//configure keyboard
 	set_escdelay(50);
 	intrflush(ioWindow, FALSE);
@@ -35,19 +32,6 @@ void initialize() {
 	//prevent screen clear on first refresh() call
 	//untouchwin(stdscr);//is this necessary?
 	wattr_set(headerWindow, A_NORMAL, NORMAL_TITLE, 0);
-}
-
-//move this logic to navigate?
-void load() {
-	//itemWindowWidth = std::max(COLUMN_WIDTH * (int) catalogue.fields(), MINIMUM_SCREEN_WIDTH);
-	
-	wresize(headerWindow, HEADER_PAD_HEIGHT, std::max(COLUMN_WIDTH * (int) catalogue.fields(), MINIMUM_SCREEN_WIDTH));
-	wresize(itemWindow, itemWindowHeight, headerWindowWidth);
-	wresize(ioWindow, IO_WINDOW_HEIGHT, std::max(screenWidth, 1));
-	visibleItemColumns = screenWidth / COLUMN_WIDTH;//this must be called before viewports updated?
-	itemView.selectElement(0);
-	itemColumnView.selectElement(0);
-	//updateIO();//included here temporarily
 }
 
 void terminate() {
@@ -67,8 +51,7 @@ void disableCursor() {
 
 void updateIO() {
 	werase(ioWindow);
-	//UNCOMMENT THE LINE BELOW
-	//mvwaddnstr(ioWindow, 0, 0, ioString.data() + ioView.firstElement(), screenWidth - 1);
+	mvwaddnstr(ioWindow, 0, 0, ioString.data() + ioView.firstElement(), ioWindowWidth - 1);
 	if (cursorEnabled)
 		wmove(ioWindow, 0, ioView.selectedElement());
 	wnoutrefresh(ioWindow);

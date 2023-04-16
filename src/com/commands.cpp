@@ -7,6 +7,7 @@
 #include "populate.h"
 #include "number.h"
 #include "render.h"
+#include "resize.h"
 #include "return.h"
 #include "type_proc.h"
 #include "undo.h"
@@ -87,7 +88,7 @@ bool Load::execute(StringVector arguments) {
 	loadTitleHeader(item);
 	while (std::getline(file, item))
 		loadItem(item, haltOnError, ignoreErrors);
-	load();
+	sizeScreen();
 	return true;
 }
 
