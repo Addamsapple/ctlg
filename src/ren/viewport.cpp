@@ -12,6 +12,14 @@ int Viewport::selectedElement() {
 	return _selectedElement;
 }
 
+int Viewport::viewableElements() {
+	return _viewableElements();
+}
+
+int Viewport::totalElements() {
+	return _totalElements();
+}
+
 template<const int & (*Function)(const int &, const int &)>
 int moveTowardBound(int &element, int elements, int elementBound) {
 	int moved = Function(element + elements, elementBound) - element;

@@ -14,6 +14,9 @@ class Viewport {
 		int firstElement();
 		int selectedElement();
 
+		int viewableElements();
+		int totalElements();
+
 		void moveBackward(int elements);
 		void moveForward(int elements);
 		void scrollBackward(int elements);
