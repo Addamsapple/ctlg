@@ -4,19 +4,19 @@
 
 Viewport::Viewport(int (*viewableElements)(), int (*totalElements)()) : _firstElement(0), _selectedElement(0), _viewableElements(viewableElements), _totalElements(totalElements) {}
 
-int Viewport::firstElement() {
+int Viewport::firstElement() const {
 	return _firstElement;
 }
 
-int Viewport::selectedElement() {
+int Viewport::selectedElement() const {
 	return _selectedElement;
 }
 
-int Viewport::viewableElements() {
+int Viewport::viewableElements() const {
 	return _viewableElements();
 }
 
-int Viewport::totalElements() {
+int Viewport::totalElements() const {
 	return _totalElements();
 }
 
