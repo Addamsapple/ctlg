@@ -4,7 +4,6 @@
 #include "command_proc.h"
 #include "populate.h"
 #include "render.h"
-#include "resize.h"
 #include "type_proc.h"
 
 void run(const std::string &command) {
@@ -18,8 +17,13 @@ void run(const std::string &command) {
 		doupdate();
 		int character;
 		while ((character = wgetch(ioWindow))) {
-			if (character == KEY_RESIZE) resizeScreen();
-			else incrementalProcessor.match(character);
+			if (character == KEY_RESIZE) {
+				resize();
+				itemView.refresh();
+				itemColumnView.refresh();
+				ioView.refresh();
+			} else
+				incrementalProcessor.match(character);
 			populateScreen();
 			doupdate();
 		}

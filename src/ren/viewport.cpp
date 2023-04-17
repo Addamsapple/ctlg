@@ -27,6 +27,13 @@ int moveTowardBound(int &element, int elements, int elementBound) {
 	return moved;
 }
 
+void Viewport::refresh() {
+	if (int scrolled = moveTowardBound<std::min<int>>(_firstElement, 0, std::max(_totalElements() - viewableElements(), 0)))
+		moveTowardBound<std::min<int>>(_selectedElement, -scrolled, std::min(_viewableElements(), _totalElements()) - 1);
+	else if (int moved = moveTowardBound<std::min<int>>(_selectedElement, 0, std::min(_viewableElements(), _totalElements()) - 1))
+		moveTowardBound<std::min<int>>(_firstElement, -moved, std::max(_totalElements() - viewableElements(), 0));
+}
+
 void Viewport::moveBackward(int elements) {
 	moveTowardBound<std::max<int>>(_firstElement, -elements - moveTowardBound<std::max<int>>(_selectedElement, -elements, 0), 0);
 }

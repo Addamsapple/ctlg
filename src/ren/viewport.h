@@ -2,7 +2,7 @@
 #define VIEWPORT_H
 
 class Viewport {
-	public://testing
+	protected:
 		int _firstElement;
 		int _selectedElement;
 		
@@ -10,6 +10,8 @@ class Viewport {
 		int (*_totalElements)();
 	public:
 		Viewport(int (*viewableElements)(), int (*totalElements)());
+
+		void refresh();
 
 		int firstElement() const;
 		int selectedElement() const;

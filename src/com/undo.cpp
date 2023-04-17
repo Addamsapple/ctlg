@@ -2,6 +2,8 @@
 
 #include "command.h"
 
+//consider separating into done/ undone stacks for performance and ease of understanding
+
 std::vector<std::unique_ptr<UndoableCommand>> commandHistory;
 
 size_t undoableCommands;

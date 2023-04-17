@@ -54,9 +54,6 @@ inline WINDOW *ioWindow;
 #define ioWindowHeight\
 	getmaxy(ioWindow)
 
-//make this a size_t
-inline int visibleItemColumns;//move this elsewhere?
-
 //io variables
 inline bool cursorEnabled;
 //inline int ioColourPair;
@@ -65,7 +62,7 @@ inline bool cursorEnabled;
 inline std::vector<char> ioString;
 
 void initialize();
-void load();
+void resize();
 void terminate();
 
 void enableCursor();

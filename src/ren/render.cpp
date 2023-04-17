@@ -3,6 +3,9 @@
 #include "populate.h"
 #include "render.h"
 
+#define ITEM_WINDOW_HEIGHT\
+	screenHeight - HEADER_PAD_HEIGHT - IO_WINDOW_HEIGHT - 1
+
 //forward declarations
 void disableCursor();
 
@@ -32,6 +35,14 @@ void initialize() {
 	//prevent screen clear on first refresh() call
 	//untouchwin(stdscr);//is this necessary?
 	wattr_set(headerWindow, A_NORMAL, NORMAL_TITLE, 0);
+}
+
+void resize() {
+	wresize(headerWindow, HEADER_PAD_HEIGHT, screenWidth);
+	wresize(itemWindow, ITEM_WINDOW_HEIGHT, headerWindowWidth);
+	mvwin(itemWindow, HEADER_PAD_HEIGHT, 0);
+	wresize(ioWindow, IO_WINDOW_HEIGHT, screenWidth);
+	mvwin(ioWindow, HEADER_PAD_HEIGHT + itemWindowHeight + 1, 0);
 }
 
 void terminate() {

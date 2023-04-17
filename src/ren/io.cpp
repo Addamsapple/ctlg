@@ -1,7 +1,6 @@
 #include "io.h"
 #include "keys.h"
 #include "populate.h"
-#include "resize.h"
 #include "render.h"
 #include "return.h"
 
@@ -59,7 +58,7 @@ bool getInput() {
 	enableCursor();
 	int character;
 	while ((character = wgetch(ioWindow))) {
-		if (character == KEY_RESIZE) resizeScreen();
+		if (character == KEY_RESIZE) resize();
 		else if (character == '\n' || character == KEY_ESCAPE) break;
 		//character is printable
 		else if (character >= 32 && character <= 126) inschToIO(character);
