@@ -26,6 +26,8 @@ void displayReturnMessage() {
 	setOutput(returnMessage());
 }
 
+namespace {
+
 void insert(const chtype character) {
 	ioString.insert(ioString.cbegin() + ioView.firstElement() + ioView.selectedElement(), character);
 	ioView.moveForward(1);
@@ -49,6 +51,8 @@ void erase_() {
 		if (ioString.size() - ioView.firstElement() == ioWindowWidth - 1 && ioView.firstElement() > 0)
 			ioView.moveForward(0);
 	}
+}
+
 }
 
 //pass string to use as prefix?
