@@ -11,13 +11,13 @@ class Viewport {
 	public:
 		Viewport(int (*viewableElements)(), int (*totalElements)());
 
-		void refresh();
-
 		int firstElement() const;
 		int selectedElement() const;
 
 		int viewableElements() const;
 		int totalElements() const;
+
+		void refresh();
 
 		void moveBackward(int elements);
 		void moveForward(int elements);
