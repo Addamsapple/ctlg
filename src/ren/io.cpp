@@ -37,10 +37,8 @@ void backspace() {
 	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn > 0) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn - 1);
-		if (ioString.size() - ioView.firstElement() == ioWindowWidth - 1 && ioView.firstElement() > 0)
-			ioView.moveForward(0);
-		else
-			ioView.moveBackward(1);
+		ioView.moveBackward(1);
+		ioView.refresh();
 	}
 }
 
@@ -48,8 +46,7 @@ void erase_() {
 	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
 	if (effectiveIOColumn < (int) ioString.size() - 1) {
 		ioString.erase(ioString.cbegin() + effectiveIOColumn);
-		if (ioString.size() - ioView.firstElement() == ioWindowWidth - 1 && ioView.firstElement() > 0)
-			ioView.moveForward(0);
+		ioView.refresh();
 	}
 }
 
@@ -70,8 +67,8 @@ bool getInput() {
 		else if (character == KEY_RIGHT) ioView.moveForward(1);
 		else if (character == KEY_SLEFT) ioView.scrollBackward(1);
 		else if (character == KEY_SRIGHT) ioView.scrollForward(1);
-		else if (character == KEY_HOME) ioView.moveBackward(ioView.firstElement() + ioView.selectedElement());
-		else if (character == KEY_END) ioView.moveForward(ioString.size() - 1);
+		else if (character == KEY_HOME) ioView.selectElement(0);
+		else if (character == KEY_END) ioView.selectElement(ioString.size() - 1);
 		updateIO();//temp
 		doupdate();
 	}
