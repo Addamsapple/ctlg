@@ -39,6 +39,11 @@ int clamp(int &value, int increment, int limit) {
 #define total\
 	_totalElements()
 
+//potential bug:
+//when viewable/total = 0, min clamping selected to std::min(viewable, total) - 1 will set it to -1
+//this affects refresh(), moveForward() and scrollBackward()
+//consider wrapping this expression as: std::max(<expression>, 0)
+
 void Viewport::refresh() {
 	if (int scrolled = clamp<std::min<int>>(first, 0, std::max(total - viewable, 0)))
 		clamp<std::min<int>>(selected, -scrolled, std::min(viewable, total) - 1);
