@@ -34,18 +34,18 @@ void insert(const chtype character) {
 }
 
 void backspace() {
-	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
-	if (effectiveIOColumn > 0) {
-		ioString.erase(ioString.cbegin() + effectiveIOColumn - 1);
+	int effectiveElement = ioView.firstElement() + ioView.selectedElement();
+	if (effectiveElement > 0) {
+		ioString.erase(ioString.cbegin() + effectiveElement - 1);
 		ioView.moveBackward(1);
 		ioView.refresh();
 	}
 }
 
 void erase_() {
-	int effectiveIOColumn = ioView.firstElement() + ioView.selectedElement();
-	if (effectiveIOColumn < (int) ioString.size() - 1) {
-		ioString.erase(ioString.cbegin() + effectiveIOColumn);
+	int effectiveElement = ioView.firstElement() + ioView.selectedElement();
+	if (effectiveElement < (int) ioString.size() - 1) {
+		ioString.erase(ioString.cbegin() + effectiveElement);
 		ioView.refresh();
 	}
 }
