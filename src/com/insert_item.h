@@ -6,10 +6,13 @@
 //the class is not duplicated
 //minimal state needs to be tracked to accomodate both versions (just a bool/number
 //the class does not need complex input processing logic to determine if a flag is passed, and does not need to correspond to a complex pattern (just two pattersns "i" and "a", for example)
+//
 
 class InsertItem : public UndoableCommand {
 	private:
-		Item _item;
+		//ItemMemento _memento;
+		std::unique_ptr<Action> _action;
+
 		int _position;
 
 	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS

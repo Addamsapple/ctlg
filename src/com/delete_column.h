@@ -3,14 +3,13 @@
 #include "command.h"
 #include "field.h"
 
+#include "actions.h"
+
 class DeleteColumn : public UndoableCommand {
 	private:
-		size_t _position;
-		std::unique_ptr<Field> _type;
-		std::unique_ptr<Field> _title;
-		std::vector<std::unique_ptr<Field>> _fields;
+		std::unique_ptr<Action> _action;
 
-		void _claimFields();
+		size_t _position;
 
 	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
 };

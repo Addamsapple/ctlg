@@ -3,6 +3,7 @@
 
 #include "field.h"
 
+//virtual destructor?
 class FieldConstructorInterface {
 	public:
 		virtual Field * construct(std::string &&string) const = 0;

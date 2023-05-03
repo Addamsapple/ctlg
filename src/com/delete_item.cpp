@@ -9,19 +9,16 @@
 bool DeleteItem::execute(StringVector arguments) {
 	_position = itemView.firstElement() + itemView.selectedElement();
 	if (_position < catalogue.items() && returnCode() == 0) {
-		_item = std::move(catalogue[_position]);
-		catalogue.deleteItem(_position);
+		_action = catalogue.deleteItem(_position);
 		return true;
 	}
 	return false;
 }
 
 void DeleteItem::undo() {
-	catalogue.insertItem(std::move(_item), _position);
-	//moveToItem(_position);
+	_action = catalogue.process(std::move(*_action));
 }
 
 void DeleteItem::redo() {
-	_item = std::move(catalogue[_position]);
-	catalogue.deleteItem(_position);
+	_action = catalogue.process(std::move(*_action));
 }

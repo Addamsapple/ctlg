@@ -14,15 +14,14 @@ bool InsertItem::execute(StringVector arguments) {
 			return false;
 	} else
 		_position = itemView.firstElement() + itemView.selectedElement();
-	catalogue.insertItem(repeatField("", catalogue.fields()), _position, true);
+	_action = catalogue.insertItem(repeatField("", catalogue.fields()), _position, true);
 	return true;
 }
 
 void InsertItem::undo() {
-	_item = std::move(catalogue[_position]);
-	catalogue.deleteItem(_position);
+	_action = catalogue.process(std::move(*_action));
 }
 
 void InsertItem::redo() {
-	catalogue.insertItem(std::move(_item), _position);
+	_action = catalogue.process(std::move(*_action));
 }

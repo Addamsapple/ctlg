@@ -13,6 +13,8 @@ using ConstFieldIterator = FieldVector::const_iterator;
 
 using ItemConstructor = std::vector<std::unique_ptr<FieldConstructorInterface>>;
 
+//make delete Field return deleted field?
+
 class Item {
 	protected:
 		FieldVector _fields;

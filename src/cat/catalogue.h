@@ -6,36 +6,53 @@
 
 #include "item.h"
 
+#include "actions.h"
+
 using ItemVector = std::vector<Item>;
 using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
+//define a column struct to be used for passing arguments, 
+//
+//consider making privete nested class called something to manage construction and restoring of catalogue mementos
+//it should be able to construct mementos given mainly index arguments.
+//it should also be able to restore said mementos  ...?
+//
+
+//consider making Catalogue an abstract base class that excludes the public interfaces (deleteItem, insertItem, insertColumn, setField, etc...)
+//make the rest of the class protected
+//then the sub class will just define public interfaces and handle error checking and delegate the actual work to the process methods
+//would probably have to make Action classes public to allow derived Catalogue class to construct
 class Catalogue {
+	friend class ActionProcessor;
 	protected:
-		//rename to _types, _titles?
-		Item _types;
-		Item _titles;
+		//	just need to modify accessing, so that users cannot access title and type directly, i.e. offset input position by two, make items() return - 2 as well, etc, etc.
 		ItemVector _items;
 
 		ItemConstructor _itemConstructor;
+
 	public:
+		Catalogue();
+		static const size_t HEADER_ITEMS = 2;
 		//rename to load types?
 		template<typename T> void setTypes(T string);
 		//rename to load titles?
 		void setTitles(const std::string &string);
 
-		void insertItem(Item &&item, const size_t position);
-		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		//void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		std::unique_ptr<Action> insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
 
 		//why have an appendItem at all, can be handled by insertItem no?
 		void appendItem(const std::string &string, const bool ignoreErrors);
 
-		void deleteItem(const size_t item);
+		//ItemMemento deleteItem(const size_t item);
+		std::unique_ptr<Action> deleteItem(const size_t item);
 
-		void insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, std::vector<std::unique_ptr<Field>> &fields, const size_t position);
-		void insertColumn(std::unique_ptr<Field> &&type, std::unique_ptr<Field> &&title, const size_t position);
+		//maybe just group type and title into vector as well? to reduce number of parameters
+		std::unique_ptr<Action> insertColumn(std::string &&type, std::string &&title, std::vector<std::string> &fields, const size_t position);
 
-		void deleteColumn(const size_t position);
+		//void deleteColumn(const size_t position);
+		std::unique_ptr<Action> deleteColumn(const size_t position);
 
 		void save(const std::string &);
 
@@ -58,8 +75,11 @@ class Catalogue {
 		ConstItemIterator cbegin() const;
 		ConstItemIterator cend() const;
 
+		size_t size() const;
 		size_t items() const;
 		size_t fields() const;
+
+		template<typename T> std::unique_ptr<Action> process(T &&action);
 };
 
 #endif
