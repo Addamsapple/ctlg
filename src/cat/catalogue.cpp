@@ -53,7 +53,7 @@ void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
 	insertItem(item, items(), ignoreErrors);
 }
 
-std::unique_ptr<Action> Catalogue::insertColumn(std::string &&type, std::string &&title, std::vector<std::string> &fields, const size_t position) {
+std::unique_ptr<Action> Catalogue::insertColumn(std::string &&type, std::string &&title, std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	FieldConstructorInterface *constructor;
@@ -87,10 +87,13 @@ std::unique_ptr<Action> Catalogue::deleteItem(const size_t item) {
 	return result;
 }
 
+std::unique_ptr<Action> Catalogue::setTitle(std::string &&title, const size_t position) {
+	return process(SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position));
+}
+
 const ItemConstructor & Catalogue::itemConstructor() const {
 	return _itemConstructor;
 }
-
 
 Item & Catalogue::types() {
 	return _items[0];

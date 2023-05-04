@@ -7,7 +7,7 @@ bool InsertColumn::execute(StringVector arguments) {
 	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	//make Catalogue::insertColumn work with rvalues?
 	std::vector<std::string> fields = std::vector(catalogue.items(), std::string());
-	_action = catalogue.insertColumn(std::move(arguments[0]), "", fields, _position);
+	_action = catalogue.insertColumn(std::move(arguments[0]), "", std::move(fields), _position);
 	return returnCode() == 0;
 }
 

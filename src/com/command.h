@@ -16,6 +16,7 @@ class Command {
 //make subclass that accepts  function callback for simple commands, then dont need to create a new class for each commnad, just the 
 #define B_COMMAND(command)\
 	class command : public Command {\
+		public:\
 		virtual bool execute(StringVector arguments) override;\
 	};
 

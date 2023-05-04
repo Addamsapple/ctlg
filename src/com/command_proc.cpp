@@ -6,6 +6,7 @@
 #include "edit_field.h"
 #include "edit_type.h"
 
+#include "read.h"
 #include "write.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
@@ -59,7 +60,9 @@ void loadIncrementalCommands() {
 	immediateProcessor.add(commandConstructor<command>, PatternMatcher(__VA_ARGS__))
 
 void loadImmediateCommands() {
-	ADD_IMM_RULE(Load, "e ", STR_TOKEN);
+	//ADD_IMM_RULE(Load, "e ", STR_TOKEN);
+	ADD_IMM_RULE(Read, "e ", STR_TOKEN);
+	//ADD_IMM_RULE(ReadWTF, "e ", STR_TOKEN);
 	ADD_IMM_RULE(Quit, ":q");
 
 	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
