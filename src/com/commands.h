@@ -22,9 +22,6 @@ B_COMMAND(GoToLastItemColumn);
 B_COMMAND(GoToItemColumn);
 B_COMMAND(ViewField);
 
-//rename to LoadCatalogue, LoadFile, ReadFile, ReadCatalogue
-B_COMMAND(Load);
-
 B_COMMAND(WriteFile);
 
 B_COMMAND(Quit);

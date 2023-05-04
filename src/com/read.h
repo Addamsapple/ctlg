@@ -12,7 +12,3 @@ class Read : public Command {
 	public:
 		virtual bool execute(StringVector arguments) override;
 };
-
-#include "commands.h"
-
-class ReadWTF : public Load {};

@@ -20,29 +20,13 @@ void Read::_loadTitles() {
 		catalogue.setTitle(std::move(titles_[title]), title);
 }
 
-#include <iostream>
-#include "return.h"
 void Read::_loadItems() {
 	std::string item;
 	std::getline(_file, item);
-	while (std::getline(_file, item)) {
-		std::cerr << item << '\n';
-		//catalogue.insertItem(item, catalogue.items(), true);
+	while (std::getline(_file, item))
 		catalogue.appendItem(item, true);
-		std::cerr << "items: " << catalogue.items() << '\n';
-	}
-	std::cerr << returnCode() << '\n';
 }
 
-void write(std::string  s) {
-	std::ofstream f(s);
-	f << catalogue.types() << '\n';
-	f << catalogue.titles() << '\n';
-	for (auto item = catalogue.begin(); item != catalogue.end(); item++)
-		f << *item << '\n';
-}
-
-#include "commands.h"
 bool Read::execute(StringVector arguments) {
 	//catalogue.clear();
 	_file.open(arguments[0]);
@@ -51,11 +35,5 @@ bool Read::execute(StringVector arguments) {
 	_loadItems();
 	resize();//this should not have to be called here.
 	_file.close();
-	//write("new");
-	//auto c = new Load();
-	//c->execute(arguments);
-	//write("old");
 	return true;
-	//return c->execute(arguments);
-	//Load().execute(arguments);
 }

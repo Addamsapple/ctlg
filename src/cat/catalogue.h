@@ -34,10 +34,6 @@ class Catalogue {
 	public:
 		Catalogue();
 		static const size_t HEADER_ITEMS = 2;
-		//rename to load types?
-		template<typename T> void setTypes(T string);
-		//rename to load titles?
-		void setTitles(const std::string &string);
 
 		//void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
 		std::unique_ptr<Action> insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
