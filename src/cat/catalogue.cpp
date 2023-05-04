@@ -26,17 +26,17 @@ void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
 	insertItem(item, items(), ignoreErrors);
 }
 
-std::unique_ptr<Action> Catalogue::insertColumn(std::string &&type, std::string &&title, std::vector<std::string> &&fields, const size_t position) {
+std::unique_ptr<Action> Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	FieldConstructorInterface *constructor;
-	if (typeProcessor.match(type, constructor) == FULL_MATCH) {
+	if (typeProcessor.match(fields[0], constructor) == FULL_MATCH) {
 		std::vector<std::unique_ptr<Field>> fields_;
 		fields_.reserve(size());
-		fields_.emplace_back(new Field(std::move(type)));
-		fields_.emplace_back(new Field(std::move(title)));
+		fields_.emplace_back(new Field(std::move(fields[0])));
+		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
-			fields_.emplace_back(constructor->construct(std::move(fields[item])));
+			fields_.emplace_back(constructor->construct(std::move(fields[item + HEADER_ITEMS])));
 		result = process(InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position));
 	} else
 		setReturnCode(2222, "Invalid column type");

@@ -44,8 +44,7 @@ class Catalogue {
 		//ItemMemento deleteItem(const size_t item);
 		std::unique_ptr<Action> deleteItem(const size_t item);
 
-		//maybe just group type and title into vector as well? to reduce number of parameters
-		std::unique_ptr<Action> insertColumn(std::string &&type, std::string &&title, std::vector<std::string> &&fields, const size_t position);
+		std::unique_ptr<Action> insertColumn(std::vector<std::string> &&fields, const size_t position);
 
 		//void deleteColumn(const size_t position);
 		std::unique_ptr<Action> deleteColumn(const size_t position);

@@ -8,8 +8,13 @@ void Read::_loadTypes() {
 	std::string types;
 	std::getline(_file, types);
 	auto types_ = splitItem(types);
-	for (size_t type = 0; type < types_.size(); type++)
-		catalogue.insertColumn(std::move(types_[type]), "", std::vector<std::string>(), type);
+	for (size_t type = 0; type < types_.size(); type++) {
+		//consider allocating vector outside of loop
+		std::vector<std::string> fields;
+		fields.push_back(std::move(types_[type]));
+		fields.push_back(std::string());
+		catalogue.insertColumn(std::move(fields), type);
+	}
 }
 
 void Read::_loadTitles() {
@@ -24,7 +29,7 @@ void Read::_loadItems() {
 	std::string item;
 	std::getline(_file, item);
 	while (std::getline(_file, item))
-		catalogue.appendItem(item, true);
+		catalogue.insertItem(item, catalogue.items(), true);
 }
 
 bool Read::execute(StringVector arguments) {
