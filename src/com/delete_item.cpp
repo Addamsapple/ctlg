@@ -9,16 +9,17 @@
 bool DeleteItem::execute(StringVector arguments) {
 	_position = itemView.firstElement() + itemView.selectedElement();
 	if (_position < catalogue.items() && returnCode() == 0) {
-		_action = catalogue.deleteItem(_position);
+		catalogue.deleteItem(_position);
 		return true;
 	}
 	return false;
+
 }
 
 void DeleteItem::undo() {
-	_action = catalogue.process(std::move(*_action));
+	catalogue.undo();
 }
 
 void DeleteItem::redo() {
-	_action = catalogue.process(std::move(*_action));
+	catalogue.redo();
 }

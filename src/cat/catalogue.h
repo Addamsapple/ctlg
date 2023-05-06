@@ -12,9 +12,18 @@ using ItemVector = std::vector<Item>;
 using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
+//after much faffing around, decided to make the Action objects nested classes since:
+//it removes the need for the visitor pattern (double dispatch)
+//no friend definitions are required
+//catalogue/table is responsible for less logic
+//no other classes can create Action objects
+//process can be declared as private without issue
+//
+//the only disadvantage is that the nested classes all have access to Catalogue's internals
+
 class Catalogue {
 	protected:
-		static const size_t _HEADER_ITEMS = 2;
+		static const size_t HEADER_ITEMS = 2;//rename to include _ at start?
 
 		ItemVector _items;
 

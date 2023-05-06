@@ -6,12 +6,12 @@
 
 Catalogue::Catalogue() : _items(HEADER_ITEMS), _itemConstructor(0) {}
 
-std::unique_ptr<Action> Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
+std::unique_ptr<Action> Catalogue::_insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
-		result = process(InsertItemAction(std::move(item_), position + HEADER_ITEMS));
+		result = _process(InsertItemAction(std::move(item_), position + HEADER_ITEMS));
 		if (returnCode() != 0)
 			setReturnCode(0, "");
 	} else
@@ -21,7 +21,7 @@ std::unique_ptr<Action> Catalogue::insertItem(const std::string &item, const siz
 
 void Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
 
-std::unique_ptr<Action> Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) {
+std::unique_ptr<Action> Catalogue::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	FieldConstructorInterface *constructor;
@@ -32,26 +32,26 @@ std::unique_ptr<Action> Catalogue::insertColumn(std::vector<std::string> &&field
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
 			fields_.emplace_back(constructor->construct(std::move(fields[item + HEADER_ITEMS])));
-		result = process(InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position));
+		result = _process(InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position));
 	} else
 		setReturnCode(2222, "Invalid column type");
 	return result;
 }
 
-void Catalogue::insertColumn(std::vector<std::string &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
+void Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
 
-std::unique_ptr<Action> Catalogue::deleteColumn(const size_t position) {
+std::unique_ptr<Action> Catalogue::_deleteColumn(const size_t position) {
 	setReturnCode(0, "");
-	return process(DeleteColumnAction(position));
+	return _process(DeleteColumnAction(position));
 }
 
 void Catalogue::deleteColumn(const size_t position) { _deleteColumn(position); }
 
-std::unique_ptr<Action> Catalogue::deleteItem(const size_t item) {
+std::unique_ptr<Action> Catalogue::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	if (item < items())
-		result = process(DeleteItemAction(item + HEADER_ITEMS));
+		result = _process(DeleteItemAction(item + HEADER_ITEMS));
 	else
 		setReturnCode(424242, "item x out of range");
 	return result;
@@ -59,8 +59,8 @@ std::unique_ptr<Action> Catalogue::deleteItem(const size_t item) {
 
 void Catalogue::deleteItem(const size_t item) { _deleteItem(item); }
 
-std::unique_ptr<Action> Catalogue::setTitle(std::string &&title, const size_t position) {
-	return process(SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position));
+std::unique_ptr<Action> Catalogue::_setTitle(std::string &&title, const size_t position) {
+	return _process(SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position));
 }
 
 void Catalogue::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }

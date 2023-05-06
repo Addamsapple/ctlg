@@ -4,8 +4,9 @@
 #include <string>
 
 #include "catalogue.h"
+#include "undoable_table.h"
 
-inline Catalogue catalogue;
+inline UndoableTable catalogue;
 
 void run(const std::string &command);
 

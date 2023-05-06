@@ -9,14 +9,16 @@ bool InsertColumn::execute(StringVector arguments) {
 	fields.push_back(std::move(arguments[0]));
 	fields.push_back(std::string());
 	fields.insert(fields.end(), catalogue.items(), std::string());
-	_action = catalogue.insertColumn(std::move(fields), _position);
+	catalogue.insertColumn(std::move(fields), _position);
 	return returnCode() == 0;
 }
 
 void InsertColumn::undo() {
-	_action = catalogue.process(std::move(*_action));
+	catalogue.undo();
+	//_action = catalogue.process(std::move(*_action));
 }
 
 void InsertColumn::redo() {
-	_action = catalogue.process(std::move(*_action));
+	catalogue.redo();
+	//_action = catalogue.process(std::move(*_action));
 }
