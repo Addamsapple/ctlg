@@ -1,6 +1,8 @@
-#include "undoabe_table.h"
+#include "undoable_table.h"
 
-void UndoableTable::_record(std::unique_ptr<Action> &&action) {
+#include "actions.h"
+
+void UndoableTable::_record(std::unique_ptr<Catalogue::Action> &&action) {
 	_redoableActions.clear();
 	_undoableActions.push_back(std::move(action));
 }
@@ -27,14 +29,14 @@ void UndoableTable::setTitle(std::string &&title, const size_t position) {
 
 void UndoableTable::undo() {
 	if (_undoableActions.size() > 0) {
-		_redoableActions.push_back(process(std::move(*_undoableActions.back())));
+		_redoableActions.push_back(_undoableActions.back()->perform(*this));
 		_undoableActions.pop_back();
 	}
 }
 
 void UndoableTable::redo() {
 	if (_redoableActions.size() > 0) {
-		_undoableActions.push_back(process(std::move(*_redoableActions.back())));
-		redoableActions.pop_back();
+		_undoableActions.push_back(_redoableActions.back()->perform(*this));
+		_redoableActions.pop_back();
 	}
 }

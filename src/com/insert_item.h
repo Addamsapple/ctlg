@@ -10,9 +10,6 @@
 
 class InsertItem : public UndoableCommand {
 	private:
-		//ItemMemento _memento;
-		std::unique_ptr<Action> _action;
-
 		int _position;
 
 	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS

@@ -1,17 +1,18 @@
 //#include <fstream>
 
-#include "catalogue.h"
+#include "actions.h"
+
 #include "return.h"
 #include "type_proc.h"
 
 Catalogue::Catalogue() : _items(HEADER_ITEMS), _itemConstructor(0) {}
 
-std::unique_ptr<Action> Catalogue::_insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
+std::unique_ptr<Catalogue::Action> Catalogue::_insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
 	setReturnCode(0, "");
-	std::unique_ptr<Action> result;
+	std::unique_ptr<Catalogue::Action> result;
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
-		result = _process(InsertItemAction(std::move(item_), position + HEADER_ITEMS));
+		result = InsertItemAction(std::move(item_), position + HEADER_ITEMS).perform(*this);
 		if (returnCode() != 0)
 			setReturnCode(0, "");
 	} else
@@ -21,9 +22,9 @@ std::unique_ptr<Action> Catalogue::_insertItem(const std::string &item, const si
 
 void Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
 
-std::unique_ptr<Action> Catalogue::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
+std::unique_ptr<Catalogue::Action> Catalogue::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
-	std::unique_ptr<Action> result;
+	std::unique_ptr<Catalogue::Action> result;
 	FieldConstructorInterface *constructor;
 	if (typeProcessor.match(fields[0], constructor) == FULL_MATCH) {
 		std::vector<std::unique_ptr<Field>> fields_;
@@ -32,7 +33,7 @@ std::unique_ptr<Action> Catalogue::_insertColumn(std::vector<std::string> &&fiel
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
 			fields_.emplace_back(constructor->construct(std::move(fields[item + HEADER_ITEMS])));
-		result = _process(InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position));
+		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
 	return result;
@@ -40,18 +41,18 @@ std::unique_ptr<Action> Catalogue::_insertColumn(std::vector<std::string> &&fiel
 
 void Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
 
-std::unique_ptr<Action> Catalogue::_deleteColumn(const size_t position) {
+std::unique_ptr<Catalogue::Action> Catalogue::_deleteColumn(const size_t position) {
 	setReturnCode(0, "");
-	return _process(DeleteColumnAction(position));
+	return DeleteColumnAction(position).perform(*this);
 }
 
 void Catalogue::deleteColumn(const size_t position) { _deleteColumn(position); }
 
-std::unique_ptr<Action> Catalogue::_deleteItem(const size_t item) {
+std::unique_ptr<Catalogue::Action> Catalogue::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
-	std::unique_ptr<Action> result;
+	std::unique_ptr<Catalogue::Action> result;
 	if (item < items())
-		result = _process(DeleteItemAction(item + HEADER_ITEMS));
+		result = DeleteItemAction(item + HEADER_ITEMS).perform(*this);
 	else
 		setReturnCode(424242, "item x out of range");
 	return result;
@@ -59,8 +60,8 @@ std::unique_ptr<Action> Catalogue::_deleteItem(const size_t item) {
 
 void Catalogue::deleteItem(const size_t item) { _deleteItem(item); }
 
-std::unique_ptr<Action> Catalogue::_setTitle(std::string &&title, const size_t position) {
-	return _process(SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position));
+std::unique_ptr<Catalogue::Action> Catalogue::_setTitle(std::string &&title, const size_t position) {
+	return SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position).perform(*this);
 }
 
 void Catalogue::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }

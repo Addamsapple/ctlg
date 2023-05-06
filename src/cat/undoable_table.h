@@ -2,10 +2,10 @@
 
 class UndoableTable : public Catalogue {
 	protected:
-		std::vector<std::unique_ptr<Action>> _undoableActions;
-		std::vector<std::unique_ptr<Action>> _redoableActions;
+		std::vector<std::unique_ptr<Catalogue::Action>> _undoableActions;
+		std::vector<std::unique_ptr<Catalogue::Action>> _redoableActions;
 
-		void _record(std::unique_ptr<Action> &&action);
+		void _record(std::unique_ptr<Catalogue::Action> &&action);
 	public:
 		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
 		void deleteItem(const size_t item);
