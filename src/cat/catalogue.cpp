@@ -4,9 +4,6 @@
 #include "return.h"
 #include "type_proc.h"
 
-//can probably delete setTypes/setTitles and just use insert columns
-
-//need this to ensure catalogue has type and title items on initialization
 Catalogue::Catalogue() : _items(HEADER_ITEMS), _itemConstructor(0) {}
 
 std::unique_ptr<Action> Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
@@ -22,9 +19,7 @@ std::unique_ptr<Action> Catalogue::insertItem(const std::string &item, const siz
 	return result;
 }
 
-void Catalogue::appendItem(const std::string &item, const bool ignoreErrors) {
-	insertItem(item, items(), ignoreErrors);
-}
+void Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
 
 std::unique_ptr<Action> Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
@@ -43,12 +38,14 @@ std::unique_ptr<Action> Catalogue::insertColumn(std::vector<std::string> &&field
 	return result;
 }
 
+void Catalogue::insertColumn(std::vector<std::string &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
+
 std::unique_ptr<Action> Catalogue::deleteColumn(const size_t position) {
-	setReturnCode(0, "");//necessary? - probably when bounds checks are added
-	//below line will be needed when branching is used.
-	//std::unique_ptr<Action> result;
+	setReturnCode(0, "");
 	return process(DeleteColumnAction(position));
 }
+
+void Catalogue::deleteColumn(const size_t position) { _deleteColumn(position); }
 
 std::unique_ptr<Action> Catalogue::deleteItem(const size_t item) {
 	setReturnCode(0, "");
@@ -60,68 +57,41 @@ std::unique_ptr<Action> Catalogue::deleteItem(const size_t item) {
 	return result;
 }
 
+void Catalogue::deleteItem(const size_t item) { _deleteItem(item); }
+
 std::unique_ptr<Action> Catalogue::setTitle(std::string &&title, const size_t position) {
 	return process(SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position));
 }
 
-const ItemConstructor & Catalogue::itemConstructor() const {
-	return _itemConstructor;
-}
-
-Item & Catalogue::types() {
-	return _items[0];
-}
-
-const Item & Catalogue::types() const {
-	return _items[0];
-}
+void Catalogue::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }
 
 
-Item & Catalogue::titles() {
-	return _items[1];
-}
+const ItemConstructor & Catalogue::itemConstructor() const { return _itemConstructor; }
 
-const Item & Catalogue::titles() const {
-	return _items[1];
-}
+Item & Catalogue::types() { return _items[0]; }
 
+const Item & Catalogue::types() const { return _items[0]; }
 
-std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) {
-	return _itemConstructor[column];
-}
+Item & Catalogue::titles() { return _items[1]; }
 
-Item & Catalogue::operator[](size_t item) {
-	return _items[item + HEADER_ITEMS];
-}
+const Item & Catalogue::titles() const { return _items[1]; }
 
-const Item & Catalogue::operator[](size_t item) const {
-	return _items[item + HEADER_ITEMS];
-}
+std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) { return _itemConstructor[column]; }
 
-ItemIterator Catalogue::begin() {
-	return _items.begin() + HEADER_ITEMS;
-}
+Item & Catalogue::operator[](size_t item) { return _items[item + HEADER_ITEMS]; }
 
-ItemIterator Catalogue::end() {
-	return _items.end();
-}
+const Item & Catalogue::operator[](size_t item) const { return _items[item + HEADER_ITEMS]; }
 
-ConstItemIterator Catalogue::cbegin() const {
-	return _items.cbegin() + HEADER_ITEMS;
-}
+ItemIterator Catalogue::begin() { return _items.begin() + HEADER_ITEMS; }
 
-ConstItemIterator Catalogue::cend() const {
-	return _items.cend();
-}
+ItemIterator Catalogue::end() { return _items.end(); }
 
-size_t Catalogue::size() const {
-	return _items.size();
-}
+ConstItemIterator Catalogue::cbegin() const { return _items.cbegin() + HEADER_ITEMS; }
 
-size_t Catalogue::items() const {
-	return _items.size() - HEADER_ITEMS;
-}
+ConstItemIterator Catalogue::cend() const { return _items.cend(); }
 
-size_t Catalogue::fields() const {
-	return _items[0].size();
-}
+size_t Catalogue::size() const { return _items.size(); }
+
+size_t Catalogue::items() const { return _items.size() - HEADER_ITEMS; }
+
+size_t Catalogue::fields() const { return _items[0].size(); }

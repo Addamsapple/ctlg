@@ -12,46 +12,33 @@ using ItemVector = std::vector<Item>;
 using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
-//define a column struct to be used for passing arguments, 
-//
-//consider making privete nested class called something to manage construction and restoring of catalogue mementos
-//it should be able to construct mementos given mainly index arguments.
-//it should also be able to restore said mementos  ...?
-//
-
-//consider making Catalogue an abstract base class that excludes the public interfaces (deleteItem, insertItem, insertColumn, setField, etc...)
-//make the rest of the class protected
-//then the sub class will just define public interfaces and handle error checking and delegate the actual work to the process methods
-//would probably have to make Action classes public to allow derived Catalogue class to construct
 class Catalogue {
-	friend class ActionProcessor;
 	protected:
-		//	just need to modify accessing, so that users cannot access title and type directly, i.e. offset input position by two, make items() return - 2 as well, etc, etc.
+		static const size_t _HEADER_ITEMS = 2;
+
 		ItemVector _items;
 
 		ItemConstructor _itemConstructor;
 
+		template<typename T> std::unique_ptr<Action> _process(T &&action);
+
+		std::unique_ptr<Action> _insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		std::unique_ptr<Action> _deleteItem(const size_t item);
+
+		std::unique_ptr<Action> _insertColumn(std::vector<std::string> &&fields, const size_t position);
+		std::unique_ptr<Action> _deleteColumn(const size_t position);
+
+		std::unique_ptr<Action> _setTitle(std::string &&title, const size_t position);
 	public:
 		Catalogue();
-		static const size_t HEADER_ITEMS = 2;
+		
+		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		void deleteItem(const size_t item);
 
-		//void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
-		std::unique_ptr<Action> insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		void insertColumn(std::vector<std::string> &&fields, const size_t position);
+		void deleteColumn(const size_t position);
 
-		//why have an appendItem at all, can be handled by insertItem no?
-		void appendItem(const std::string &string, const bool ignoreErrors);
-
-		//ItemMemento deleteItem(const size_t item);
-		std::unique_ptr<Action> deleteItem(const size_t item);
-
-		std::unique_ptr<Action> insertColumn(std::vector<std::string> &&fields, const size_t position);
-
-		//void deleteColumn(const size_t position);
-		std::unique_ptr<Action> deleteColumn(const size_t position);
-
-		std::unique_ptr<Action> setTitle(std::string &&title, const size_t position);
-
-		void save(const std::string &);
+		void setTitle(std::string &&title, const size_t position);
 
 		const ItemConstructor & itemConstructor() const;
 
@@ -75,8 +62,6 @@ class Catalogue {
 		size_t size() const;
 		size_t items() const;
 		size_t fields() const;
-
-		template<typename T> std::unique_ptr<Action> process(T &&action);
 };
 
 #endif

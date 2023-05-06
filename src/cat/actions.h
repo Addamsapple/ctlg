@@ -1,9 +1,6 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-//and make Catalogue a friend class of all of these classes,
-//allowing it to construct them, and access there internals, but preventing other classes from doing this!!!!
-
 class Catalogue;
 
 #include "item.h"
