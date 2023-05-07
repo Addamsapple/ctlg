@@ -3,14 +3,14 @@
 #include "return.h"
 #include "type_proc.h"
 
-Table::Table() : _items(HEADER_ITEMS), _itemConstructor(0) {}
+Table::Table() : _items(_HEADER_ITEMS), _itemConstructor(0) {}
 
 std::unique_ptr<Table::Action> Table::_insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
 	setReturnCode(0, "");
 	std::unique_ptr<Table::Action> result;
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
-		result = InsertItemAction(std::move(item_), position + HEADER_ITEMS).perform(*this);
+		result = InsertItemAction(std::move(item_), position + _HEADER_ITEMS).perform(*this);
 		if (returnCode() != 0) setReturnCode(0, "");
 	} else
 		setReturnCode(55555, returnMessage());
@@ -27,7 +27,7 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 		fields_.emplace_back(new Field(std::move(fields[0])));
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
-			fields_.emplace_back(constructor->construct(std::move(fields[item + HEADER_ITEMS])));
+			fields_.emplace_back(constructor->construct(std::move(fields[item + _HEADER_ITEMS])));
 		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
@@ -43,7 +43,7 @@ std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
 	std::unique_ptr<Table::Action> result;
 	if (item < items())
-		result = DeleteItemAction(item + HEADER_ITEMS).perform(*this);
+		result = DeleteItemAction(item + _HEADER_ITEMS).perform(*this);
 	else
 		setReturnCode(424242, "item x out of range");
 	return result;
@@ -62,11 +62,11 @@ void Table::setTitle(std::string &&title, const size_t position) { _setTitle(std
 const Item & Table::types() const { return _items[0]; }
 const Item & Table::titles() const { return _items[1]; }
 
-const Item & Table::operator[](size_t item) const { return _items[item + HEADER_ITEMS]; }
+const Item & Table::operator[](size_t item) const { return _items[item + _HEADER_ITEMS]; }
 
-ConstItemIterator Table::begin() const { return _items.cbegin() + HEADER_ITEMS; }
+ConstItemIterator Table::begin() const { return _items.cbegin() + _HEADER_ITEMS; }
 ConstItemIterator Table::end() const { return _items.cend(); }
 
 size_t Table::size() const { return _items.size(); }
-size_t Table::items() const { return _items.size() - HEADER_ITEMS; }
+size_t Table::items() const { return _items.size() - _HEADER_ITEMS; }
 size_t Table::fields() const { return _items[0].size(); }

@@ -10,12 +10,12 @@ using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
 class Table {
-	protected:
-		static const size_t HEADER_ITEMS = 2;//rename to include _ at start?
+	private:
+		static const size_t _HEADER_ITEMS = 2;
 
 		ItemVector _items;
 		ItemConstructor _itemConstructor;
-
+	protected:
 		class Action;
 
 		std::unique_ptr<Action> _insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
