@@ -29,7 +29,7 @@ $(BIN_DIR) $(TMP_FOLDERS):
 
 clean:
 	rm -f $(BINARY)
-	rm -f $(TMP_FILES)
+	rm -rf $(TMP_DIR)
 
 $(BINARY): $(TMP_FILES)
 	$(COMPILER) $^ -o $@ $(LIB_FLAG) $(COMPILER_FLAG)
