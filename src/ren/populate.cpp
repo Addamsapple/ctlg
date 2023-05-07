@@ -33,7 +33,7 @@ void populateTitles(const int sc, const int ec) {
 void populateItems(const int sr, const int er, const int sc, const int ec) {
 	int er_ = std::min(er, std::min(itemWindowHeight, (int) catalogue.items() - itemView.firstElement()) - sr);
 	int ec_ = std::min(ec, std::min(itemColumns(), (int) catalogue.fields() - itemColumnView.firstElement()) - sc);//change variable types
-	auto ibegin = catalogue.cbegin() + itemView.firstElement() + sr;
+	auto ibegin = catalogue.begin() + itemView.firstElement() + sr;
 	for (auto iterator = ibegin; iterator < ibegin + er_ - sr; iterator++) {
 		auto fbegin = (*iterator).cbegin() + itemColumnView.firstElement() + sc;
 		mvwaddfields(itemWindow, sr + (iterator - ibegin), sc * COLUMN_WIDTH, fbegin, fbegin + ec_ - sc);

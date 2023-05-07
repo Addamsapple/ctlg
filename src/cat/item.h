@@ -40,8 +40,11 @@ class Item {
 		void insertField(std::unique_ptr<Field> &&field, const size_t position);
 
 		void deleteField(const size_t position);
-
+	
+		//no need for operator[] and get??? - think operator[] was previously used for undo/redo but no more, so yes just return const Field &?
+		//just use the latter
 		std::unique_ptr<Field> & operator[](size_t field);
+		//const Field & operator[](size_t field) const;
 		const Field & get(size_t field) const;
 
 		FieldIterator begin();

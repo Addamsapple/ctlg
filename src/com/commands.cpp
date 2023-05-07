@@ -123,7 +123,7 @@ bool GoToItemColumn::execute(StringVector arguments) {
 }
 
 bool ViewField::execute(StringVector arguments) {
-	setOutput(catalogue[itemView.firstElement() + itemView.selectedElement()][itemColumnView.firstElement() + itemColumnView.selectedElement()]->string());
+	setOutput(catalogue[itemView.firstElement() + itemView.selectedElement()].get(itemColumnView.firstElement() + itemColumnView.selectedElement()).string());
 	return true;
 }
 

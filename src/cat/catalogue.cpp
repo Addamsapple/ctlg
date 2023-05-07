@@ -69,27 +69,27 @@ void Catalogue::setTitle(std::string &&title, const size_t position) { _setTitle
 
 const ItemConstructor & Catalogue::itemConstructor() const { return _itemConstructor; }
 
-Item & Catalogue::types() { return _items[0]; }
+//Item & Catalogue::types() { return _items[0]; }
 
 const Item & Catalogue::types() const { return _items[0]; }
 
-Item & Catalogue::titles() { return _items[1]; }
+//Item & Catalogue::titles() { return _items[1]; }
 
 const Item & Catalogue::titles() const { return _items[1]; }
 
-std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) { return _itemConstructor[column]; }
+//std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) { return _itemConstructor[column]; }
 
-Item & Catalogue::operator[](size_t item) { return _items[item + HEADER_ITEMS]; }
+//Item & Catalogue::operator[](size_t item) { return _items[item + HEADER_ITEMS]; }
 
 const Item & Catalogue::operator[](size_t item) const { return _items[item + HEADER_ITEMS]; }
 
-ItemIterator Catalogue::begin() { return _items.begin() + HEADER_ITEMS; }
+//ItemIterator Catalogue::begin() { return _items.begin() + HEADER_ITEMS; }
 
-ItemIterator Catalogue::end() { return _items.end(); }
+//ItemIterator Catalogue::end() { return _items.end(); }
 
-ConstItemIterator Catalogue::cbegin() const { return _items.cbegin() + HEADER_ITEMS; }
+ConstItemIterator Catalogue::begin() const { return _items.cbegin() + HEADER_ITEMS; }
 
-ConstItemIterator Catalogue::cend() const { return _items.cend(); }
+ConstItemIterator Catalogue::end() const { return _items.cend(); }
 
 size_t Catalogue::size() const { return _items.size(); }
 
