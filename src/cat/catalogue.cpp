@@ -1,5 +1,3 @@
-//#include <fstream>
-
 #include "actions.h"
 
 #include "return.h"
@@ -13,14 +11,11 @@ std::unique_ptr<Catalogue::Action> Catalogue::_insertItem(const std::string &ite
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
 		result = InsertItemAction(std::move(item_), position + HEADER_ITEMS).perform(*this);
-		if (returnCode() != 0)
-			setReturnCode(0, "");
+		if (returnCode() != 0) setReturnCode(0, "");
 	} else
 		setReturnCode(55555, returnMessage());
 	return result;
 }
-
-void Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
 
 std::unique_ptr<Catalogue::Action> Catalogue::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
@@ -39,14 +34,10 @@ std::unique_ptr<Catalogue::Action> Catalogue::_insertColumn(std::vector<std::str
 	return result;
 }
 
-void Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
-
 std::unique_ptr<Catalogue::Action> Catalogue::_deleteColumn(const size_t position) {
 	setReturnCode(0, "");
 	return DeleteColumnAction(position).perform(*this);
 }
-
-void Catalogue::deleteColumn(const size_t position) { _deleteColumn(position); }
 
 std::unique_ptr<Catalogue::Action> Catalogue::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
@@ -58,41 +49,24 @@ std::unique_ptr<Catalogue::Action> Catalogue::_deleteItem(const size_t item) {
 	return result;
 }
 
-void Catalogue::deleteItem(const size_t item) { _deleteItem(item); }
-
 std::unique_ptr<Catalogue::Action> Catalogue::_setTitle(std::string &&title, const size_t position) {
 	return SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position).perform(*this);
 }
 
+void Catalogue::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
+void Catalogue::deleteItem(const size_t item) { _deleteItem(item); }
+void Catalogue::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
+void Catalogue::deleteColumn(const size_t position) { _deleteColumn(position); }
 void Catalogue::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }
 
-
-const ItemConstructor & Catalogue::itemConstructor() const { return _itemConstructor; }
-
-//Item & Catalogue::types() { return _items[0]; }
-
 const Item & Catalogue::types() const { return _items[0]; }
-
-//Item & Catalogue::titles() { return _items[1]; }
-
 const Item & Catalogue::titles() const { return _items[1]; }
-
-//std::unique_ptr<FieldConstructorInterface> & Catalogue::fieldConstructor(size_t column) { return _itemConstructor[column]; }
-
-//Item & Catalogue::operator[](size_t item) { return _items[item + HEADER_ITEMS]; }
 
 const Item & Catalogue::operator[](size_t item) const { return _items[item + HEADER_ITEMS]; }
 
-//ItemIterator Catalogue::begin() { return _items.begin() + HEADER_ITEMS; }
-
-//ItemIterator Catalogue::end() { return _items.end(); }
-
 ConstItemIterator Catalogue::begin() const { return _items.cbegin() + HEADER_ITEMS; }
-
 ConstItemIterator Catalogue::end() const { return _items.cend(); }
 
 size_t Catalogue::size() const { return _items.size(); }
-
 size_t Catalogue::items() const { return _items.size() - HEADER_ITEMS; }
-
 size_t Catalogue::fields() const { return _items[0].size(); }
