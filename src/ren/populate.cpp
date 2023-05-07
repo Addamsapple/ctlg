@@ -10,12 +10,12 @@ int itemColumns() {
 
 Viewport itemView(
 		[]() -> int {return itemWindowHeight;},
-		[]() -> int {return catalogue.items();}
+		[]() -> int {return table.items();}
 );
 
 Viewport itemColumnView(
 		itemColumns,
-		[]() -> int {return catalogue.fields();}
+		[]() -> int {return table.fields();}
 );
 
 Viewport ioView(
@@ -24,16 +24,16 @@ Viewport ioView(
 );
 
 void populateTitles(const int sc, const int ec) {
-	int ec_ = std::min(ec, std::min(itemColumns(), (int) catalogue.fields() - itemColumnView.firstElement()) - sc);//change variable types
-	auto begin = catalogue.titles().cbegin() + itemColumnView.firstElement() + sc;
+	int ec_ = std::min(ec, std::min(itemColumns(), (int) table.fields() - itemColumnView.firstElement()) - sc);//change variable types
+	auto begin = table.titles().cbegin() + itemColumnView.firstElement() + sc;
 	mvwaddfields(headerWindow, 0, sc * COLUMN_WIDTH, begin, begin + ec_ - sc);
 	wnoutrefresh(headerWindow);
 }
 
 void populateItems(const int sr, const int er, const int sc, const int ec) {
-	int er_ = std::min(er, std::min(itemWindowHeight, (int) catalogue.items() - itemView.firstElement()) - sr);
-	int ec_ = std::min(ec, std::min(itemColumns(), (int) catalogue.fields() - itemColumnView.firstElement()) - sc);//change variable types
-	auto ibegin = catalogue.begin() + itemView.firstElement() + sr;
+	int er_ = std::min(er, std::min(itemWindowHeight, (int) table.items() - itemView.firstElement()) - sr);
+	int ec_ = std::min(ec, std::min(itemColumns(), (int) table.fields() - itemColumnView.firstElement()) - sc);//change variable types
+	auto ibegin = table.begin() + itemView.firstElement() + sr;
 	for (auto iterator = ibegin; iterator < ibegin + er_ - sr; iterator++) {
 		auto fbegin = (*iterator).cbegin() + itemColumnView.firstElement() + sc;
 		mvwaddfields(itemWindow, sr + (iterator - ibegin), sc * COLUMN_WIDTH, fbegin, fbegin + ec_ - sc);
@@ -51,7 +51,7 @@ void populateItems(const int sr, const int er, const int sc, const int ec) {
 
 //might need to redefine these to clear in case that columns are deleted
 void clearExcessTitles() {
-	int column = COLUMN_WIDTH * std::min((size_t) itemColumns(), catalogue.fields());
+	int column = COLUMN_WIDTH * std::min((size_t) itemColumns(), table.fields());
 	if (column < itemWindowWidth) {
 		wmove(headerWindow, 0, column);
 		wclrtoeol(headerWindow);
@@ -60,9 +60,9 @@ void clearExcessTitles() {
 }
 
 void clearExcessItemColumns() {
-	int column = COLUMN_WIDTH * std::min((size_t) itemColumns(), catalogue.fields());
+	int column = COLUMN_WIDTH * std::min((size_t) itemColumns(), table.fields());
 	if (column < itemWindowWidth) {
-		for (int item = 0; item < itemWindowHeight && item < catalogue.items(); item++) {
+		for (int item = 0; item < itemWindowHeight && item < table.items(); item++) {
 			wmove(itemWindow, item, column);
 			wclrtoeol(itemWindow);
 		}
@@ -72,7 +72,7 @@ void clearExcessItemColumns() {
 
 //still bugged
 void clearExcessItems() {
-	size_t item = catalogue.items() - itemView.firstElement();
+	size_t item = table.items() - itemView.firstElement();
 	if (item < itemWindowHeight) {
 		wmove(itemWindow, item, 0);
 		wclrtobot(itemWindow);

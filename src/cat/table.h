@@ -9,7 +9,7 @@ using ItemVector = std::vector<Item>;
 using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
-class Catalogue {
+class Table {
 	protected:
 		static const size_t HEADER_ITEMS = 2;//rename to include _ at start?
 
@@ -30,13 +30,15 @@ class Catalogue {
 		class DeleteColumnAction;
 		class SetFieldAction;
 	public:
-		Catalogue();
+		Table();
 		
 		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
 		void deleteItem(const size_t item);
 		void insertColumn(std::vector<std::string> &&fields, const size_t position);
 		void deleteColumn(const size_t position);
 		void setTitle(std::string &&title, const size_t position);
+		//void setField()
+		//void setType()???
 
 		const Item & types() const;
 		const Item & titles() const;

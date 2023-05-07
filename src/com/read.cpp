@@ -13,7 +13,7 @@ void Read::_loadTypes() {
 		std::vector<std::string> fields;
 		fields.push_back(std::move(types_[type]));
 		fields.push_back(std::string());
-		catalogue.insertColumn(std::move(fields), type);
+		table.insertColumn(std::move(fields), type);
 	}
 }
 
@@ -22,18 +22,18 @@ void Read::_loadTitles() {
 	std::getline(_file, titles);
 	auto titles_ = splitItem(titles);
 	for (size_t title = 0; title < titles_.size(); title++)
-		catalogue.setTitle(std::move(titles_[title]), title);
+		table.setTitle(std::move(titles_[title]), title);
 }
 
 void Read::_loadItems() {
 	std::string item;
 	std::getline(_file, item);
 	while (std::getline(_file, item))
-		catalogue.insertItem(item, catalogue.items(), true);
+		table.insertItem(item, table.items(), true);
 }
 
 bool Read::execute(StringVector arguments) {
-	//catalogue.clear();
+	//table.clear();
 	_file.open(arguments[0]);
 	_loadTypes();
 	_loadTitles();

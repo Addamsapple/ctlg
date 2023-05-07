@@ -8,17 +8,17 @@ bool InsertColumn::execute(StringVector arguments) {
 	std::vector<std::string> fields;
 	fields.push_back(std::move(arguments[0]));
 	fields.push_back(std::string());
-	fields.insert(fields.end(), catalogue.items(), std::string());
-	catalogue.insertColumn(std::move(fields), _position);
+	fields.insert(fields.end(), table.items(), std::string());
+	table.insertColumn(std::move(fields), _position);
 	return returnCode() == 0;
 }
 
 void InsertColumn::undo() {
-	catalogue.undo();
-	//_action = catalogue.process(std::move(*_action));
+	table.undo();
+	//_action = table.process(std::move(*_action));
 }
 
 void InsertColumn::redo() {
-	catalogue.redo();
-	//_action = catalogue.process(std::move(*_action));
+	table.redo();
+	//_action = table.process(std::move(*_action));
 }

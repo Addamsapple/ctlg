@@ -2,7 +2,7 @@
 #include "field.h"
 #include <memory>
 
-#include "actions.h"
+#include "table_actions.h"
 
 class InsertColumn : public UndoableCommand {
 	private:

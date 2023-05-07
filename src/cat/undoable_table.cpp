@@ -1,30 +1,32 @@
 #include "undoable_table.h"
 
-#include "actions.h"
+#include "table_actions.h"
 
-void UndoableTable::_record(std::unique_ptr<Catalogue::Action> &&action) {
+//need error checking here
+
+void UndoableTable::_record(std::unique_ptr<Table::Action> &&action) {
 	_redoableActions.clear();
 	_undoableActions.push_back(std::move(action));
 }
 
 void UndoableTable::insertItem(const std::string &string, const size_t position, const bool ignoreErrors) {
-	_record(Catalogue::_insertItem(string, position, ignoreErrors));
+	_record(Table::_insertItem(string, position, ignoreErrors));
 }
 
 void UndoableTable::deleteItem(const size_t item) {
-	_record(Catalogue::_deleteItem(item));
+	_record(Table::_deleteItem(item));
 }
 
 void UndoableTable::insertColumn(std::vector<std::string> &&fields, const size_t position) {
-	_record(Catalogue::_insertColumn(std::move(fields), position));
+	_record(Table::_insertColumn(std::move(fields), position));
 }
 
 void UndoableTable::deleteColumn(const size_t position) {
-	_record(Catalogue::_deleteColumn(position));
+	_record(Table::_deleteColumn(position));
 }
 
 void UndoableTable::setTitle(std::string &&title, const size_t position) {
-	_record(Catalogue::_setTitle(std::move(title), position));
+	_record(Table::_setTitle(std::move(title), position));
 }
 
 void UndoableTable::undo() {

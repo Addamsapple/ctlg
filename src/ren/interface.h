@@ -3,11 +3,11 @@
 
 #include <string>
 
-#include "actions.h"
-//#include "catalogue.h"
+#include "table_actions.h"
+//#include "table.h"
 #include "undoable_table.h"
 
-inline UndoableTable catalogue;
+inline UndoableTable table;
 
 void run(const std::string &command);
 

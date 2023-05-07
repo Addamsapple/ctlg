@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "catalogue.h"
+#include "table.h"
 #include "command_proc.h"
 #include "interface.h"
 #include "io.h"
@@ -96,7 +96,7 @@ bool GoToFirstItem::execute(StringVector arguments) {
 }
 
 bool GoToLastItem::execute(StringVector arguments) {
-	itemView.selectElement(catalogue.items() - 1);
+	itemView.selectElement(table.items() - 1);
 	return true;
 }
 
@@ -112,7 +112,7 @@ bool GoToFirstItemColumn::execute(StringVector arguments) {
 }
 
 bool GoToLastItemColumn::execute(StringVector arguments) {
-	itemColumnView.selectElement(catalogue.fields() - 1);
+	itemColumnView.selectElement(table.fields() - 1);
 	return true;
 }
 
@@ -123,7 +123,7 @@ bool GoToItemColumn::execute(StringVector arguments) {
 }
 
 bool ViewField::execute(StringVector arguments) {
-	setOutput(catalogue[itemView.firstElement() + itemView.selectedElement()].get(itemColumnView.firstElement() + itemColumnView.selectedElement()).string());
+	setOutput(table[itemView.firstElement() + itemView.selectedElement()].get(itemColumnView.firstElement() + itemColumnView.selectedElement()).string());
 	return true;
 }
 

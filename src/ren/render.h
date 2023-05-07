@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "catalogue.h"
+#include "table.h"
 #include "curses.h"
 
 //move constants that are not used in other files to cpp file

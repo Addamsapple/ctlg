@@ -9,8 +9,8 @@
 
 bool EditType::execute(StringVector arguments) {
 /*	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
-	_fields.reserve(catalogue.items());
-	setOutput(catalogue.types()[_position]->string());
+	_fields.reserve(table.items());
+	setOutput(table.types()[_position]->string());
 	while (getInput()) {
 		_type = std::make_unique<Field>(ioString.data());
 		setReturnCode(0, "");
@@ -19,7 +19,7 @@ bool EditType::execute(StringVector arguments) {
 			setReturnCode(1, "");
 		else
 			_constructor = std::unique_ptr<FieldConstructorInterface>(constructor);
-		for (auto item = catalogue.begin(); item != catalogue.end() && returnCode() == 0; item++) {
+		for (auto item = table.begin(); item != table.end() && returnCode() == 0; item++) {
 			_fields.emplace_back(_constructor->construct(std::string((*item)[_position]->string())));
 		}
 
@@ -41,8 +41,8 @@ void EditType::redo() {
 }
 
 void EditType::_swap() {
-	/*catalogue.types()[_position].swap(_type);
-	catalogue.fieldConstructor(_position).swap(_constructor);
+	/*table.types()[_position].swap(_type);
+	table.fieldConstructor(_position).swap(_constructor);
 	for (size_t item = 0; item < _fields.size(); item++)
-		catalogue[item][_position].swap(_fields[item]);*/
+		table[item][_position].swap(_fields[item]);*/
 }

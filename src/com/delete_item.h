@@ -3,7 +3,7 @@
 
 
 //class Action;
-#include "actions.h"
+#include "table_actions.h"
 
 class DeleteItem : public UndoableCommand {
 	private:

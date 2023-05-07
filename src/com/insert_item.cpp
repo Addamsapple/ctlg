@@ -14,14 +14,14 @@ bool InsertItem::execute(StringVector arguments) {
 			return false;
 	} else
 		_position = itemView.firstElement() + itemView.selectedElement();
-	catalogue.insertItem(repeatField("", catalogue.fields()), _position, true);
+	table.insertItem(repeatField("", table.fields()), _position, true);
 	return true;
 }
 
 void InsertItem::undo() {
-	catalogue.undo();
+	table.undo();
 }
 
 void InsertItem::redo() {
-	catalogue.redo();
+	table.redo();
 }

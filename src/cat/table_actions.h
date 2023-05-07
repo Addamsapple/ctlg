@@ -1,30 +1,30 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include "catalogue.h"
+#include "table.h"
 
 #include "item.h"
 
-class Catalogue::Action {
+class Table::Action {
 	public:
 		virtual ~Action() {}
 
-		virtual std::unique_ptr<Catalogue::Action> perform(Catalogue &catalogue) = 0;
+		virtual std::unique_ptr<Table::Action> perform(Table &table) = 0;
 };
 
 
-class Catalogue::InsertItemAction : public Catalogue::Action {
+class Table::InsertItemAction : public Table::Action {
 	protected:
 		Item _item;
 		size_t _index;
 	public:
 		InsertItemAction(Item &&item, size_t index);
 
-		virtual std::unique_ptr<Catalogue::Action> perform(Catalogue &catalogue);
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
 
-class Catalogue::InsertColumnAction : public Catalogue::Action {
+class Table::InsertColumnAction : public Table::Action {
 	protected:
 		std::vector<std::unique_ptr<Field>> _fields;
 		std::unique_ptr<FieldConstructorInterface> _fieldConstructor;
@@ -32,31 +32,31 @@ class Catalogue::InsertColumnAction : public Catalogue::Action {
 	public:
 		InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldConstructorInterface> &&fieldConstructor, size_t column);
 
-		virtual std::unique_ptr<Catalogue::Action> perform(Catalogue &catalogue);
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
 
-class Catalogue::DeleteItemAction : public Catalogue::Action {
+class Table::DeleteItemAction : public Table::Action {
 	protected:
 		size_t _item;
 	public:
 		DeleteItemAction(size_t item);
 
-		virtual std::unique_ptr<Catalogue::Action> perform(Catalogue &catalogue);
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
 
-class Catalogue::DeleteColumnAction : public Catalogue::Action {
+class Table::DeleteColumnAction : public Table::Action {
 	protected:
 		size_t _column;
 	public:
 		DeleteColumnAction(size_t column);
 
-		virtual std::unique_ptr<Catalogue::Action>  perform(Catalogue &catalogue);
+		virtual std::unique_ptr<Table::Action>  perform(Table &table);
 };
 
 
-class Catalogue::SetFieldAction : public Catalogue::Action {
+class Table::SetFieldAction : public Table::Action {
 	protected:
 		std::unique_ptr<Field> _field;
 		size_t _item;
@@ -64,7 +64,7 @@ class Catalogue::SetFieldAction : public Catalogue::Action {
 	public:
 		SetFieldAction(std::unique_ptr<Field> &&field, size_t item, size_t column);
 
-		virtual std::unique_ptr<Catalogue::Action> perform(Catalogue &catalogue);
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
 #endif

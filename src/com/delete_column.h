@@ -3,7 +3,7 @@
 #include "command.h"
 #include "field.h"
 
-#include "actions.h"
+#include "table_actions.h"
 
 class DeleteColumn : public UndoableCommand {
 	private:

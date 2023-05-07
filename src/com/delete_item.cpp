@@ -1,6 +1,6 @@
 #include "delete_item.h"
-#include "interface.h"//should probably move catalogue global variable somewhere else
-#include "catalogue.h"
+#include "interface.h"//should probably move table global variable somewhere else
+#include "table.h"
 #include "populate.h"
 #include "return.h"
 
@@ -8,8 +8,8 @@
 
 bool DeleteItem::execute(StringVector arguments) {
 	_position = itemView.firstElement() + itemView.selectedElement();
-	if (_position < catalogue.items() && returnCode() == 0) {
-		catalogue.deleteItem(_position);
+	if (_position < table.items() && returnCode() == 0) {
+		table.deleteItem(_position);
 		return true;
 	}
 	return false;
@@ -17,9 +17,9 @@ bool DeleteItem::execute(StringVector arguments) {
 }
 
 void DeleteItem::undo() {
-	catalogue.undo();
+	table.undo();
 }
 
 void DeleteItem::redo() {
-	catalogue.redo();
+	table.redo();
 }

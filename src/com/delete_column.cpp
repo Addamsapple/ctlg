@@ -4,14 +4,14 @@
 
 bool DeleteColumn::execute(StringVector arguments) {
 	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
-	catalogue.deleteColumn(_position);
+	table.deleteColumn(_position);
 	return true;
 }
 
 void DeleteColumn::undo() {
-	catalogue.undo();
+	table.undo();
 }
 
 void DeleteColumn::redo() {
-	catalogue.redo();
+	table.redo();
 }
