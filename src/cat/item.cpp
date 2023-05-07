@@ -3,9 +3,6 @@
 #include "type_proc.h"
 #include "return.h"
 
-//why bother with a FieldConstructor<Field> at all? Just use std::make_unique<Field>, etc.
-auto FIELD_CONSTRUCTOR = FieldConstructor<Field>({});
-
 Item::Item(size_t fields) {
 	_fields.reserve(fields);
 }
@@ -43,10 +40,8 @@ Item::Item(StringVector &&item, const size_t fields) : Item(fields) {
 		} else if (item.size() > fields)
 			setReturnCode(ITEM_TOO_MANY_FIELDS_ERROR, "too many fields");
 	}
-	//auto constructor = FieldConstructor<Field>({});
-	//
 	for (std::string &field : item)
-		_fields.emplace_back(FIELD_CONSTRUCTOR.construct(std::move(field)));
+		_fields.push_back(std::make_unique<Field>(std::move(field)));
 }
 
 Item::Item(StringVector &&item) : Item(std::move(item), 0) {}
@@ -55,46 +50,24 @@ Item::Item(const std::string &string, const ItemConstructor &constructor) : Item
 Item::Item(const std::string &string, const size_t fields) : Item(splitItem(string), fields) {}
 Item::Item(const std::string &string) : Item(splitItem(string)) {}
 
-void Item::insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position) {
-	_fields.insert(_fields.begin() + position, std::unique_ptr<Field>(constructor.construct(std::move(string))));
-	//move uptr?
-}
+void Item::insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position) { _fields.insert(_fields.begin() + position, std::unique_ptr<Field>(constructor.construct(std::move(string)))); }
 
 void Item::insertField(std::string &&string, const size_t position) {
-	_fields.insert(_fields.begin() + position, std::unique_ptr<Field>(FIELD_CONSTRUCTOR.construct(std::move(string))));
+	_fields.insert(_fields.begin() + position, std::make_unique<Field>(std::move(string)));
 }
 
-void Item::insertField(std::unique_ptr<Field> &&field, const size_t position) {
-	_fields.insert(_fields.begin() + position, std::move(field));
-}
+void Item::insertField(std::unique_ptr<Field> &&field, const size_t position) { _fields.insert(_fields.begin() + position, std::move(field)); }
 
-void Item::deleteField(const size_t position) {
-	_fields.erase(begin() + position);
-}
+void Item::deleteField(const size_t position) { _fields.erase(begin() + position); }
 
-std::unique_ptr<Field> & Item::operator[](size_t field) {
-	return _fields[field];
-}
+std::unique_ptr<Field> & Item::operator[](size_t field) { return _fields[field]; }
 
-const Field & Item::get(size_t field) const {
-	return *_fields[field];
-}
+const Field & Item::get(size_t field) const { return *_fields[field]; }
 
-FieldIterator Item::begin() {
-	return _fields.begin();
-}
-
-FieldIterator Item::end() {
-	return _fields.end();
-}
-
-ConstFieldIterator Item::cbegin() const {
-	return _fields.cbegin();
-}
-
-ConstFieldIterator Item::cend() const {
-	return _fields.cend();
-}
+FieldIterator Item::begin() { return _fields.begin(); }
+FieldIterator Item::end() { return _fields.end(); }
+ConstFieldIterator Item::cbegin() const { return _fields.cbegin(); }
+ConstFieldIterator Item::cend() const { return _fields.cend(); }
 
 size_t Item::size() const {
 	return _fields.size();

@@ -61,9 +61,6 @@ std::string repeatField(const std::string &string, const size_t fields);
 
 StringVector splitItem(const std::string &item);
 
-//ItemConstructor makeItemConstructor(const Item &item);
-//ItemConstructor makeItemConstructor(const size_t fields);
-
 std::ostream & operator<<(std::ostream &stream, const Item &item);
 
 #endif
