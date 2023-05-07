@@ -134,25 +134,3 @@ StringVector splitItem(const std::string &item) {
 	result.emplace_back(item.substr(start));
 	return result;
 }
-
-ItemConstructor makeItemConstructor(const Item &item) {
-	ItemConstructor result;
-	result.reserve(item.size());
-	FieldConstructorInterface *constructor;
-	//rename variable to type?/field?
-	for (auto iterator = item.cbegin(); iterator != item.cend(); iterator++)
-		if (typeProcessor.match(iterator->get()->string(), constructor) == FULL_MATCH)
-			result.emplace_back(constructor);
-		else {
-			setReturnCode(ITEM_CONSTRUCTOR_TYPE_ERROR, "type mismatch");
-			break;
-		}
-	return result;
-}
-
-ItemConstructor makeItemConstructor(const size_t fields) {
-	ItemConstructor result;
-	for (size_t field = 0; field < fields; field++)
-		result.emplace_back(new FieldConstructor<Field>({}));
-	return result;
-}
