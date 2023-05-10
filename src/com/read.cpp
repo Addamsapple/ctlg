@@ -27,7 +27,7 @@ void Read::_loadTitles() {
 
 void Read::_loadItems() {
 	std::string item;
-	std::getline(_file, item);
+	//std::getline(_file, item);//first item skipped when this was uncommented!!!
 	while (std::getline(_file, item))
 		table.insertItem(item, table.items(), true);
 }

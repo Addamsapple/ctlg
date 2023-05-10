@@ -7,7 +7,6 @@
 Table::InsertItemAction::InsertItemAction(Item &&item, size_t index) :
 		_item(std::move(item)),
 		_index(index) {}
-
 std::unique_ptr<Table::Action> Table::InsertItemAction::perform(Table &table) {
 	table._items.insert(table._items.begin() + _index, std::move(_item));
 	return std::unique_ptr<Table::Action>(new DeleteItemAction(_index));
@@ -58,16 +57,17 @@ std::unique_ptr<Table::Action> Table::SetFieldAction::perform(Table &table) {
 	return result;
 }
 
-Table::SetOrderAction::SetOrderAction(std::vector<int> &&order) : _order(std::move(order)) {}
+Table::SetOrderAction::SetOrderAction(std::vector<size_t> &&order) : _order(std::move(order)) {}
 
 //rename variables n stuff
+#include <iostream>
 std::unique_ptr<Table::Action> Table::SetOrderAction::perform(Table &table) {
-	for (int element = 0; element < _order.size(); element++)
+	for (size_t element = 0; element < _order.size(); element++)
 		if (element < _order[element])
-			std::swap(table._items[element], table._items[_order[element]]);
-	std::vector<int> result;
+			std::swap(table._items[element + _HEADER_ITEMS], table._items[_order[element + _HEADER_ITEMS]]);//just use public operator[] here, which already incorporate the necessary offset
+	std::vector<size_t> result;
 	result.reserve(_order.size());
-	for (int element = 0; element < _order.size(); element++)
+	for (size_t element = 0; element < _order.size(); element++)
 		result[_order[element]] = element;
 	return std::unique_ptr<Table::Action>(new SetOrderAction(std::move(result)));
 }

@@ -2,6 +2,7 @@
 
 #include "return.h"
 #include "type_proc.h"
+#include "item_sorter.h"
 
 Table::Table() : _items(_HEADER_ITEMS), _itemConstructor(0) {}
 
@@ -39,6 +40,16 @@ std::unique_ptr<Table::Action> Table::_deleteColumn(const size_t position) {
 	return DeleteColumnAction(position).perform(*this);
 }
 
+namespace {
+	std::vector<size_t> iota(size_t size, size_t min) {
+		std::vector<size_t> result;
+		result.reserve(size);
+		for (size_t i = 0; i < size; i++)
+			result.push_back(min++);
+		return result;
+	}
+}
+
 std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
 	std::unique_ptr<Table::Action> result;
@@ -53,8 +64,8 @@ std::unique_ptr<Table::Action> Table::_setTitle(std::string &&title, const size_
 	return SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position).perform(*this);
 }
 
-std::unique_ptr<Table::Action> Table::_sortItems(std::vector<int> &&columns) {
-	sortedOrder(_items, Compare<Item>({2, 3}));
+std::unique_ptr<Table::Action> Table::_sortItems(std::vector<size_t> &&columns) {
+	return SetOrderAction(sortedOrder(*this, Compare<Item>(std::move(columns)))).perform(*this);
 }
 
 void Table::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }

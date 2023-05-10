@@ -3,11 +3,11 @@
 template<typename T>
 class Compare {
 	protected:
-		std::vector<int> _elements;
+		std::vector<size_t> _elements;
 
 		auto _element(const T &t, const int element);
 	public:
-		Compare(std::vector<int> &&elements);
+		Compare(std::vector<size_t> &&elements);
 
 		bool operator()(const T &a, const T &b);
 };

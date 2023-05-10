@@ -14,6 +14,8 @@ class UndoableTable : public Table {
 		void deleteColumn(const size_t position);
 
 		void setTitle(std::string &&title, const size_t position);
+		
+		void sortItems(std::vector<size_t> &&columns);
 
 		void undo();
 		void redo();

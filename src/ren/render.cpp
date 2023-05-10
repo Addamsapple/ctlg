@@ -10,7 +10,7 @@
 void disableCursor();
 
 void initialize() {
-	curses_trace(TRACE_CALLS);//for debugging
+	//curses_trace(TRACE_CALLS);//for debugging
 	setlocale(LC_ALL, "");
 	//initialize screen
 	initscr(); cbreak(); noecho();

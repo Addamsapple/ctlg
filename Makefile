@@ -12,15 +12,17 @@ TMP_FILES = $(patsubst $(SRC_DIR)%.cpp, $(TMP_DIR)%.o, $(SRC_FILES))
 
 BINARY = $(BIN_DIR)/ctlg
 
-COMPILER_FLAG = -std=c++20 -Wall -O3
+COMPILER_FLAG = -std=c++20 -Wall
 
 LIB_FLAG = -L ~
 HDR_FLAG = -I ~ $(addprefix -I $(CURDIR)/, $(SRC_FOLDERS))
 
+release: COMPILER_FLAG += -O3
 release: LIB_FLAG += -lncurses -ltinfo
 
-debug: COMPILER_FLAG += -g
-debug: LIB_FLAG += -lncurses_g -ltinfo_g
+debug: COMPILER_FLAG += -O0 -g
+debug: LIB_FLAG += -lncurses -ltinfo
+#debug: LIB_FLAG += //-lncurses_g -ltinfo_g
 
 release debug: $(TMP_FOLDERS) $(BIN_DIR) $(BINARY)
 

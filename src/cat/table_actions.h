@@ -12,6 +12,8 @@ class Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table) = 0;
 };
 
+
+//add override keywords
 class Table::InsertItemAction : public Table::Action {
 	protected:
 		Item _item;
@@ -64,9 +66,9 @@ class Table::SetFieldAction : public Table::Action {
 
 class Table::SetOrderAction : public Table::Action {
 	protected:
-		std::vector<int> _order;
+		std::vector<size_t> _order;
 	public:
-		SetOrderAction(std::vector<int> &&order);
+		SetOrderAction(std::vector<size_t> &&order);
 
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };

@@ -8,6 +8,7 @@
 
 #include "read.h"
 #include "write.h"
+#include "sort.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 template<typename T>
@@ -65,6 +66,8 @@ void loadImmediateCommands() {
 
 	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
 	ADD_IMM_RULE(Write, "w ", STR_TOKEN);
+
+	ADD_IMM_RULE(Sort, "s", NUM_TOKEN);
 
 
 	immediateProcessor.reset();

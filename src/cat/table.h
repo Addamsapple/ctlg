@@ -10,7 +10,7 @@ using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
 class Table {
-	private:
+	protected://CHANGE TO PRIVATE
 		static const size_t _HEADER_ITEMS = 2;
 
 		ItemVector _items;
@@ -23,8 +23,9 @@ class Table {
 		std::unique_ptr<Action> _insertColumn(std::vector<std::string> &&fields, const size_t position);
 		std::unique_ptr<Action> _deleteColumn(const size_t position);
 		std::unique_ptr<Action> _setTitle(std::string &&title, const size_t position);
-		std::unique_ptr<Action> _sortItems(std::vector<int> &&columns);
-
+	public://testing
+		std::unique_ptr<Action> _sortItems(std::vector<size_t> &&columns);
+	protected://only here cause of testing
 		class InsertItemAction;
 		class DeleteItemAction;
 		class InsertColumnAction;
@@ -32,6 +33,7 @@ class Table {
 		class SetFieldAction;
 		class SetOrderAction;
 	public:
+		typedef Item value_type;
 		Table();
 		
 		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
