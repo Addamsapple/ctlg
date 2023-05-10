@@ -57,3 +57,17 @@ std::unique_ptr<Table::Action> Table::SetFieldAction::perform(Table &table) {
 	table._items[_item][_column] = std::move(_field);
 	return result;
 }
+
+Table::SetOrderAction::SetOrderAction(std::vector<int> &&order) : _order(std::move(order)) {}
+
+//rename variables n stuff
+std::unique_ptr<Table::Action> Table::SetOrderAction::perform(Table &table) {
+	for (int element = 0; element < _order.size(); element++)
+		if (element < _order[element])
+			std::swap(table._items[element], table._items[_order[element]]);
+	std::vector<int> result;
+	result.reserve(_order.size());
+	for (int element = 0; element < _order.size(); element++)
+		result[_order[element]] = element;
+	return std::unique_ptr<Table::Action>(new SetOrderAction(std::move(result)));
+}

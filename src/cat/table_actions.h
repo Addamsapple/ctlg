@@ -12,7 +12,6 @@ class Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table) = 0;
 };
 
-
 class Table::InsertItemAction : public Table::Action {
 	protected:
 		Item _item;
@@ -22,7 +21,6 @@ class Table::InsertItemAction : public Table::Action {
 
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
-
 
 class Table::InsertColumnAction : public Table::Action {
 	protected:
@@ -35,7 +33,6 @@ class Table::InsertColumnAction : public Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
-
 class Table::DeleteItemAction : public Table::Action {
 	protected:
 		size_t _item;
@@ -44,7 +41,6 @@ class Table::DeleteItemAction : public Table::Action {
 
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
-
 
 class Table::DeleteColumnAction : public Table::Action {
 	protected:
@@ -55,7 +51,6 @@ class Table::DeleteColumnAction : public Table::Action {
 		virtual std::unique_ptr<Table::Action>  perform(Table &table);
 };
 
-
 class Table::SetFieldAction : public Table::Action {
 	protected:
 		std::unique_ptr<Field> _field;
@@ -63,6 +58,15 @@ class Table::SetFieldAction : public Table::Action {
 		size_t _column;
 	public:
 		SetFieldAction(std::unique_ptr<Field> &&field, size_t item, size_t column);
+
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
+};
+
+class Table::SetOrderAction : public Table::Action {
+	protected:
+		std::vector<int> _order;
+	public:
+		SetOrderAction(std::vector<int> &&order);
 
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };

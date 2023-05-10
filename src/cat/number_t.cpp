@@ -51,6 +51,7 @@ std::string Number<Type>::ntostr(const Type value) {
 }
 
 template<typename Type>
-bool Number<Type>::operator<(const Field &field) const {
-	return _value < static_cast<const Number<Type> &>(field)._value;
+int Number<Type>::compare(const Field &field) const {
+	return (_value > static_cast<const Number<Type> &>(field)._value) - (_value < static_cast<const Number<Type> &>(field)._value);
 }
+

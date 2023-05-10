@@ -17,7 +17,7 @@ class Number : public Field {
 
 		static Type strton(const std::string &string);
 
-		bool operator<(const Field &field) const override;
+		int compare(const Field &field) const override;
 };
 
 #include "number_t.cpp"

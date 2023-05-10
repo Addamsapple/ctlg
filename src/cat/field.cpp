@@ -2,8 +2,8 @@
 
 Field::Field(std::string &&string) : _string(std::move(string)) {}
 
-bool Field::operator<(const Field &field) const {
-	return _string < field._string;
+int Field::compare(const Field &field) const {
+	return (_string > field._string) - (_string < field._string);
 }
 
 const std::string & Field::string() const {

@@ -61,7 +61,6 @@ void Item::insertField(std::unique_ptr<Field> &&field, const size_t position) { 
 void Item::deleteField(const size_t position) { _fields.erase(begin() + position); }
 
 std::unique_ptr<Field> & Item::operator[](size_t field) { return _fields[field]; }
-
 const Field & Item::get(size_t field) const { return *_fields[field]; }
 
 FieldIterator Item::begin() { return _fields.begin(); }

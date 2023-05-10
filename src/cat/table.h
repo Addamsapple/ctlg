@@ -23,12 +23,14 @@ class Table {
 		std::unique_ptr<Action> _insertColumn(std::vector<std::string> &&fields, const size_t position);
 		std::unique_ptr<Action> _deleteColumn(const size_t position);
 		std::unique_ptr<Action> _setTitle(std::string &&title, const size_t position);
+		std::unique_ptr<Action> _sortItems(std::vector<int> &&columns);
 
 		class InsertItemAction;
 		class DeleteItemAction;
 		class InsertColumnAction;
 		class DeleteColumnAction;
 		class SetFieldAction;
+		class SetOrderAction;
 	public:
 		Table();
 		

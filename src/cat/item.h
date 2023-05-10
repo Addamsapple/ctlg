@@ -21,6 +21,7 @@ class Item {
 
 		Item(size_t fields);
 	public:
+		typedef std::unique_ptr<Field> value_type;
 		Item() = default;
 		
 		//consider adding ignoreErrors parameter to constructors:

@@ -11,6 +11,7 @@ void UndoableTable::_record(std::unique_ptr<Table::Action> &&action) {
 
 void UndoableTable::insertItem(const std::string &string, const size_t position, const bool ignoreErrors) {
 	_record(Table::_insertItem(string, position, ignoreErrors));
+	//Table::insertItem(string, position, ignoreErrors);
 }
 
 void UndoableTable::deleteItem(const size_t item) {

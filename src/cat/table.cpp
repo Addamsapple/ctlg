@@ -53,6 +53,10 @@ std::unique_ptr<Table::Action> Table::_setTitle(std::string &&title, const size_
 	return SetFieldAction(std::make_unique<Field>(std::move(title)), 1, position).perform(*this);
 }
 
+std::unique_ptr<Table::Action> Table::_sortItems(std::vector<int> &&columns) {
+	sortedOrder(_items, Compare<Item>({2, 3}));
+}
+
 void Table::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) { _insertItem(item, position, ignoreErrors); }
 void Table::deleteItem(const size_t item) { _deleteItem(item); }
 void Table::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
