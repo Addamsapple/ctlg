@@ -22,6 +22,7 @@ class Item {
 		Item(size_t fields);
 	public:
 		typedef std::unique_ptr<Field> value_type;
+
 		Item() = default;
 		
 		//consider adding ignoreErrors parameter to constructors:
@@ -42,8 +43,6 @@ class Item {
 
 		void deleteField(const size_t position);
 	
-		//no need for operator[] and get??? - think operator[] was previously used for undo/redo but no more, so yes just return const Field &?
-		//just use the latter
 		std::unique_ptr<Field> & operator[](size_t field);
 		//const Field & operator[](size_t field) const;
 		const Field & get(size_t field) const;

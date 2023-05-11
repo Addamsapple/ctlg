@@ -40,7 +40,9 @@ std::unique_ptr<Table::Action> Table::DeleteColumnAction::perform(Table &table) 
 	std::vector<std::unique_ptr<Field>> fields;
 	fields.reserve(table._header.size() + table._items.size());
 	fields.push_back(std::move(table._header[0][_column]));
+	table._header[0].deleteField(_column);
 	fields.push_back(std::move(table._header[1][_column]));
+	table._header[1].deleteField(_column);
 	for (auto item = 0; item < table._items.size(); item++) {//can use for each/iterators here
 		fields.push_back(std::move(table._items[item][_column]));
 		table._items[item].deleteField(_column);
@@ -72,6 +74,7 @@ std::unique_ptr<Table::Action> Table::SetTitleAction::perform(Table &table) {
 Table::SetOrderAction::SetOrderAction(std::vector<size_t> &&order) : _order(std::move(order)) {}
 
 //potential optimization: use std::unique_ptr<size_t[]>(new size_t[<size>]) to avoid initialization
+//consider moving some of this logic to separate sorting related functions
 std::unique_ptr<Table::Action> Table::SetOrderAction::perform(Table &table) {
 	std::vector<Item> items(table._items.size());
 	for (size_t item = 0; item < items.size(); item++)
