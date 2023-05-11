@@ -18,8 +18,10 @@ Table::InsertColumnAction::InsertColumnAction(std::vector<std::unique_ptr<Field>
 		_column(column) {}
 
 std::unique_ptr<Table::Action> Table::InsertColumnAction::perform(Table &table) {
+	table._header[0].insertField(std::move(_fields[0]), _column);
+	table._header[1].insertField(std::move(_fields[1]), _column);
 	for (auto item = 0; item < table._items.size(); item++)
-		table._items[item].insertField(std::move(_fields[item]), _column);
+		table._items[item].insertField(std::move(_fields[item + table._header.size()]), _column);
 	table._itemConstructor.insert(table._itemConstructor.begin() + _column, std::move(_fieldConstructor));
 	return std::unique_ptr<Table::Action>(new DeleteColumnAction(_column));
 }
@@ -36,8 +38,10 @@ Table::DeleteColumnAction::DeleteColumnAction(size_t column) : _column(column) {
 
 std::unique_ptr<Table::Action> Table::DeleteColumnAction::perform(Table &table) {
 	std::vector<std::unique_ptr<Field>> fields;
-	fields.reserve(table._items.size());
-	for (auto item = 0; item < table._items.size(); item++) {
+	fields.reserve(table._header.size() + table._items.size());
+	fields.push_back(std::move(table._header[0][_column]));
+	fields.push_back(std::move(table._header[1][_column]));
+	for (auto item = 0; item < table._items.size(); item++) {//can use for each/iterators here
 		fields.push_back(std::move(table._items[item][_column]));
 		table._items[item].deleteField(_column);
 	}
@@ -57,17 +61,24 @@ std::unique_ptr<Table::Action> Table::SetFieldAction::perform(Table &table) {
 	return result;
 }
 
+Table::SetTitleAction::SetTitleAction(std::unique_ptr<Field> &&title, size_t column) : _title(std::move(title)), _column(column) {}
+
+std::unique_ptr<Table::Action> Table::SetTitleAction::perform(Table &table) {
+	auto result = std::unique_ptr<Table::Action>(new SetTitleAction(std::move(table._header[1][_column]), _column));
+	table._header[1][_column] = std::move(_title);
+	return result;
+}
+
 Table::SetOrderAction::SetOrderAction(std::vector<size_t> &&order) : _order(std::move(order)) {}
 
-//rename variables n stuff
-#include <iostream>
+//potential optimization: use std::unique_ptr<size_t[]>(new size_t[<size>]) to avoid initialization
 std::unique_ptr<Table::Action> Table::SetOrderAction::perform(Table &table) {
-	for (size_t element = 0; element < _order.size(); element++)
-		if (element < _order[element])
-			std::swap(table._items[element + _HEADER_ITEMS], table._items[_order[element + _HEADER_ITEMS]]);//just use public operator[] here, which already incorporate the necessary offset
-	std::vector<size_t> result;
-	result.reserve(_order.size());
-	for (size_t element = 0; element < _order.size(); element++)
-		result[_order[element]] = element;
+	std::vector<Item> items(table._items.size());
+	for (size_t item = 0; item < items.size(); item++)
+		items[item] = std::move(table._items[_order[item]]);
+	table._items = std::move(items);
+	std::vector<size_t> result(_order.size());
+	for (size_t item = 0; item < _order.size(); item++)
+		result[_order[item]] = item;
 	return std::unique_ptr<Table::Action>(new SetOrderAction(std::move(result)));
 }

@@ -11,7 +11,6 @@ void UndoableTable::_record(std::unique_ptr<Table::Action> &&action) {
 
 void UndoableTable::insertItem(const std::string &string, const size_t position, const bool ignoreErrors) {
 	_record(Table::_insertItem(string, position, ignoreErrors));
-	//Table::insertItem(string, position, ignoreErrors);
 }
 
 void UndoableTable::deleteItem(const size_t item) {
@@ -29,13 +28,9 @@ void UndoableTable::deleteColumn(const size_t position) {
 void UndoableTable::setTitle(std::string &&title, const size_t position) {
 	_record(Table::_setTitle(std::move(title), position));
 }
-#include <iostream>
+
 void UndoableTable::sortItems(std::vector<size_t> &&columns) {
-	//_record(Table::_sortItems(std::move(columns)));
-	Table::_sortItems(std::move(columns));
-	std::cerr << "made it to undoable sort!!!\n";
-	//for (int i = 0; i < _items.size(); i++)
-		//std::cerr << _items[i] << '\n';
+	_record(Table::_sortItems(std::move(columns)));
 }
 
 void UndoableTable::undo() {

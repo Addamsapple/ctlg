@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include <array>
+
 #include "item.h"
 
 using ItemVector = std::vector<Item>;
@@ -10,9 +12,8 @@ using ItemIterator = ItemVector::iterator;
 using ConstItemIterator = ItemVector::const_iterator;
 
 class Table {
-	protected://CHANGE TO PRIVATE
-		static const size_t _HEADER_ITEMS = 2;
-
+	private:
+		std::array<Item, 2> _header;
 		ItemVector _items;
 		ItemConstructor _itemConstructor;
 	protected:
@@ -23,19 +24,16 @@ class Table {
 		std::unique_ptr<Action> _insertColumn(std::vector<std::string> &&fields, const size_t position);
 		std::unique_ptr<Action> _deleteColumn(const size_t position);
 		std::unique_ptr<Action> _setTitle(std::string &&title, const size_t position);
-	public://testing
 		std::unique_ptr<Action> _sortItems(std::vector<size_t> &&columns);
-	protected://only here cause of testing
+
 		class InsertItemAction;
 		class DeleteItemAction;
 		class InsertColumnAction;
 		class DeleteColumnAction;
 		class SetFieldAction;
+		class SetTitleAction;
 		class SetOrderAction;
 	public:
-		typedef Item value_type;
-		Table();
-		
 		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
 		void deleteItem(const size_t item);
 		void insertColumn(std::vector<std::string> &&fields, const size_t position);

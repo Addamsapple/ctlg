@@ -64,6 +64,16 @@ class Table::SetFieldAction : public Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };
 
+class Table::SetTitleAction : public Table::Action {
+	protected:
+		std::unique_ptr<Field> _title;
+		size_t _column;
+	public:
+		SetTitleAction(std::unique_ptr<Field> &&title, size_t column);
+
+		virtual std::unique_ptr<Table::Action> perform(Table &table);
+};
+
 class Table::SetOrderAction : public Table::Action {
 	protected:
 		std::vector<size_t> _order;
