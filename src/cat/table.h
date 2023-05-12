@@ -50,7 +50,6 @@ class Table {
 		ConstItemIterator begin() const;
 		ConstItemIterator end() const;
 
-		size_t size() const;
 		size_t items() const;
 		size_t fields() const;
 };

@@ -22,7 +22,7 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 	FieldConstructorInterface *constructor;
 	if (typeProcessor.match(fields[0], constructor) == FULL_MATCH) {
 		std::vector<std::unique_ptr<Field>> fields_;
-		fields_.reserve(size());
+		fields_.reserve(_header.size() + _items.size());
 		fields_.emplace_back(new Field(std::move(fields[0])));
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
@@ -70,6 +70,5 @@ const Item & Table::operator[](size_t item) const { return _items[item]; }
 ConstItemIterator Table::begin() const { return _items.cbegin(); }
 ConstItemIterator Table::end() const { return _items.cend(); }
 
-size_t Table::size() const { return _items.size(); }//delete this member, no longer needed
 size_t Table::items() const { return _items.size(); }
 size_t Table::fields() const { return _header[0].size(); }
