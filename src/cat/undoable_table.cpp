@@ -25,6 +25,10 @@ void UndoableTable::deleteColumn(const size_t position) {
 	_record(Table::_deleteColumn(position));
 }
 
+void UndoableTable::setField(std::string &&field, size_t item, size_t column) {
+	_record(Table::_setField(std::move(field), item, column));
+}
+
 void UndoableTable::setTitle(std::string &&title, const size_t position) {
 	_record(Table::_setTitle(std::move(title), position));
 }

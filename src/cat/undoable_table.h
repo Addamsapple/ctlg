@@ -13,6 +13,7 @@ class UndoableTable : public Table {
 		void insertColumn(std::vector<std::string> &&fields, const size_t position);
 		void deleteColumn(const size_t position);
 
+		void setField(std::string &&field, size_t item, size_t column);
 		void setTitle(std::string &&title, const size_t position);
 		
 		void sortItems(std::vector<size_t> &&columns);

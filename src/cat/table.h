@@ -23,6 +23,7 @@ class Table {
 		std::unique_ptr<Action> _deleteItem(const size_t item);
 		std::unique_ptr<Action> _insertColumn(std::vector<std::string> &&fields, const size_t position);
 		std::unique_ptr<Action> _deleteColumn(const size_t position);
+		std::unique_ptr<Action> _setField(std::string &&field, size_t item, size_t column);
 		std::unique_ptr<Action> _setTitle(std::string &&title, const size_t position);
 		std::unique_ptr<Action> _sortItems(std::vector<size_t> &&columns);
 
@@ -38,6 +39,7 @@ class Table {
 		void deleteItem(const size_t item);
 		void insertColumn(std::vector<std::string> &&fields, const size_t position);
 		void deleteColumn(const size_t position);
+		void SetField(std::string &&field, size_t item, size_t column);
 		void setTitle(std::string &&title, const size_t position);
 		//void setField()
 		//void setType()???

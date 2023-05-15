@@ -48,6 +48,10 @@ std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 	return result;
 }
 
+std::unique_ptr<Table::Action> Table::_setField(std::string &&field, size_t item, size_t column) {
+	return SetFieldAction(std::make_unique<Field>(std::move(field)), item, column).perform(*this);
+}
+
 std::unique_ptr<Table::Action> Table::_setTitle(std::string &&title, const size_t position) {
 	return SetTitleAction(std::make_unique<Field>(std::move(title)), position).perform(*this);
 }
@@ -60,6 +64,7 @@ void Table::insertItem(const std::string &item, const size_t position, const boo
 void Table::deleteItem(const size_t item) { _deleteItem(item); }
 void Table::insertColumn(std::vector<std::string> &&fields, const size_t position) { _insertColumn(std::move(fields), position); }
 void Table::deleteColumn(const size_t position) { _deleteColumn(position); }
+void Table::SetField(std::string &&field, size_t item, size_t column) { _setField(std::move(field), item, column); }
 void Table::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }
 
 const Item & Table::types() const { return _header[0]; }
