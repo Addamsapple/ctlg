@@ -5,6 +5,7 @@
 #include "delete_column.h"
 #include "edit_field.h"
 #include "edit_type.h"
+#include "set_field.h"
 
 #include "read.h"
 #include "write.h"
@@ -69,6 +70,7 @@ void loadImmediateCommands() {
 
 	ADD_IMM_RULE(Sort, "s", NUM_TOKEN);
 
+	ADD_IMM_RULE(SetField, "fs ", STR_TOKEN);
 
 	immediateProcessor.reset();
 }
