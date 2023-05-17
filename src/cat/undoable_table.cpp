@@ -5,8 +5,10 @@
 //need error checking here
 
 void UndoableTable::_record(std::unique_ptr<Table::Action> &&action) {
-	_redoableActions.clear();
-	_undoableActions.push_back(std::move(action));
+	if (action) {
+		_redoableActions.clear();
+		_undoableActions.push_back(std::move(action));
+	}
 }
 
 void UndoableTable::insertItem(const std::string &string, const size_t position, const bool ignoreErrors) {
