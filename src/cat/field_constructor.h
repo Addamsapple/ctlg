@@ -18,6 +18,7 @@ class FieldConstructor : public FieldConstructorInterface {
 	public:
 		FieldConstructor(StringVector &&arguments);
 
+		//consider making this return a unique_ptr
 		Field * construct(std::string &&string) const override;
 };
 

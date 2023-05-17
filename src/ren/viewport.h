@@ -1,6 +1,7 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
+//add effectiveElement?/effectiveSelectedElement?
 class Viewport {
 	protected:
 		int _firstElement;
