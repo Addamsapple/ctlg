@@ -6,7 +6,7 @@
 
 std::unique_ptr<Table::Action> Table::_insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
 	setReturnCode(0, "");
-	std::unique_ptr<Table::Action> result;
+	std::unique_ptr<Action> result;
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
 		result = InsertItemAction(std::move(item_), position).perform(*this);
@@ -18,7 +18,7 @@ std::unique_ptr<Table::Action> Table::_insertItem(const std::string &item, const
 
 std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
-	std::unique_ptr<Table::Action> result;
+	std::unique_ptr<Action> result;
 	FieldConstructorInterface *constructor;
 	if (typeProcessor.match(fields[0], constructor) == FULL_MATCH) {
 		std::vector<std::unique_ptr<Field>> fields_;
@@ -40,7 +40,7 @@ std::unique_ptr<Table::Action> Table::_deleteColumn(const size_t position) {
 
 std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 	setReturnCode(0, "");
-	std::unique_ptr<Table::Action> result;
+	std::unique_ptr<Action> result;
 	if (item < items())
 		result = DeleteItemAction(item).perform(*this);
 	else
@@ -49,7 +49,11 @@ std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 }
 
 std::unique_ptr<Table::Action> Table::_setField(std::string &&field, size_t item, size_t column) {
-	return SetFieldAction(std::make_unique<Field>(std::move(field)), item, column).perform(*this);
+	auto field_ = std::unique_ptr<Field>(_itemConstructor[column]->construct(std::move(field)));
+	if (returnCode() == 0)
+		return SetFieldAction(std::move(field_), item, column).perform(*this);
+	else
+		return std::unique_ptr<Action>();
 }
 
 std::unique_ptr<Table::Action> Table::_setTitle(std::string &&title, const size_t position) {
