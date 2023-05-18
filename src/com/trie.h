@@ -1,3 +1,4 @@
+#include <limits>
 #include <memory>
 #include <unordered_map>
 
@@ -7,9 +8,9 @@ struct Node {
 	std::unique_ptr<T> value;
 };
 
-static constexpr int NO_MATCH = 0;
-static constexpr int PARTIAL_MATCH = 1;
-static constexpr int FULL_MATCH = 2;
+static constexpr size_t NO_MATCH = std::numeric_limits<size_t>::max();
+static constexpr size_t PARTIAL_MATCH = NO_MATCH - 1;
+static constexpr size_t FULL_MATCH = PARTIAL_MATCH - 2;
 
 template<typename T>
 class Matcher {
@@ -20,10 +21,10 @@ class Matcher {
 
 		Matcher();
 
-		void add(const std::string &string, T value);
+		void add(std::string::const_iterator begin, std::string::const_iterator end, T value);
 
-		int match(char character);
-		int match(const std::string &string);
+		size_t match(char character);
+		size_t match(std::string::const_iterator begin, std::string::const_iterator end);
 
 		T * get();
 

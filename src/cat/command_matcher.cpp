@@ -16,10 +16,10 @@ bool CommandMatcher::_addToPrefix(char character) {
 }
 
 void CommandMatcher::add(const std::string &string, CommandConstructor constructor) {
-	_matcher.add(string, constructor);
+	_matcher.add(string.begin(), string.end(), constructor);
 }
 
-int CommandMatcher::match(char character, Command **command) {
+size_t CommandMatcher::match(char character, Command **command) {
 	if (!_addToPrefix(character)) {
 		auto result = _matcher.match(character);
 		if (result == FULL_MATCH)
@@ -31,12 +31,17 @@ int CommandMatcher::match(char character, Command **command) {
 	return PARTIAL_MATCH;
 }
 
-int CommandMatcher::match(const std::string &string, Command **) {
-	auto character = string.begin();
-	while (character != string.end() && _addToPrefix(*character))
-		character++;
-	_matcher.match(iterator, string.end());
-	//check return value, and decide what to do from there.
+size_t CommandMatcher::match(const std::string &string, Command **command) {
+	auto iterator = string.begin();
+	while (iterator != string.end() && _addToPrefix(*iterator))
+		iterator++;
+	size_t result = _matcher.match(iterator, string.end());
+	if (result < PARTIAL_MATCH) {
+		*command = (*_matcher.get())({});//no parameters passed yet
+		result = FULL_MATCH;
+	}
+	reset();
+	return result;
 }
 
 void CommandMatcher::reset() {

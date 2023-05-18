@@ -13,8 +13,8 @@ class CommandMatcher {
 	public:
 		void add(const std::string &string, CommandConstructor constructor);
 
-		int match(char character, Command **command);
-		int match(const std::string &string, Command **command);
+		size_t match(char character, Command **command);
+		size_t match(const std::string &string, Command **command);
 
 		void reset();
 };
