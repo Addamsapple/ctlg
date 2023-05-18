@@ -5,9 +5,7 @@
 //class Action;
 #include "table_actions.h"
 
-class DeleteItem : public UndoableCommand {
-	private:
+UNDOABLE_COMMAND(
+	DeleteItem,
 		int _position;
-
-	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
-};
+);

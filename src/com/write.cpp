@@ -3,8 +3,9 @@
 #include "interface.h"
 #include "write.h"
 
-bool Write::execute(StringVector arguments) {
-	std::ofstream file(arguments[0]);
+Write::Write(std::vector<std::string> args) : _file(std::move(args[0])) {}
+bool Write::execute() {
+	std::ofstream file(_file);
 	file << table.types() << '\n';
 	file << table.titles() << '\n';
 	for (auto item = table.begin(); item != table.end(); item++)

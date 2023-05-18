@@ -4,13 +4,13 @@
 #include "number.h"
 
 //need to extend token/matcher functionality to accomodate variadic string lists, for items that may have an arbitrary number of fields
-
-bool InsertItem::execute(StringVector arguments) {
-	if (arguments.size() == 1) {
-		_position = Number<size_t>::strton(arguments[0]);
+InsertItem::InsertItem(std::vector<std::string> args) : _position(itemView.firstElement() + itemView.selectedElement()) {}
+bool InsertItem::execute() {
+	/*if (arguments.size() == 1) {
+		//_position = Number<size_t>::strton(arguments[0]);
 		if (returnCode() != 0)
 			return false;
-	} else
+	} else*/
 		_position = itemView.firstElement() + itemView.selectedElement();
 	table.insertItem(repeatField("", table.fields()), _position, true);
 	return true;

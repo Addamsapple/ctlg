@@ -6,8 +6,9 @@
 #include "render.h"
 #include "return.h"
 
+
 //rename class to EditItemField???
-bool EditField::execute(StringVector arguments) {
+//bool EditField::execute(StringVector arguments) {
 	/*_item = itemView.firstElement() + itemView.selectedElement();
 	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();//rename
 	setOutput(table[_item][_position]->string());
@@ -19,12 +20,12 @@ bool EditField::execute(StringVector arguments) {
 		}
 	}
 	return false;*/
-}
+//}
 
-void EditField::undo() {
+/*void EditField::undo() {
 	//table[_item][_position].swap(_field);
 }
 
 void EditField::redo() {
 	//table[_item][_position].swap(_field);
-}
+}*/

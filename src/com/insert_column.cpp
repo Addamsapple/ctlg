@@ -3,10 +3,12 @@
 #include "populate.h"
 #include "return.h"
 
-bool InsertColumn::execute(StringVector arguments) {
-	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
+InsertColumn::InsertColumn(std::vector<std::string> args) : _type(std::move(args[0])),  _position(itemColumnView.firstElement() + itemColumnView.selectedElement()) {}
+bool InsertColumn::execute() {
+	//_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	std::vector<std::string> fields;
-	fields.push_back(std::move(arguments[0]));
+	//fields.push_back(std::move(arguments[0]));
+	fields.push_back(std::move(_type));
 	fields.push_back(std::string());
 	fields.insert(fields.end(), table.items(), std::string());
 	table.insertColumn(std::move(fields), _position);

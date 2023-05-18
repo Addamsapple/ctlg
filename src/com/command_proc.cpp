@@ -7,14 +7,17 @@
 #include "edit_type.h"
 #include "set_field.h"
 
+#include "navigation_commands.h"
+
 #include "read.h"
 #include "write.h"
 #include "sort.h"
 
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
+//WARNING: pass by value at the moment
 template<typename T>
-Command * commandConstructor() {
-	return new T();
+Command * commandConstructor(std::vector<std::string> args) {
+	return new T(args);
 }
 
 #define ADD_INC_RULE(command, ...)\
@@ -38,12 +41,12 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE(MoveDown, NUM_TOKEN, 'j');
 	ADD_INC_RULE(MoveLeft, NUM_TOKEN, 'h');
 	ADD_INC_RULE(MoveRight, NUM_TOKEN, 'l');
-	ADD_INC_RULE(GoToFirstItem, "gg");
-	ADD_INC_RULE(GoToLastItem, 'G');
-	ADD_INC_RULE(GoToItem, NUM_TOKEN, 'G');
-	ADD_INC_RULE(GoToFirstItemColumn, '0');
-	ADD_INC_RULE(GoToLastItemColumn, '$');
-	ADD_INC_RULE(GoToItemColumn, NUM_TOKEN, '|');
+	ADD_INC_RULE(MoveToFirstItem, "gg");
+	ADD_INC_RULE(MoveToLastItem, 'G');
+	ADD_INC_RULE(MoveToItem, NUM_TOKEN, 'G');
+	ADD_INC_RULE(MoveToFirstColumn, '0');
+	ADD_INC_RULE(MoveToLastColumn, '$');
+	ADD_INC_RULE(MoveToColumn, NUM_TOKEN, '|');
 	ADD_INC_RULE(ViewField, 'v');
 	ADD_INC_RULE(DeleteItem, "dd");
 	ADD_INC_RULE(Undo, 'u');
@@ -52,8 +55,8 @@ void loadIncrementalCommands() {
 
 	ADD_INC_RULE(DeleteColumn, "dc");
 
-	ADD_INC_RULE(EditField, "ec");
-	ADD_INC_RULE(EditType, "et");
+	//ADD_INC_RULE(EditField, "ec");
+	//ADD_INC_RULE(EditType, "et");
 
 	incrementalProcessor.reset();
 }

@@ -4,6 +4,7 @@
 #include "item.h"
 #include "render.h"
 
+Read::Read(std::vector<std::string> args) : _filename(std::move(args[0])) {}
 void Read::_loadTypes() {
 	std::string types;
 	std::getline(_file, types);
@@ -32,9 +33,9 @@ void Read::_loadItems() {
 		table.insertItem(item, table.items(), true);
 }
 
-bool Read::execute(StringVector arguments) {
+bool Read::execute() {
 	//table.clear();
-	_file.open(arguments[0]);
+	_file.open(_filename);
 	_loadTypes();
 	_loadTitles();
 	_loadItems();

@@ -2,7 +2,7 @@
 
 #include "command.h"
 #include "field_constructor.h"
-
+/*
 class EditType : public UndoableCommand {
 	private:
 		size_t _position;
@@ -13,4 +13,4 @@ class EditType : public UndoableCommand {
 		void _swap();
 
 	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
-};
+};*/

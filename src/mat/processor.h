@@ -28,7 +28,7 @@ class PatternProcessor {
 		void reset();
 };
 
-using CommandConstructor = Command * (*)();
+using CommandConstructor = Command * (*)(std::vector<std::string>);
 using FieldConstructorConstructor = FieldConstructorInterface* (*)(StringVector &&);
 
 template<typename T, typename... Ts>

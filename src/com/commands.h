@@ -5,28 +5,15 @@
 
 //consider including Command/variation in name of each command class
 
-B_COMMAND(ProcessImmediateCommand);
-B_COMMAND(ScrollUp);
-B_COMMAND(ScrollDown);
-B_COMMAND(ScrollLeft);
-B_COMMAND(ScrollRight);
-B_COMMAND(MoveUp);
-B_COMMAND(MoveDown);
-B_COMMAND(MoveLeft);
-B_COMMAND(MoveRight);
-B_COMMAND(GoToFirstItem);
-B_COMMAND(GoToLastItem);
-B_COMMAND(GoToItem);
-B_COMMAND(GoToFirstItemColumn);
-B_COMMAND(GoToLastItemColumn);
-B_COMMAND(GoToItemColumn);
-B_COMMAND(ViewField);
 
-B_COMMAND(WriteFile);
+COMMAND(ProcessImmediateCommand);
+COMMAND(ViewField);
 
-B_COMMAND(Quit);
+COMMAND(WriteFile);
 
-B_COMMAND(Undo);
-B_COMMAND(Redo);
+COMMAND(Quit);
+
+COMMAND(Undo);
+COMMAND(Redo);
 
 #endif

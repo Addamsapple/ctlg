@@ -8,9 +8,7 @@
 //the class does not need complex input processing logic to determine if a flag is passed, and does not need to correspond to a complex pattern (just two pattersns "i" and "a", for example)
 //
 
-class InsertItem : public UndoableCommand {
-	private:
-		int _position;
-
-	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
-};
+UNDOABLE_COMMAND(
+	InsertItem,
+		size_t _position;
+);

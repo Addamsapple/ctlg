@@ -7,7 +7,7 @@
 #include "render.h"
 #include "type_proc.h"
 
-bool EditType::execute(StringVector arguments) {
+//bool EditType::execute(StringVector arguments) {
 /*	_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	_fields.reserve(table.items());
 	setOutput(table.types()[_position]->string());
@@ -29,20 +29,20 @@ bool EditType::execute(StringVector arguments) {
 		}
 		_fields.clear();
 	}*/
-	return false;
-}
+	//return false;
+//}
 
-void EditType::undo() {
+/*void EditType::undo() {
 	_swap();
 }
 
 void EditType::redo() {
 	_swap();
 }
-
-void EditType::_swap() {
+*/
+//void EditType::_swap() {
 	/*table.types()[_position].swap(_type);
 	table.fieldConstructor(_position).swap(_constructor);
 	for (size_t item = 0; item < _fields.size(); item++)
 		table[item][_position].swap(_fields[item]);*/
-}
+//}

@@ -5,9 +5,7 @@
 
 #include "table_actions.h"
 
-class DeleteColumn : public UndoableCommand {
-	private:
+UNDOABLE_COMMAND(
+	DeleteColumn,
 		size_t _position;
-
-	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
-};
+);

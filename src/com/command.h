@@ -4,34 +4,40 @@
 #include <string>
 #include <vector>
 
-using StringVector = std::vector<std::string>;
-
 class Command {
 	public:
-		//should this not take a reference to a string vector instead?
-		virtual bool execute(StringVector arguments) = 0;
 		virtual ~Command() = default;
+		//should this not take a reference to a string vector instead?
+		virtual bool execute() = 0;
+		virtual bool undoable();
 };
-
-//make subclass that accepts  function callback for simple commands, then dont need to create a new class for each commnad, just the 
-#define B_COMMAND(command)\
-	class command : public Command {\
-		public:\
-		virtual bool execute(StringVector arguments) override;\
-	};
 
 class UndoableCommand : public Command {
 	public:
-		virtual bool execute(StringVector arguments) override = 0;
-		
+		virtual bool execute() override = 0;
+		virtual bool undoable() final override;
 		virtual void undo() = 0;
 		virtual void redo() = 0;
 };
 
-#define OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS\
-	public:\
-		virtual bool execute(StringVector arguments) override;\
-		virtual void undo() override;\
-		virtual void redo() override;
+#define COMMAND(command, ...)\
+	class command : public Command {\
+		protected:\
+			__VA_ARGS__\
+		public:\
+			command(std::vector<std::string> args);\
+			virtual bool execute() override;\
+	}\
+
+#define UNDOABLE_COMMAND(command, ...)\
+	class command : public UndoableCommand {\
+		protected:\
+			__VA_ARGS__\
+		public:\
+			command(std::vector<std::string> args);\
+			virtual bool execute() override;\
+			virtual void undo() override;\
+			virtual void redo() override;\
+	}\
 
 #endif

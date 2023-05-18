@@ -3,6 +3,7 @@
 #include "command.h"
 #include "field.h"
 
+/*
 class EditField : public UndoableCommand {
 	private:
 		//think of better member names???
@@ -11,4 +12,4 @@ class EditField : public UndoableCommand {
 		std::unique_ptr<Field> _field;
 
 	OVERRIDE_UNDOABLE_MEMBER_FUNCTIONS
-};
+};*/
