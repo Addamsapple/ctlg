@@ -11,7 +11,7 @@
 #include "type_proc.h"
 #include "undo.h"
 
-ProcessImmediateCommand::ProcessImmediateCommand(std::string args) {}
+ProcessImmediateCommand::ProcessImmediateCommand(std::string modifier, std::string args) {}
 bool ProcessImmediateCommand::execute() {
 	setIOColourPair(NORMAL_IO);
 	setOutput(":");
@@ -26,14 +26,14 @@ bool ProcessImmediateCommand::execute() {
 }
 
 //change choice of string to int conversion function
-ViewField::ViewField(std::string args) {}
+ViewField::ViewField(std::string modifier, std::string args) {}
 bool ViewField::execute() {
 	setOutput(table[itemView.firstElement() + itemView.selectedElement()].get(itemColumnView.firstElement() + itemColumnView.selectedElement()).string());
 	return true;
 }
 
 //rather modify some global variable, so that program termination is easier to follow
-Quit::Quit(std::string args) {}
+Quit::Quit(std::string modifier, std::string args) {}
 bool Quit::execute() {
 	terminate();
 	exit(0);
@@ -42,13 +42,13 @@ bool Quit::execute() {
 
 #include "commands.h"
 
-Undo::Undo(std::string args) {}
+Undo::Undo(std::string modifier, std::string args) {}
 bool Undo::execute() {
 	undoCommand();
 	return true;
 }
 
-Redo::Redo(std::string args) {}
+Redo::Redo(std::string modifier, std::string args) {}
 bool Redo::execute() {
 	redoCommand();
 	return true;

@@ -62,4 +62,4 @@ T * Matcher<T>::get() { return _node->value.get(); }
 template<typename T>
 void Matcher<T>::reset() { _node = &_trie; }
 
-template class Matcher<Command * (*)(std::string)>;
+template class Matcher<Command * (*)(std::string, std::string)>;

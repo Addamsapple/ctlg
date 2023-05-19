@@ -1,7 +1,7 @@
 #include "command_matcher.h"
 
 #include <cctype>
-
+#include <iostream>//testing
 bool CommandMatcher::_addToPrefix(char character) {
 	if (!_prefixParsed) {
 		if (isdigit(character)) {
@@ -10,6 +10,7 @@ bool CommandMatcher::_addToPrefix(char character) {
 		}
 		if (_prefix.size() == 0)
 			_prefix = "1";
+		std::cerr << "prefix: " << _prefix << '\n';
 		_prefixParsed = true;
 	}
 	return false;
@@ -23,7 +24,7 @@ size_t CommandMatcher::match(char character, Command **command) {
 	if (!_addToPrefix(character)) {
 		auto result = _matcher.match(character);
 		if (result == FULL_MATCH_)
-			*command = (*_matcher.get())("");
+			*command = (*_matcher.get())(_prefix, "");
 		if (result != PARTIAL_MATCH_)
 			reset();
 		return result;
@@ -38,7 +39,7 @@ size_t CommandMatcher::match(const std::string &string, Command **command) {
 	size_t result = _matcher.match(iterator, string.end());
 	std::cerr << "result: " << result << '\n';
 	if (result < PARTIAL_MATCH_) {
-		*command = (*_matcher.get())(std::string(iterator + result, string.end()));
+		*command = (*_matcher.get())(_prefix, std::string(iterator + result, string.end()));
 		result = FULL_MATCH_;
 	}
 	reset();
@@ -48,4 +49,5 @@ size_t CommandMatcher::match(const std::string &string, Command **command) {
 void CommandMatcher::reset() {
 	_matcher.reset();
 	_prefix.clear();
+	_prefixParsed = false;
 }

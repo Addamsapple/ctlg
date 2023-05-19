@@ -16,8 +16,8 @@
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 //WARNING: pass by value at the moment
 template<typename T>
-Command * commandConstructor(std::string args) {
-	return new T(args);
+Command * commandConstructor(std::string modifier, std::string arguments) {
+	return new T(modifier, arguments);
 }
 
 #define ADD_INC_RULE(string, command)\
@@ -26,11 +26,26 @@ Command * commandConstructor(std::string args) {
 #define ADD_IMM_RULE(string, command)\
 	immediateProcessor.add(string, commandConstructor<command>)
 void loadIncrementalCommands() {
-
+	ADD_INC_RULE("K", ScrollUp);
+	ADD_INC_RULE("J", ScrollDown);
+	ADD_INC_RULE("H", ScrollLeft);
+	ADD_INC_RULE("L", ScrollRight);
 	ADD_INC_RULE("k", MoveUp);
 	ADD_INC_RULE("j", MoveDown);
 	ADD_INC_RULE("h", MoveLeft);
 	ADD_INC_RULE("l", MoveRight);
+
+	ADD_INC_RULE("gg", MoveToFirstItem);
+	ADD_INC_RULE("G", MoveToItem);
+
+	ADD_INC_RULE("|", MoveToColumn);
+	ADD_INC_RULE("$", MoveToLastColumn);
+	
+	ADD_INC_RULE("ii", InsertItem);
+	ADD_INC_RULE("dd", DeleteItem);
+	ADD_INC_RULE("dc", DeleteColumn);
+	ADD_INC_RULE("u", Undo);
+	ADD_INC_RULE("r", Redo);
 	/*ADD_INC_RULE(ProcessImmediateCommand, ':');
 	ADD_INC_RULE(ScrollUp, 'K');
 	ADD_INC_RULE(ScrollDown, 'J');

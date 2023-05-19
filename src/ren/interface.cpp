@@ -12,11 +12,11 @@ void run(const std::string &command) {
 	loadTypes();
 	try {
 		initialize();
-		Read read(command);
+		Read read("", command);
 		read.execute();
-		//Command *command;
-		//if (immediateProcessor.match("s2", &command) == FULL_MATCH)
-		//immediateProcessor.match("s2", &command);
+		Command *command;
+		//if (incrementalProcessor.match("s2", &command) == FULL_MATCH)
+		//incrementalProcessor.match("100j", &command);
 			//command->execute();
 
 

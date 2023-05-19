@@ -5,7 +5,7 @@
 
 #include "command.h"
 
-using CommandConstructor = Command * (*)(std::string);
+using CommandConstructor = Command * (*)(std::string, std::string);
 
 class CommandMatcher {
 	protected:
