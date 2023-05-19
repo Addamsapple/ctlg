@@ -16,7 +16,7 @@
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 //WARNING: pass by value at the moment
 template<typename T>
-Command * commandConstructor(std::vector<std::string> args) {
+Command * commandConstructor(std::string args) {
 	return new T(args);
 }
 
@@ -61,19 +61,24 @@ void loadIncrementalCommands() {
 	incrementalProcessor.reset();
 }
 
-#define ADD_IMM_RULE(command, ...)\
-	immediateProcessor.add(commandConstructor<command>, PatternMatcher(__VA_ARGS__))
+//#define ADD_IMM_RULE(command, ...)\
+//	immediateProcessor.add(commandConstructor<command>, PatternMatcher(__VA_ARGS__))
+
+#define ADD_IMM_RULE(string, command)\
+	immediateProcessor.add(string, commandConstructor<command>)
 
 void loadImmediateCommands() {
-	ADD_IMM_RULE(Read, "e ", STR_TOKEN);
-	ADD_IMM_RULE(Quit, ":q");
+	ADD_IMM_RULE("e", Read);
+	//ADD_IMM_RULE(Read, "e ", STR_TOKEN);
+	//ADD_IMM_RULE(Quit, ":q");
 
-	ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
-	ADD_IMM_RULE(Write, "w ", STR_TOKEN);
+	//ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
+	//ADD_IMM_RULE(Write, "w ", STR_TOKEN);
 
-	ADD_IMM_RULE(Sort, "s", NUM_TOKEN);
+	ADD_IMM_RULE("s", Sort);
+	//ADD_IMM_RULE(Sort, "s", NUM_TOKEN);
 
-	ADD_IMM_RULE(SetField, "fs ", STR_TOKEN);
+	//ADD_IMM_RULE(SetField, "fs ", STR_TOKEN);
 
 	immediateProcessor.reset();
 }

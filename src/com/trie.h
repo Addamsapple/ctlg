@@ -1,3 +1,6 @@
+#ifndef MATCHER__H
+#define MATCHER__H
+
 #include <limits>
 #include <memory>
 #include <unordered_map>
@@ -8,9 +11,9 @@ struct Node {
 	std::unique_ptr<T> value;
 };
 
-static constexpr size_t NO_MATCH = std::numeric_limits<size_t>::max();
-static constexpr size_t PARTIAL_MATCH = NO_MATCH - 1;
-static constexpr size_t FULL_MATCH = PARTIAL_MATCH - 2;
+static constexpr size_t NO_MATCH_ = std::numeric_limits<size_t>::max();
+static constexpr size_t PARTIAL_MATCH_ = NO_MATCH_ - 1;
+static constexpr size_t FULL_MATCH_ = PARTIAL_MATCH_ - 2;
 
 template<typename T>
 class Matcher {
@@ -30,3 +33,5 @@ class Matcher {
 
 		void reset();
 };
+
+#endif

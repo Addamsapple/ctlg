@@ -5,13 +5,22 @@
 #include "populate.h"
 #include "render.h"
 #include "type_proc.h"
+#include "read.h"
 
 void run(const std::string &command) {
 	loadCommands();
 	loadTypes();
 	try {
 		initialize();
-		immediateProcessor.match(command);
+		Read read(command);
+		read.execute();
+		Command *command;
+		//if (immediateProcessor.match("s2", &command) == FULL_MATCH)
+		immediateProcessor.match("s2", &command);
+			command->execute();
+
+
+		//immediateProcessor.match(command);
 		//auto command = LoadCommand(
 		populateScreen();
 		doupdate();
@@ -22,8 +31,8 @@ void run(const std::string &command) {
 				itemView.refresh();
 				itemColumnView.refresh();
 				ioView.refresh();
-			} else
-				incrementalProcessor.match(character);
+			}// else
+				//incrementalProcessor.match(character);
 			populateScreen();
 			doupdate();
 		}

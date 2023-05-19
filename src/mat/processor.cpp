@@ -49,7 +49,8 @@ void PatternProcessor::reset() {
 template<>
 void Processor<CommandConstructor>::invoke(const int rule) {
 	//memory leak
-	Command *command = _callbacks[rule](_processor._matchers[rule].arguments());
+	//Command *command = _callbacks[rule](_processor._matchers[rule].arguments());
+	Command *command = _callbacks[rule]("bruh");
 	command->execute();
 	if (command->undoable())
 		recordCommand(static_cast<UndoableCommand *>(command));

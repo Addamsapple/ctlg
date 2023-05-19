@@ -2,7 +2,9 @@
 #include "number.h"
 #include "interface.h"
 
-Sort::Sort(std::vector<std::string> args) : _column(Number<size_t>::strton(args[0])) {}
+#include <iostream>
+
+Sort::Sort(std::string args) : _column(Number<size_t>::strton(args)) { std::cerr << args << '\n' << _column << '\n'; }
 bool Sort::execute() {
 	std::vector<size_t> columns;
 	//columns.push_back(Number<size_t>::strton(arguments[0]));

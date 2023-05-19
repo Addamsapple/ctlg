@@ -1,7 +1,11 @@
-#include "command.h"
+#ifndef COMMAND_MATCHER_H
+#define COMMAND_MATCHER_H
+
 #include "trie.h"
 
-using CommandConstructor = Command * (*)(std::vector<std::string>);
+#include "command.h"
+
+using CommandConstructor = Command * (*)(std::string);
 
 class CommandMatcher {
 	protected:
@@ -18,3 +22,5 @@ class CommandMatcher {
 
 		void reset();
 };
+
+#endif

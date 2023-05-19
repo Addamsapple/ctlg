@@ -4,7 +4,7 @@
 #include "item.h"
 #include "render.h"
 
-Read::Read(std::vector<std::string> args) : _filename(std::move(args[0])) {}
+Read::Read(std::string args) : _filename(std::move(args)) {}
 void Read::_loadTypes() {
 	std::string types;
 	std::getline(_file, types);

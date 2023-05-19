@@ -3,7 +3,7 @@
 #include "populate.h"
 #include "return.h"
 
-InsertColumn::InsertColumn(std::vector<std::string> args) : _type(std::move(args[0])),  _position(itemColumnView.firstElement() + itemColumnView.selectedElement()) {}
+InsertColumn::InsertColumn(std::string args) : _type(std::move(args)),  _position(itemColumnView.firstElement() + itemColumnView.selectedElement()) {}
 bool InsertColumn::execute() {
 	//_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
 	std::vector<std::string> fields;

@@ -25,7 +25,7 @@ class UndoableCommand : public Command {
 		protected:\
 			__VA_ARGS__\
 		public:\
-			command(std::vector<std::string> args);\
+			command(std::string args);\
 			virtual bool execute() override;\
 	}\
 
@@ -34,7 +34,7 @@ class UndoableCommand : public Command {
 		protected:\
 			__VA_ARGS__\
 		public:\
-			command(std::vector<std::string> args);\
+			command(std::string args);\
 			virtual bool execute() override;\
 			virtual void undo() override;\
 			virtual void redo() override;\
