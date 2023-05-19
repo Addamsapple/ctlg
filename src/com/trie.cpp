@@ -22,37 +22,30 @@ template<typename T>
 size_t Matcher<T>::match(char character) {
 	if (_node == nullptr)
 		return NO_MATCH_;
-	auto nextNode = _node->children.find(character);
-	if (nextNode == _node->children.end())
+	auto nodeIterator = _node->children.find(character);
+	if (nodeIterator == _node->children.end())
 		return NO_MATCH_;
-	_node = &(*nextNode->second);
+	//_node = &(*nodeIterator->second);
+	_node = nodeIterator->second.get();
 	if (_node->value)
 		return FULL_MATCH_;
 	return PARTIAL_MATCH_;
 }
 
 template<typename T>
-size_t Matcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) {
-	Node<T> *node = nullptr;
+std::string::const_iterator Matcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) {
 	_node = &_trie;
-	size_t result = 0;
+	auto nextNode = _node;
+	auto result = begin;
 	for (auto iterator = begin; begin != end; iterator++) {
-		int matched = match(*iterator);
-		if (matched == NO_MATCH_)
-			break;
-		if (matched == FULL_MATCH_) {
-			node = _node;
-			result = iterator - begin + 1;
+		auto nodeIterator = nextNode->children.find(*iterator);
+		if (nodeIterator == nextNode->children.end()) break;
+		nextNode = nodeIterator->second.get();
+		if (nextNode->value.get()) {
+			_node = nextNode;
+			result = iterator + 1;
 		}
 	}
-	if (node == nullptr) {
-		if (result == 0)
-			return NO_MATCH_;
-		return PARTIAL_MATCH_;//this doesnt make any sense?
-							  //result = 0 implies no full matches have been found, but a partial match may have been
-							  //therefore node == nullptr implies result == 0 implies NO_MATCH returned
-	}
-	_node = node;
 	return result;
 }
 

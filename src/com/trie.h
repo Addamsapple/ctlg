@@ -27,7 +27,8 @@ class Matcher {
 		void add(std::string::const_iterator begin, std::string::const_iterator end, T value);
 
 		size_t match(char character);
-		size_t match(std::string::const_iterator begin, std::string::const_iterator end);
+
+		std::string::const_iterator match(std::string::const_iterator begin, std::string::const_iterator end);
 
 		T * get();
 
