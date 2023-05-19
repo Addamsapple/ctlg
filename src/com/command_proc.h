@@ -7,7 +7,8 @@
 
 #include "command_matcher.h"
 
-inline Processor<CommandConstructor> incrementalProcessor;
+//inline Processor<CommandConstructor> incrementalProcessor;
+inline CommandMatcher incrementalProcessor;
 //inline Processor<CommandConstructor> immediateProcessor;
 //
 inline CommandMatcher immediateProcessor;

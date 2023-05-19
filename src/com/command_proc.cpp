@@ -20,11 +20,18 @@ Command * commandConstructor(std::string args) {
 	return new T(args);
 }
 
-#define ADD_INC_RULE(command, ...)\
-	incrementalProcessor.add(commandConstructor<command>, PatternMatcher(__VA_ARGS__))
+#define ADD_INC_RULE(string, command)\
+	incrementalProcessor.add(string, commandConstructor<command>)
 
+#define ADD_IMM_RULE(string, command)\
+	immediateProcessor.add(string, commandConstructor<command>)
 void loadIncrementalCommands() {
-	ADD_INC_RULE(ProcessImmediateCommand, ':');
+
+	ADD_INC_RULE("k", MoveUp);
+	ADD_INC_RULE("j", MoveDown);
+	ADD_INC_RULE("h", MoveLeft);
+	ADD_INC_RULE("l", MoveRight);
+	/*ADD_INC_RULE(ProcessImmediateCommand, ':');
 	ADD_INC_RULE(ScrollUp, 'K');
 	ADD_INC_RULE(ScrollDown, 'J');
 	ADD_INC_RULE(ScrollLeft, 'H');
@@ -56,7 +63,7 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE(DeleteColumn, "dc");
 
 	//ADD_INC_RULE(EditField, "ec");
-	//ADD_INC_RULE(EditType, "et");
+	//ADD_INC_RULE(EditType, "et");*/
 
 	incrementalProcessor.reset();
 }

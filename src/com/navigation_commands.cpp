@@ -48,6 +48,7 @@ bool MoveToItem::execute() {
 MoveToFirstColumn::MoveToFirstColumn(std::string) {}
 bool MoveToFirstColumn::execute() {
 	itemColumnView.selectElement(0);
+	return true;
 }
 
 MoveToLastColumn::MoveToLastColumn(std::string) {}
