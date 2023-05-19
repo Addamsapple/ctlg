@@ -7,6 +7,9 @@
 
 using CommandConstructor = Command * (*)(std::string, std::string);
 
+//make abstract class
+//then make BufferedCommandMatcher
+//and UnbufferedCommandMatcher, which just have different match() functions.
 class CommandMatcher {
 	protected:
 		Matcher<CommandConstructor> _matcher;

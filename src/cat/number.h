@@ -4,7 +4,7 @@
 #include "field.h"
 
 //consider moving rounding logic to a decimal class?
-template<typename Type>
+template<typename Type>//just use T instead of Type
 class Number : public Field {
 	protected:
 		Type _value;
@@ -20,6 +20,20 @@ class Number : public Field {
 		int compare(const Field &field) const override;
 };
 
-#include "number_t.cpp"
+template<typename T>
+class NumberFactory : public FieldFactory{
+	protected:
+		int _precision;
+
+		Field * (NumberFactory<T>::*_callback)(std::string) const;
+
+		Field * _createWithArgs(std::string field) const;
+		Field * _createWithoutArgs(std::string field) const;
+	public:
+		NumberFactory(std::string arguments);
+		virtual Field * create(std::string number) const override;
+};
+
+//#include "number_t.cpp"
 
 #endif

@@ -12,7 +12,7 @@ std::unique_ptr<Table::Action> Table::InsertItemAction::perform(Table &table) {
 	return std::unique_ptr<Table::Action>(new DeleteItemAction(_index));
 }
 
-Table::InsertColumnAction::InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldConstructorInterface> &&fieldConstructor, size_t column) :
+Table::InsertColumnAction::InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldFactory> &&fieldConstructor, size_t column) :
 		_fields(std::move(fields)),
 		_fieldConstructor(std::move(fieldConstructor)),
 		_column(column) {}

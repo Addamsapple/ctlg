@@ -1,6 +1,7 @@
 #include <iomanip>
 #include <stdexcept>
 
+#include "number.h"
 #include "return.h"
 
 //opportunity to make this a variadic template function
@@ -55,3 +56,6 @@ int Number<Type>::compare(const Field &field) const {
 	return (_value > static_cast<const Number<Type> &>(field)._value) - (_value < static_cast<const Number<Type> &>(field)._value);
 }
 
+template class Number<size_t>;
+template class Number<long>;
+template class Number<float>;

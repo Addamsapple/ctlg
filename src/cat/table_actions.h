@@ -27,10 +27,10 @@ class Table::InsertItemAction : public Table::Action {
 class Table::InsertColumnAction : public Table::Action {
 	protected:
 		std::vector<std::unique_ptr<Field>> _fields;
-		std::unique_ptr<FieldConstructorInterface> _fieldConstructor;
+		std::unique_ptr<FieldFactory> _fieldConstructor;
 		size_t _column;
 	public:
-		InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldConstructorInterface> &&fieldConstructor, size_t column);
+		InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldFactory> &&fieldConstructor, size_t column);
 
 		virtual std::unique_ptr<Table::Action> perform(Table &table);
 };

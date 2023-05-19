@@ -20,4 +20,13 @@ class Field {
 		size_t length() const;
 };
 
+class FieldFactory {
+	public:
+		FieldFactory(std::string);
+
+		virtual Field * create(std::string field) const;
+};
+
+using FieldFactoryConstructor = FieldFactory * (*)(std::string);
+
 #endif

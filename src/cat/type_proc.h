@@ -3,8 +3,10 @@
 
 #include "item.h"
 #include "processor.h"
+#include "type_matcher.h"
 
-inline Processor<FieldConstructorConstructor, FieldConstructorInterface *&> typeProcessor;
+//inline Processor<FieldConstructorConstructor, FieldConstructorInterface *&> typeProcessor;
+inline TypeMatcher typeProcessor;
 
 void loadTypes();
 

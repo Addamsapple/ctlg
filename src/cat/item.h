@@ -11,7 +11,7 @@ using FieldVector = std::vector<std::unique_ptr<Field>>;
 using FieldIterator = FieldVector::iterator;
 using ConstFieldIterator = FieldVector::const_iterator;
 
-using ItemConstructor = std::vector<std::unique_ptr<FieldConstructorInterface>>;
+using ItemConstructor = std::vector<std::unique_ptr<FieldFactory>>;
 
 //make delete Field return deleted field?
 
@@ -37,7 +37,7 @@ class Item {
 		Item(const std::string &string, const size_t size);
 		Item(const std::string &string);
 
-		void insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position);
+		void insertField(std::string &&string, const FieldFactory &constructor, const size_t position);
 		void insertField(std::string &&string, const size_t position);
 		void insertField(std::unique_ptr<Field> &&field, const size_t position);
 

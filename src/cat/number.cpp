@@ -1,5 +1,7 @@
 #include "number.h"
 
+#include "return.h"
+
 long _strtol(const char *str, char **str_end) {
 	return strtol(str, str_end, 10);
 }
@@ -14,6 +16,18 @@ unsigned long _strtoul(const char *str, char **str_end) {
 
 unsigned long long _strtoull(const char *str, char **str_end) {
 	return strtoul(str, str_end, 10);
+}
+
+template<typename Type, Type (*callback)(const char *, char **)>
+Type _strton(const std::string &string) {
+	setReturnCode(0, "");
+	char *pointer;
+	Type result = callback(string.c_str(), &pointer);
+	if (*pointer != '\0' || string.size() == 0)
+		setReturnCode(420, "Invalid number format");
+	if (errno == ERANGE)
+		setReturnCode(69420, "Number out of range");
+	return result;
 }
 
 template<>

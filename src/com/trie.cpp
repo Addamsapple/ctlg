@@ -1,5 +1,6 @@
 #include "trie.h"
 
+#include "field.h"
 #include "command.h"
 
 template<typename T>
@@ -56,3 +57,4 @@ template<typename T>
 void Matcher<T>::reset() { _node = &_trie; }
 
 template class Matcher<Command * (*)(std::string, std::string)>;
+template class Matcher<FieldFactory * (*)(std::string)>;

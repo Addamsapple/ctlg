@@ -21,7 +21,7 @@ Item::Item(StringVector &&item, const ItemConstructor &constructor) : Item(const
 		returnMessage_ = "too many fields";
 	}
 	for (size_t field = 0; field < constructor.size(); field++) {
-		_fields.emplace_back(constructor[field]->construct(std::move(std::move(item[field]))));
+		_fields.emplace_back(constructor[field]->create(std::move(std::move(item[field]))));
 		if (returnCode() != 0) {
 			returnMessage_ += "|f" + std::to_string(field) + ":" + returnMessage();
 			returnCode_ = std::max(returnCode_, returnCode());
@@ -50,7 +50,7 @@ Item::Item(const std::string &string, const ItemConstructor &constructor) : Item
 Item::Item(const std::string &string, const size_t fields) : Item(splitItem(string), fields) {}
 Item::Item(const std::string &string) : Item(splitItem(string)) {}
 
-void Item::insertField(std::string &&string, const FieldConstructorInterface &constructor, const size_t position) { _fields.insert(_fields.begin() + position, std::unique_ptr<Field>(constructor.construct(std::move(string)))); }
+void Item::insertField(std::string &&string, const FieldFactory &constructor, const size_t position) { _fields.insert(_fields.begin() + position, std::unique_ptr<Field>(constructor.create(std::move(string)))); }
 
 void Item::insertField(std::string &&string, const size_t position) {
 	_fields.insert(_fields.begin() + position, std::make_unique<Field>(std::move(string)));

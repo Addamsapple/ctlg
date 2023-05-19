@@ -17,3 +17,9 @@ const char * Field::c_str() const {
 size_t Field::length() const {
 	return _string.length();
 }
+
+FieldFactory::FieldFactory(std::string) {}
+
+Field * FieldFactory::create(std::string field) const {
+	return new Field(std::move(field));
+}

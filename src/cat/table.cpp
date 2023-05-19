@@ -19,15 +19,15 @@ std::unique_ptr<Table::Action> Table::_insertItem(const std::string &item, const
 std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
-	FieldConstructorInterface *constructor;
-	if (typeProcessor.match(fields[0], constructor) == FULL_MATCH) {
+	FieldFactory *constructor;
+	if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
 		std::vector<std::unique_ptr<Field>> fields_;
 		fields_.reserve(_header.size() + _items.size());
 		fields_.emplace_back(new Field(std::move(fields[0])));
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
-			fields_.emplace_back(constructor->construct(std::move(fields[item + _header.size()])));
-		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldConstructorInterface>(constructor), position).perform(*this);
+			fields_.emplace_back(constructor->create(std::move(fields[item + _header.size()])));
+		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldFactory>(constructor), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
 	return result;
@@ -49,7 +49,7 @@ std::unique_ptr<Table::Action> Table::_deleteItem(const size_t item) {
 }
 
 std::unique_ptr<Table::Action> Table::_setField(std::string &&field, size_t item, size_t column) {
-	auto field_ = std::unique_ptr<Field>(_itemConstructor[column]->construct(std::move(field)));
+	auto field_ = std::unique_ptr<Field>(_itemConstructor[column]->create(std::move(field)));
 	if (returnCode() == 0)
 		return SetFieldAction(std::move(field_), item, column).perform(*this);
 	else
