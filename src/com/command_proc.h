@@ -3,15 +3,14 @@
 
 
 #include "commands.h"
-#include "processor.h"
 
 #include "command_matcher.h"
 
 //inline Processor<CommandConstructor> incrementalProcessor;
-inline CommandMatcher incrementalProcessor;
+inline CharacterCommandMatcher incrementalProcessor;
 //inline Processor<CommandConstructor> immediateProcessor;
 //
-inline CommandMatcher immediateProcessor;
+inline StringCommandMatcher immediateProcessor;
 
 void loadCommands();
 

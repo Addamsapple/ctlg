@@ -1,7 +1,6 @@
 #include <memory>
 
 #include "command.h"
-#include "field_constructor.h"
 /*
 class EditType : public UndoableCommand {
 	private:

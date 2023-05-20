@@ -4,11 +4,8 @@
 #include "command.h"
 
 template<typename T>
-Matcher<T>::Matcher() { reset(); }
-
-template<typename T>
-void Matcher<T>::add(std::string::const_iterator begin, std::string::const_iterator end, T value) {
-	auto node = &_trie;
+void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator end, T value) {
+	auto node = &_root;
 	for (auto iterator = begin; iterator != end; iterator++) {
 		auto &nextNode = node->children[*iterator];
 		if (!nextNode)
@@ -20,41 +17,44 @@ void Matcher<T>::add(std::string::const_iterator begin, std::string::const_itera
 }
 
 template<typename T>
-size_t Matcher<T>::match(char character) {
-	if (_node == nullptr)
-		return NO_MATCH_;
-	auto nodeIterator = _node->children.find(character);
-	if (nodeIterator == _node->children.end())
-		return NO_MATCH_;
-	//_node = &(*nodeIterator->second);
-	_node = nodeIterator->second.get();
-	if (_node->value)
-		return FULL_MATCH_;
-	return PARTIAL_MATCH_;
-}
-
-template<typename T>
-std::string::const_iterator Matcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) {
-	_node = &_trie;
-	auto nextNode = _node;
-	auto result = begin;
-	for (auto iterator = begin; begin != end; iterator++) {
-		auto nodeIterator = nextNode->children.find(*iterator);
-		if (nodeIterator == nextNode->children.end()) break;
-		nextNode = nodeIterator->second.get();
+std::pair<T *, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) {
+	T * matchedVal = nullptr;
+	size_t matchedChars = 0;
+	auto nextNode = &(this->_root);
+	for (auto charIter = begin; begin != end; charIter++) {
+		auto nodeIter = nextNode->children.find(*charIter);
+		if (nodeIter == nextNode->children.end()) break;
+		nextNode = nodeIter->second.get();
 		if (nextNode->value.get()) {
-			_node = nextNode;
-			result = iterator + 1;
+			matchedVal = nextNode->value.get();
+			matchedChars++;
 		}
 	}
-	return result;
+	return std::make_pair(matchedVal, begin + matchedChars);
 }
 
 template<typename T>
-T * Matcher<T>::get() { return _node->value.get(); }
+CharacterMatcher<T>::CharacterMatcher() { reset(); }
 
 template<typename T>
-void Matcher<T>::reset() { _node = &_trie; }
+std::pair<T *, size_t> CharacterMatcher<T>::match(char character) {
+	auto nodeIter = _matchedNode->children.find(character);
+	if (nodeIter == _matchedNode->children.end())
+		return std::make_pair(_matchedNode->value.get(), NO_MATCH_);
+	_matchedNode = nodeIter->second.get();
+	T * matchedVal = nodeIter->second.get()->value.get();
+	return std::make_pair(matchedVal, matchedVal ? FULL_MATCH_ : PARTIAL_MATCH_);
+}
 
-template class Matcher<Command * (*)(std::string, std::string)>;
-template class Matcher<FieldFactory * (*)(std::string)>;
+template<typename T>
+void CharacterMatcher<T>::reset() { _matchedNode = &(this->_root); }
+
+template class Trie<FieldFactory * (*)(std::string)>;
+template class Trie<Command * (*)(std::string, std::string)>;
+
+template class StringMatcher<FieldFactory * (*)(std::string)>;
+template class StringMatcher<Command * (*)(std::string, std::string)>;
+template class CharacterMatcher<Command * (*)(std::string, std::string)>;
+
+//template class Matcher<Command * (*)(std::string, std::string)>;
+//template class Matcher<FieldFactory * (*)(std::string)>;

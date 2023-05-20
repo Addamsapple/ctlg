@@ -33,8 +33,8 @@ void run(const std::string &command) {
 				ioView.refresh();
 			} else {
 				Command *command;
-				if ((incrementalProcessor.match(character, &command)) == FULL_MATCH_)
-					command->execute();
+				//if ((incrementalProcessor.match(character, &command)) == FULL_MATCH_)
+					//command->execute();
 			}
 			populateScreen();
 			doupdate();

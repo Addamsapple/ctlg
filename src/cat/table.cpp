@@ -20,7 +20,7 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	FieldFactory *constructor;
-	if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
+	/*if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
 		std::vector<std::unique_ptr<Field>> fields_;
 		fields_.reserve(_header.size() + _items.size());
 		fields_.emplace_back(new Field(std::move(fields[0])));
@@ -30,6 +30,7 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldFactory>(constructor), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
+		*/
 	return result;
 }
 

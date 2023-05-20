@@ -16,21 +16,27 @@ static constexpr size_t PARTIAL_MATCH_ = NO_MATCH_ - 1;
 static constexpr size_t FULL_MATCH_ = PARTIAL_MATCH_ - 2;
 
 template<typename T>
-class Matcher {
+class Trie {
 	protected:
-		Node<T> _trie;
-		Node<T> *_node;
+		Node<T> _root;
 	public:
-
-		Matcher();
-
 		void add(std::string::const_iterator begin, std::string::const_iterator end, T value);
+};
 
-		size_t match(char character);
+template<typename T>
+class StringMatcher : public Trie<T> {
+	public:
+		std::pair<T *, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end);
+};
 
-		std::string::const_iterator match(std::string::const_iterator begin, std::string::const_iterator end);
+template<typename T>
+class CharacterMatcher : public Trie<T> {
+	protected:
+		Node<T> *_matchedNode;
+	public:
+		CharacterMatcher();
 
-		T * get();
+		std::pair<T *, size_t> match(char character);
 
 		void reset();
 };

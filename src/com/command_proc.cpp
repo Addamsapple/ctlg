@@ -80,7 +80,7 @@ void loadIncrementalCommands() {
 	//ADD_INC_RULE(EditField, "ec");
 	//ADD_INC_RULE(EditType, "et");*/
 
-	incrementalProcessor.reset();
+	//incrementalProcessor.reset();
 }
 
 //#define ADD_IMM_RULE(command, ...)\
@@ -102,7 +102,7 @@ void loadImmediateCommands() {
 
 	//ADD_IMM_RULE(SetField, "fs ", STR_TOKEN);
 
-	immediateProcessor.reset();
+	//immediateProcessor.reset();
 }
 
 void loadCommands() {
