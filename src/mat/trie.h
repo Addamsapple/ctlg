@@ -37,6 +37,7 @@ class CharacterMatcher : public Trie<T> {
 		void reset();
 };
 
+//TODO: remove trailing underscores, and consider using namespace scope (Matcher::)
 static constexpr int NO_MATCH_ = -1;
 static constexpr int PARTIAL_MATCH_ = 0;
 static constexpr int FULL_MATCH_ = 1;
