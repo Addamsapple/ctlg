@@ -19,7 +19,7 @@ void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator
 template<typename T>
 std::pair<T *, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) {
 	T * matchedVal = nullptr;
-	size_t matchedChars = 0;
+	auto matchedIter = begin;
 	auto nextNode = &(this->_root);
 	for (auto charIter = begin; begin != end; charIter++) {
 		auto nodeIter = nextNode->children.find(*charIter);
@@ -27,10 +27,10 @@ std::pair<T *, std::string::const_iterator> StringMatcher<T>::match(std::string:
 		nextNode = nodeIter->second.get();
 		if (nextNode->value.get()) {
 			matchedVal = nextNode->value.get();
-			matchedChars++;
+			matchedIter = charIter + 1;
 		}
 	}
-	return std::make_pair(matchedVal, begin + matchedChars);
+	return std::make_pair(matchedVal, matchedIter);
 }
 
 template<typename T>
@@ -55,6 +55,3 @@ template class Trie<Command * (*)(std::string, std::string)>;
 template class StringMatcher<FieldFactory * (*)(std::string)>;
 template class StringMatcher<Command * (*)(std::string, std::string)>;
 template class CharacterMatcher<Command * (*)(std::string, std::string)>;
-
-//template class Matcher<Command * (*)(std::string, std::string)>;
-//template class Matcher<FieldFactory * (*)(std::string)>;

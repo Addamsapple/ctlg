@@ -19,18 +19,18 @@ std::unique_ptr<Table::Action> Table::_insertItem(const std::string &item, const
 std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
-	FieldFactory *constructor;
-	/*if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
+	auto matchResult = typeProcessor.match(fields[0]);
+	//if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
+	if (matchResult.first) {
 		std::vector<std::unique_ptr<Field>> fields_;
 		fields_.reserve(_header.size() + _items.size());
 		fields_.emplace_back(new Field(std::move(fields[0])));
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
-			fields_.emplace_back(constructor->create(std::move(fields[item + _header.size()])));
-		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldFactory>(constructor), position).perform(*this);
+			fields_.emplace_back(matchResult.first->create(std::move(fields[item + _header.size()])));
+		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldFactory>(matchResult.first), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
-		*/
 	return result;
 }
 

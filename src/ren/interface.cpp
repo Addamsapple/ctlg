@@ -32,8 +32,10 @@ void run(const std::string &command) {
 				itemColumnView.refresh();
 				ioView.refresh();
 			} else {
-				Command *command;
-				//if ((incrementalProcessor.match(character, &command)) == FULL_MATCH_)
+				auto matchResult = incrementalProcessor.match(character);
+				if (matchResult.first)
+					matchResult.first->execute();
+					//if ((incrementalProcessor.match(character, &command)) == FULL_MATCH_)
 					//command->execute();
 			}
 			populateScreen();
