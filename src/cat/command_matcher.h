@@ -22,6 +22,7 @@ class DigitExtractor {
 
 };
 
+//TODO: Add const qualifiers to appropriate methods, remove _extractor as member, use auto allocated extractor within ::match
 class StringCommandMatcher {
 	protected:
 		StringMatcher<CommandConstructor> _matcher;
@@ -32,6 +33,7 @@ class StringCommandMatcher {
 		std::pair<Command *, size_t>  match(const std::string &pattern);
 };
 
+//TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
 class CharacterCommandMatcher {
 	protected:
 		CharacterMatcher<CommandConstructor> _matcher;

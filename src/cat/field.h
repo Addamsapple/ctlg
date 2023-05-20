@@ -20,6 +20,7 @@ class Field {
 		size_t length() const;
 };
 
+//make templated? e.g. so that Number can use same factory, and decimal can use the one with precision handling
 class FieldFactory {
 	public:
 		FieldFactory(std::string);

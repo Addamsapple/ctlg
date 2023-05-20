@@ -1,3 +1,5 @@
+#include "commands.h"
+
 #include <fstream>
 
 #include "table.h"

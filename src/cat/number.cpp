@@ -56,12 +56,12 @@ long long _strtoll(const char *str, char **str_end) { return strtoll(str, str_en
 unsigned long _strtoul(const char *str, char **str_end) { return strtoul(str, str_end, 10); }
 unsigned long long _strtoull(const char *str, char **str_end) { return strtoul(str, str_end, 10); }
 
-template<> auto Number<long>::strton(const std::string &string) { return _strton(_strtol, string); }
-template<> auto Number<long long>::strton(const std::string &string) { return _strton(_strtoll, string); }
-template<> auto Number<unsigned long>::strton(const std::string &string) { return _strton(_strtoul, string);}
-template<> auto Number<unsigned long long>::strton(const std::string &string) { return _strton(_strtoull, string); }
-template<> auto Number<float>::strton(const std::string &string) { return _strton(strtof, string); }
-template<> auto Number<double>::strton(const std::string &string) { return _strton(strtod, string); }
+template<> long Number<long>::strton(const std::string &string) { return _strton(_strtol, string); }
+template<> long long Number<long long>::strton(const std::string &string) { return _strton(_strtoll, string); }
+template<> unsigned long Number<unsigned long>::strton(const std::string &string) { return _strton(_strtoul, string);}
+template<> unsigned long long Number<unsigned long long>::strton(const std::string &string) { return _strton(_strtoull, string); }
+template<> float Number<float>::strton(const std::string &string) { return _strton(strtof, string); }
+template<> double Number<double>::strton(const std::string &string) { return _strton(strtod, string); }
 
 template<typename T>
 Field * NumberFactory<T>::_createWithArgs(std::string field) const { return new Number<T>(field, _precision); }

@@ -8,6 +8,7 @@
 #include "set_field.h"
 
 #include "navigation_commands.h"
+#include "commands.h"
 
 #include "read.h"
 #include "write.h"
@@ -47,25 +48,6 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE("u", Undo);
 	ADD_INC_RULE("r", Redo);
 	/*ADD_INC_RULE(ProcessImmediateCommand, ':');
-	ADD_INC_RULE(ScrollUp, 'K');
-	ADD_INC_RULE(ScrollDown, 'J');
-	ADD_INC_RULE(ScrollLeft, 'H');
-	ADD_INC_RULE(ScrollRight, 'L');
-	ADD_INC_RULE(MoveUp, 'k');
-	ADD_INC_RULE(MoveDown, 'j');
-	ADD_INC_RULE(MoveLeft, 'h');
-	ADD_INC_RULE(MoveRight, 'l');
-	ADD_INC_RULE(ScrollUp, NUM_TOKEN, 'K');
-	ADD_INC_RULE(ScrollDown, NUM_TOKEN, 'J');
-	ADD_INC_RULE(ScrollLeft, NUM_TOKEN, 'H');
-	ADD_INC_RULE(ScrollRight, NUM_TOKEN, 'L');
-	ADD_INC_RULE(MoveUp, NUM_TOKEN, 'k');
-	ADD_INC_RULE(MoveDown, NUM_TOKEN, 'j');
-	ADD_INC_RULE(MoveLeft, NUM_TOKEN, 'h');
-	ADD_INC_RULE(MoveRight, NUM_TOKEN, 'l');
-	ADD_INC_RULE(MoveToFirstItem, "gg");
-	ADD_INC_RULE(MoveToLastItem, 'G');
-	ADD_INC_RULE(MoveToItem, NUM_TOKEN, 'G');
 	ADD_INC_RULE(MoveToFirstColumn, '0');
 	ADD_INC_RULE(MoveToLastColumn, '$');
 	ADD_INC_RULE(MoveToColumn, NUM_TOKEN, '|');
