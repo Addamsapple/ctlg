@@ -15,7 +15,7 @@ class Number : public Field {
 		Number(const std::string &string, const int precision);
 		Number(const std::string &string);
 
-		static Type strton(const std::string &string);
+		static auto strton(const std::string &string);
 
 		int compare(const Field &field) const override;
 };
