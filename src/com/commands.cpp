@@ -23,6 +23,7 @@ bool ProcessImmediateCommand::execute() {
 		//should redefine to accept pointer to command, and then can execute here instead of inside the processor class?
 		//beter for memory handling or not?
 		//immediateProcessor.match(command);
+		runCommand(command);
 	}
 	return true;
 }

@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Sort::Sort(std::string modifier, std::string args) : _column(Number<size_t>::strton(args)) { std::cerr << args << '\n' << _column << '\n'; }
+Sort::Sort(std::string modifier, std::string args) : _column(Number<size_t>::strton(args)) {}
 bool Sort::execute() {
 	std::vector<size_t> columns;
 	//columns.push_back(Number<size_t>::strton(arguments[0]));

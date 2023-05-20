@@ -10,6 +10,7 @@ struct Node {
 	std::unique_ptr<T> value;
 };
 
+//TODO: Make better use of use semantics, and name variables more consistently
 template<typename T>
 class Trie {
 	protected:

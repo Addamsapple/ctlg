@@ -2,6 +2,7 @@
 
 #include "field.h"
 
+//TODO: return unique_ptr instead of raw pointer
 class StringTypeMatcher {
 	protected:
 		StringMatcher<FieldFactoryConstructor> _matcher;

@@ -22,6 +22,7 @@ class DigitExtractor {
 
 };
 
+//TODO:return unique_ptr instead of raw pointer
 class StringCommandMatcher {
 	protected:
 		StringMatcher<CommandConstructor> _matcher;

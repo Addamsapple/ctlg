@@ -47,47 +47,43 @@ void loadIncrementalCommands() {
 	ADD_INC_RULE("dc", DeleteColumn);
 	ADD_INC_RULE("u", Undo);
 	ADD_INC_RULE("r", Redo);
+
+	ADD_INC_RULE(":", ProcessImmediateCommand);
 	/*ADD_INC_RULE(ProcessImmediateCommand, ':');
 	ADD_INC_RULE(MoveToFirstColumn, '0');
 	ADD_INC_RULE(MoveToLastColumn, '$');
 	ADD_INC_RULE(MoveToColumn, NUM_TOKEN, '|');
-	ADD_INC_RULE(ViewField, 'v');
-	ADD_INC_RULE(DeleteItem, "dd");
-	ADD_INC_RULE(Undo, 'u');
-	ADD_INC_RULE(Redo, 'r');
-	ADD_INC_RULE(InsertItem, "ii");
-
-	ADD_INC_RULE(DeleteColumn, "dc");
-
-	//ADD_INC_RULE(EditField, "ec");
-	//ADD_INC_RULE(EditType, "et");*/
-
-	//incrementalProcessor.reset();
+	ADD_INC_RULE(ViewField, 'v');*/
 }
-
-//#define ADD_IMM_RULE(command, ...)\
-//	immediateProcessor.add(commandConstructor<command>, PatternMatcher(__VA_ARGS__))
 
 #define ADD_IMM_RULE(string, command)\
 	immediateProcessor.add(string, commandConstructor<command>)
 
+//command string should include trailing space if arguments are optional: corresponding command should rather handle leading whitespace itself
 void loadImmediateCommands() {
 	ADD_IMM_RULE("e", Read);
-	//ADD_IMM_RULE(Read, "e ", STR_TOKEN);
-	//ADD_IMM_RULE(Quit, ":q");
-
-	//ADD_IMM_RULE(InsertColumn, "ic ", STR_TOKEN);
-	//ADD_IMM_RULE(Write, "w ", STR_TOKEN);
-
+	ADD_IMM_RULE("w", Write);
+	ADD_IMM_RULE("q", Quit);
+	ADD_IMM_RULE("ic", InsertColumn);
 	ADD_IMM_RULE("s", Sort);
-	//ADD_IMM_RULE(Sort, "s", NUM_TOKEN);
-
-	//ADD_IMM_RULE(SetField, "fs ", STR_TOKEN);
-
-	//immediateProcessor.reset();
+	ADD_IMM_RULE("fs", SetField);
 }
 
 void loadCommands() {
 	loadIncrementalCommands();
 	loadImmediateCommands();
+}
+
+void runCommand(std::string string) {
+	auto matchResult = immediateProcessor.match(string);
+	if (matchResult.first) {
+		matchResult.first->execute();
+	}
+}
+
+void runCommand(char character) {
+	auto matchResult = incrementalProcessor.match(character);
+	if (matchResult.first) {
+		matchResult.first->execute();
+	}
 }

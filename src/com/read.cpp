@@ -34,7 +34,7 @@ void Read::_loadItems() {
 }
 
 bool Read::execute() {
-	//table.clear();
+	table.clear();
 	_file.open(_filename);
 	_loadTypes();
 	_loadTitles();

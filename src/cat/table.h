@@ -41,7 +41,8 @@ class Table {
 		void deleteColumn(const size_t position);
 		void SetField(std::string &&field, size_t item, size_t column);
 		void setTitle(std::string &&title, const size_t position);
-		//void setField()
+
+		void clear();
 		//void setType()???
 
 		const Item & types() const;

@@ -72,6 +72,13 @@ void Table::deleteColumn(const size_t position) { _deleteColumn(position); }
 void Table::SetField(std::string &&field, size_t item, size_t column) { _setField(std::move(field), item, column); }
 void Table::setTitle(std::string &&title, const size_t position) { _setTitle(std::move(title), position); }
 
+void Table::clear() {
+	_header[0].clear();
+	_header[1].clear();
+	_items.clear();
+	_itemConstructor.clear();
+}
+
 const Item & Table::types() const { return _header[0]; }
 const Item & Table::titles() const { return _header[1]; }
 

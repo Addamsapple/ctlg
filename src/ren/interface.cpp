@@ -14,14 +14,6 @@ void run(const std::string &command) {
 		initialize();
 		Read read("", command);
 		read.execute();
-		Command *command;
-		//if (incrementalProcessor.match("s2", &command) == FULL_MATCH)
-		//incrementalProcessor.match("100j", &command);
-			//command->execute();
-
-
-		//immediateProcessor.match(command);
-		//auto command = LoadCommand(
 		populateScreen();
 		doupdate();
 		int character;
@@ -32,11 +24,7 @@ void run(const std::string &command) {
 				itemColumnView.refresh();
 				ioView.refresh();
 			} else {
-				auto matchResult = incrementalProcessor.match(character);
-				if (matchResult.first)
-					matchResult.first->execute();
-					//if ((incrementalProcessor.match(character, &command)) == FULL_MATCH_)
-					//command->execute();
+				runCommand(character);
 			}
 			populateScreen();
 			doupdate();
