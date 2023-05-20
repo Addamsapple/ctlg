@@ -3,8 +3,6 @@
 #include "insert_item.h"//testing
 #include "insert_column.h"
 #include "delete_column.h"
-#include "edit_field.h"
-#include "edit_type.h"
 #include "set_field.h"
 
 #include "navigation_commands.h"

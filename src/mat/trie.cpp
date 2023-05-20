@@ -18,19 +18,19 @@ void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator
 
 template<typename T>
 std::pair<const T *, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) const {
-	const T * matchedVal = nullptr;
-	auto matchedIter = begin;
+	const T * matchedValue = nullptr;
+	auto matchedIterator = begin;
 	auto nextNode = &(this->_root);
-	for (auto charIter = begin; begin != end; charIter++) {
-		auto nodeIter = nextNode->children.find(*charIter);
-		if (nodeIter == nextNode->children.end()) break;
-		nextNode = nodeIter->second.get();
+	for (auto characterIterator = begin; begin != end; characterIterator++) {
+		auto nodeIterator = nextNode->children.find(*characterIterator);
+		if (nodeIterator == nextNode->children.end()) break;
+		nextNode = nodeIterator->second.get();
 		if (nextNode->value.get()) {
-			matchedVal = nextNode->value.get();
-			matchedIter = charIter + 1;
+			matchedValue = nextNode->value.get();
+			matchedIterator = characterIterator + 1;
 		}
 	}
-	return std::make_pair(matchedVal, matchedIter);
+	return std::make_pair(matchedValue, matchedIterator);
 }
 
 template<typename T>
@@ -38,12 +38,12 @@ CharacterMatcher<T>::CharacterMatcher() { reset(); }
 
 template<typename T>
 std::pair<const T *, int> CharacterMatcher<T>::match(char character) {
-	auto nodeIter = _matchedNode->children.find(character);
-	if (nodeIter == _matchedNode->children.end())
+	auto iterator = _matchedNode->children.find(character);
+	if (iterator == _matchedNode->children.end())
 		return std::make_pair(_matchedNode->value.get(), NO_MATCH_);
-	_matchedNode = nodeIter->second.get();
-	const T * matchedVal = nodeIter->second.get()->value.get();
-	return std::make_pair(matchedVal, matchedVal ? FULL_MATCH_ : PARTIAL_MATCH_);
+	_matchedNode = iterator->second.get();
+	const T * matchedValue = iterator->second.get()->value.get();
+	return std::make_pair(matchedValue, matchedValue ? FULL_MATCH_ : PARTIAL_MATCH_);
 }
 
 template<typename T>

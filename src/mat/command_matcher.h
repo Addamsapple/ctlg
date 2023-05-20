@@ -7,6 +7,7 @@
 
 using CommandConstructor = Command * (*)(std::string, std::string);
 
+//TODO: Rename/refactor this class
 class DigitExtractor {
 	protected:
 		std::string _digits;
@@ -27,9 +28,9 @@ class StringCommandMatcher {
 	protected:
 		StringMatcher<CommandConstructor> _matcher;
 	public:
-		void add(std::string pattern, CommandConstructor constructor);
+		void add(std::string string, CommandConstructor constructor);
 
-		std::pair<Command *, int>  match(const std::string &pattern) const;
+		std::pair<Command *, int>  match(const std::string &string) const;
 };
 
 //TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
@@ -38,7 +39,7 @@ class CharacterCommandMatcher {
 		CharacterMatcher<CommandConstructor> _matcher;
 		DigitExtractor _extractor;
 	public:
-		void add(std::string pattern, CommandConstructor constructor);
+		void add(std::string string, CommandConstructor constructor);
 
 		std::pair<Command *, int> match(char character);
 
