@@ -4,7 +4,7 @@ void StringTypeMatcher::add(const std::string &string, FieldFactoryConstructor c
 	_matcher.add(string.begin(), string.end(), constructor);
 }
 
-std::pair<FieldFactory *, size_t> StringTypeMatcher::match(const std::string &string) {
+std::pair<FieldFactory *, int> StringTypeMatcher::match(const std::string &string) const {
 	auto match_result = _matcher.match(string.begin(), string.end());
 	if (match_result.first) {
 		FieldFactory *factory = (*match_result.first)(std::string(match_result.second, string.end()));

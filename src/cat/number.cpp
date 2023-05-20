@@ -1,8 +1,9 @@
 #include "number.h"
 
+#include <iomanip>
+
 #include "return.h"
 
-#include <iomanip>
 
 template<typename Type>
 Number<Type>::Number(const std::string &string, const int precision) : Field("") {

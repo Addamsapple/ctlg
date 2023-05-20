@@ -8,5 +8,5 @@ class StringTypeMatcher {
 	public:
 		void add(const std::string &string, FieldFactoryConstructor constructor);
 
-		std::pair<FieldFactory *, size_t> match(const std::string &string);
+		std::pair<FieldFactory *, int> match(const std::string &string) const;
 };

@@ -22,15 +22,13 @@ class DigitExtractor {
 
 };
 
-//TODO: Add const qualifiers to appropriate methods, remove _extractor as member, use auto allocated extractor within ::match
 class StringCommandMatcher {
 	protected:
 		StringMatcher<CommandConstructor> _matcher;
-		DigitExtractor _extractor;//can just create this whenever match is called, dont need to keep instance?
 	public:
 		void add(std::string pattern, CommandConstructor constructor);
 
-		std::pair<Command *, size_t>  match(const std::string &pattern);
+		std::pair<Command *, int>  match(const std::string &pattern) const;
 };
 
 //TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
@@ -41,7 +39,7 @@ class CharacterCommandMatcher {
 	public:
 		void add(std::string pattern, CommandConstructor constructor);
 
-		std::pair<Command *, size_t> match(char character);
+		std::pair<Command *, int> match(char character);
 
 		void reset();
 };

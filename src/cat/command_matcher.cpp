@@ -26,25 +26,24 @@ void StringCommandMatcher::add(std::string pattern, CommandConstructor construct
 	_matcher.add(pattern.begin(), pattern.end(), constructor);
 }
 
-std::pair<Command *, size_t> StringCommandMatcher::match(const std::string &pattern) {
-	_extractor.reset();
+std::pair<Command *, int> StringCommandMatcher::match(const std::string &pattern) const {
+	DigitExtractor extractor;
 	auto iterator = pattern.begin();
-	while (iterator != pattern.end() && _extractor.match(*iterator))
+	while (iterator != pattern.end() && extractor.match(*iterator))
 		iterator++;
 	auto match_result = _matcher.match(iterator, pattern.end());
 	if (match_result.first) {
-		Command *command = (*match_result.first)(_extractor.digits(), std::string(match_result.second, pattern.end()));
+		Command *command = (*match_result.first)(extractor.digits(), std::string(match_result.second, pattern.end()));
 		return std::make_pair(command, FULL_MATCH_);
 	}
-	return std::make_pair(nullptr, match_result.second != iterator ? PARTIAL_MATCH_ : NO_MATCH_);
-	//compare match_result.second to pattern.begin() instead? so that strings containing only digits give PARTIAL_MATCH_?
+	return std::make_pair(nullptr, match_result.second != pattern.begin() ? PARTIAL_MATCH_ : NO_MATCH_);
 }
 
 void CharacterCommandMatcher::add(std::string pattern, CommandConstructor constructor) {
 	_matcher.add(pattern.begin(), pattern.end(), constructor);
 }
 
-std::pair<Command *, size_t> CharacterCommandMatcher::match(char character) {
+std::pair<Command *, int> CharacterCommandMatcher::match(char character) {
 	size_t status = PARTIAL_MATCH_;
 	if (!_extractor.match(character)) {
 		auto match_result = _matcher.match(character);
