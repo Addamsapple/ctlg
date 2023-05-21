@@ -1,3 +1,6 @@
+#ifndef TYPE_MATCHER_H
+#define TYPE_MATCHER_H
+
 #include "trie.h"
 
 #include "field.h"
@@ -12,3 +15,5 @@ class StringTypeMatcher {
 
 		std::pair<std::unique_ptr<FieldFactory>, MatchResult> match(const std::string &string) const;
 };
+
+#endif

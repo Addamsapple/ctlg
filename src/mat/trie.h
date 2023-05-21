@@ -1,5 +1,5 @@
-#ifndef MATCHER__H
-#define MATCHER__H
+#ifndef TRIE_H
+#define TRIE_H
 
 #include <memory>
 #include <unordered_map>
