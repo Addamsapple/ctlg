@@ -4,13 +4,13 @@
 
 //consider separating into done/ undone stacks for performance and ease of understanding
 
-std::vector<std::unique_ptr<UndoableCommand>> commandHistory;
+std::vector<std::unique_ptr<Command>> commandHistory;
 
 size_t undoableCommands;
 
-void recordCommand(UndoableCommand *command) {
+void recordCommand(std::unique_ptr<Command> command) {
 	commandHistory.erase(commandHistory.begin() + undoableCommands++, commandHistory.end());
-	commandHistory.emplace_back(std::move(command));
+	commandHistory.push_back(std::move(command));
 }
 
 void undoCommand() {

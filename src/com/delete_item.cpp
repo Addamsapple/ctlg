@@ -7,7 +7,7 @@
 //handle #dd, e.g. 22dd to execute dd 22 times, but group together so that undo/redo executes all
 DeleteItem::DeleteItem(std::string modifier, std::string args) : _position(itemView.firstElement() + itemView.selectedElement()) {}
 bool DeleteItem::execute() {
-	//_position = itemView.firstElement() + itemView.selectedElement();
+	setReturnCode(0);
 	if (_position < table.items() && returnCode() == 0) {
 		table.deleteItem(_position);
 		return true;

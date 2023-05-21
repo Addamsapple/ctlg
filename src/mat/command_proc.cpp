@@ -73,10 +73,14 @@ void loadCommands() {
 	loadImmediateCommands();
 }
 
+#include "undo.h"//TEMP
+//TODO: move these functions elsewhere
 void runCommand(std::string string) {
 	auto matchResult = immediateProcessor.match(string);
 	if (matchResult.first) {
 		matchResult.first->execute();
+		if (matchResult.first->undoable())
+			recordCommand(std::move(matchResult.first));
 	}
 }
 
@@ -84,5 +88,7 @@ void runCommand(char character) {
 	auto matchResult = incrementalProcessor.match(character);
 	if (matchResult.first) {
 		matchResult.first->execute();
+		if (matchResult.first->undoable())
+			recordCommand(std::move(matchResult.first));
 	}
 }

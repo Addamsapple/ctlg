@@ -3,7 +3,7 @@
 
 #include "command.h"
 
-void recordCommand(UndoableCommand *command);
+void recordCommand(std::unique_ptr<Command> command);
 
 void undoCommand();
 void redoCommand();

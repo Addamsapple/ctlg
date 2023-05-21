@@ -7,17 +7,21 @@
 class Command {
 	public:
 		virtual ~Command() = default;
-		//should this not take a reference to a string vector instead?
+
 		virtual bool execute() = 0;
-		virtual bool undoable();
+		virtual void undo() {}
+		virtual void redo() {}
+
+		virtual bool undoable() { return false; }
 };
 
 class UndoableCommand : public Command {
 	public:
 		virtual bool execute() override = 0;
-		virtual bool undoable() final override;
-		virtual void undo() = 0;
-		virtual void redo() = 0;
+		virtual void undo() override = 0;
+		virtual void redo() override = 0;
+
+		virtual bool undoable() override { return true; }
 };
 
 //TODO: pass arguments as const string &s
