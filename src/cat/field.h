@@ -1,6 +1,7 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -20,14 +21,16 @@ class Field {
 		size_t length() const;
 };
 
-//make templated? e.g. so that Number can use same factory, and decimal can use the one with precision handling
+//TODO: make templated
+//TODO: use auto return type
 class FieldFactory {
 	public:
 		FieldFactory(std::string);
 
-		virtual Field * create(std::string field) const;
+		virtual std::unique_ptr<Field> create(std::string field) const;
 };
 
+//TODO: remove? move?
 using FieldFactoryConstructor = FieldFactory * (*)(std::string);
 
 #endif

@@ -23,25 +23,28 @@ class DigitExtractor {
 
 };
 
-//TODO:return unique_ptr instead of raw pointer
 class StringCommandMatcher {
 	protected:
-		StringMatcher<CommandConstructor> _matcher;
-	public:
-		void add(std::string string, CommandConstructor constructor);
+		using callback = std::unique_ptr<Command> (*)(std::string, std::string);
 
-		std::pair<Command *, int>  match(const std::string &string) const;
+		StringMatcher<callback> _matcher;
+	public:
+		void add(std::string string, callback creator);
+
+		std::pair<std::unique_ptr<Command>, MatchResult>  match(const std::string &string) const;
 };
 
 //TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
 class CharacterCommandMatcher {
 	protected:
-		CharacterMatcher<CommandConstructor> _matcher;
+		using callback = std::unique_ptr<Command> (*)(std::string, std::string);
+
+		CharacterMatcher<callback> _matcher;
 		DigitExtractor _extractor;
 	public:
-		void add(std::string string, CommandConstructor constructor);
+		void add(std::string string, callback creator);
 
-		std::pair<Command *, int> match(char character);
+		std::pair<std::unique_ptr<Command>, MatchResult> match(char character);
 
 		void reset();
 };

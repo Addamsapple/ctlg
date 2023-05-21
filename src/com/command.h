@@ -20,6 +20,8 @@ class UndoableCommand : public Command {
 		virtual void redo() = 0;
 };
 
+//TODO: pass arguments as const string &s
+//TODO: allow for different constructors
 #define COMMAND(command, ...)\
 	class command : public Command {\
 		protected:\

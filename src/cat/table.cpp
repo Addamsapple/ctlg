@@ -28,7 +28,7 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 		fields_.emplace_back(new Field(std::move(fields[1])));
 		for (size_t item = 0; item < items(); item++)
 			fields_.emplace_back(matchResult.first->create(std::move(fields[item + _header.size()])));
-		result = InsertColumnAction(std::move(fields_), std::unique_ptr<FieldFactory>(matchResult.first), position).perform(*this);
+		result = InsertColumnAction(std::move(fields_), std::move(matchResult.first), position).perform(*this);
 	} else
 		setReturnCode(2222, "Invalid column type");
 	return result;

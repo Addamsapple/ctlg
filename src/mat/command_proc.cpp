@@ -15,8 +15,9 @@
 //encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 //WARNING: pass by value at the moment
 template<typename T>
-Command * commandConstructor(std::string modifier, std::string arguments) {
-	return new T(modifier, arguments);
+std::unique_ptr<Command> commandConstructor(std::string modifier, std::string arguments) {
+	//return new T(modifier, arguments);
+	return std::make_unique<T>(modifier, arguments);
 }
 
 #define ADD_INC_RULE(string, command)\

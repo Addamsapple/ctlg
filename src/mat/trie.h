@@ -25,6 +25,12 @@ class StringMatcher : public Trie<T> {
 		std::pair<const T *, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end) const;
 };
 
+enum class MatchResult {
+	NoMatch,
+	PartialMatch,
+	FullMatch
+};
+
 template<typename T>
 class CharacterMatcher : public Trie<T> {
 	protected:
@@ -32,14 +38,9 @@ class CharacterMatcher : public Trie<T> {
 	public:
 		CharacterMatcher();
 
-		std::pair<const T *, int> match(char character);
+		std::pair<const T *, MatchResult> match(char character);
 
 		void reset();
 };
-
-//TODO: remove trailing underscores, and consider using namespace scope (Matcher::)
-static constexpr int NO_MATCH_ = -1;
-static constexpr int PARTIAL_MATCH_ = 0;
-static constexpr int FULL_MATCH_ = 1;
 
 #endif

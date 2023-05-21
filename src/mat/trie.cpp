@@ -37,21 +37,23 @@ template<typename T>
 CharacterMatcher<T>::CharacterMatcher() { reset(); }
 
 template<typename T>
-std::pair<const T *, int> CharacterMatcher<T>::match(char character) {
+std::pair<const T *, MatchResult> CharacterMatcher<T>::match(char character) {
 	auto iterator = _matchedNode->children.find(character);
 	if (iterator == _matchedNode->children.end())
-		return std::make_pair(_matchedNode->value.get(), NO_MATCH_);
+		return std::make_pair(_matchedNode->value.get(), MatchResult::NoMatch);
 	_matchedNode = iterator->second.get();
 	const T * matchedValue = iterator->second.get()->value.get();
-	return std::make_pair(matchedValue, matchedValue ? FULL_MATCH_ : PARTIAL_MATCH_);
+	return std::make_pair(matchedValue, matchedValue ? MatchResult::FullMatch : MatchResult::PartialMatch);
 }
 
 template<typename T>
 void CharacterMatcher<T>::reset() { _matchedNode = &(this->_root); }
 
-template class Trie<FieldFactory * (*)(std::string)>;
-template class Trie<Command * (*)(std::string, std::string)>;
+//TODO: Include arguments defined elsewhere
+template class Trie<std::unique_ptr<FieldFactory> (*)(std::string)>;
+template class Trie<std::unique_ptr<Command> (*)(std::string, std::string)>;
 
-template class StringMatcher<FieldFactory * (*)(std::string)>;
-template class StringMatcher<Command * (*)(std::string, std::string)>;
-template class CharacterMatcher<Command * (*)(std::string, std::string)>;
+//TODO: Const std::string & args
+template class StringMatcher<std::unique_ptr<FieldFactory> (*)(std::string)>;
+template class StringMatcher<std::unique_ptr<Command> (*)(std::string, std::string)>;
+template class CharacterMatcher<std::unique_ptr<Command> (*)(std::string, std::string)>;

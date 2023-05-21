@@ -2,12 +2,13 @@
 
 #include "field.h"
 
-//TODO: return unique_ptr instead of raw pointer
 class StringTypeMatcher {
 	protected:
-		StringMatcher<FieldFactoryConstructor> _matcher;
-	public:
-		void add(const std::string &string, FieldFactoryConstructor constructor);
+		using callback = std::unique_ptr<FieldFactory> (*)(std::string);
 
-		std::pair<FieldFactory *, int> match(const std::string &string) const;
+		StringMatcher<callback> _matcher;
+	public:
+		void add(const std::string &string, callback creator);
+
+		std::pair<std::unique_ptr<FieldFactory>, MatchResult> match(const std::string &string) const;
 };

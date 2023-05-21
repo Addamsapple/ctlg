@@ -20,6 +20,6 @@ size_t Field::length() const {
 
 FieldFactory::FieldFactory(std::string) {}
 
-Field * FieldFactory::create(std::string field) const {
-	return new Field(std::move(field));
+std::unique_ptr<Field> FieldFactory::create(std::string field) const {
+	return std::make_unique<Field>(std::move(field));
 }
