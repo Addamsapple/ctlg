@@ -32,10 +32,11 @@ std::pair<std::unique_ptr<Command>, MatchResult> StringCommandMatcher::match(con
 	while (iterator != string.end() && extractor.match(*iterator))
 		iterator++;
 	auto match_result = _matcher.match(iterator, string.end());
-	if (match_result.first) {
-		auto command = (*match_result.first)(extractor.digits(), std::string(match_result.second, string.end()));
-		return std::make_pair(std::move(command), MatchResult::FullMatch);
-	}
+	if (match_result.first)
+		return std::make_pair(
+				(*match_result.first)(extractor.digits(), std::string(match_result.second, string.end())),
+				MatchResult::FullMatch
+		);
 	return std::make_pair(nullptr, match_result.second != string.begin() ? MatchResult::PartialMatch : MatchResult::NoMatch);
 }
 
