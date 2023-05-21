@@ -1,4 +1,4 @@
 #include "command.h"
 
 UNDOABLE_COMMAND(Sort,
-		size_t _column;);
+		std::vector<size_t> _columns;);
