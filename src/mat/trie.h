@@ -10,7 +10,6 @@ struct Node {
 	std::unique_ptr<T> value;
 };
 
-//TODO: Make better use of use semantics, and name variables more consistently
 template<typename T>
 class Trie {
 	protected:
@@ -22,7 +21,7 @@ class Trie {
 template<typename T>
 class StringMatcher : public Trie<T> {
 	public:
-		std::pair<const T *, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end) const;
+		std::pair<const T * const, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end) const;
 };
 
 enum class MatchResult {
@@ -38,7 +37,7 @@ class CharacterMatcher : public Trie<T> {
 	public:
 		CharacterMatcher();
 
-		std::pair<const T *, MatchResult> match(char character);
+		std::pair<const T * const, MatchResult> match(char character);
 
 		void reset();
 };

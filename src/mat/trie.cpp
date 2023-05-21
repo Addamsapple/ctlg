@@ -17,7 +17,7 @@ void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator
 }
 
 template<typename T>
-std::pair<const T *, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) const {
+std::pair<const T * const, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) const {
 	const T * matchedValue = nullptr;
 	auto matchedIterator = begin;
 	auto nextNode = &(this->_root);
@@ -37,7 +37,7 @@ template<typename T>
 CharacterMatcher<T>::CharacterMatcher() { reset(); }
 
 template<typename T>
-std::pair<const T *, MatchResult> CharacterMatcher<T>::match(char character) {
+std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char character) {
 	auto iterator = _matchedNode->children.find(character);
 	if (iterator == _matchedNode->children.end())
 		return std::make_pair(_matchedNode->value.get(), MatchResult::NoMatch);

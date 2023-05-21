@@ -20,7 +20,6 @@ std::unique_ptr<Table::Action> Table::_insertColumn(std::vector<std::string> &&f
 	setReturnCode(0, "");
 	std::unique_ptr<Action> result;
 	auto matchResult = typeProcessor.match(fields[0]);
-	//if (typeProcessor.match(fields[0], &constructor) == FULL_MATCH_) {
 	if (matchResult.first) {
 		std::vector<std::unique_ptr<Field>> fields_;
 		fields_.reserve(_header.size() + _items.size());
