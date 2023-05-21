@@ -27,9 +27,7 @@ Number<Type>::Number(const std::string &string) : Field("") {
 
 template<typename Type>
 std::string Number<Type>::ntostr(const Type value, const int precision) {
-	std::stringstream stream;
-	stream << std::fixed << std::setprecision(precision) << value;
-	return stream.str();
+	return (std::ostringstream() << std::fixed << std::setprecision(precision) << value).str();
 }
 
 template<typename Type>
