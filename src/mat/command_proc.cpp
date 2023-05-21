@@ -12,7 +12,6 @@
 #include "write.h"
 #include "sort.h"
 
-//encapsulate in smart pointers, or actually handle deallocations, memory leaks will persist until then.
 //WARNING: pass by value at the moment
 template<typename T>
 std::unique_ptr<Command> commandConstructor(std::string modifier, std::string arguments) {
@@ -68,6 +67,7 @@ void loadImmediateCommands() {
 	ADD_IMM_RULE("fs", SetField);
 }
 
+//TODO: pass pattern-command pairs via constructor, to avoid runtime calls to load functions
 void loadCommands() {
 	loadIncrementalCommands();
 	loadImmediateCommands();
