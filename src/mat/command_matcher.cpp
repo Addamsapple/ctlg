@@ -2,43 +2,35 @@
 
 #include <cctype>
 
-DigitExtractor::DigitExtractor() : _finished(false) {}
-
-bool DigitExtractor::match(char character) {
-	if (!_finished) {
-		if (isdigit(character)) {
-			_digits += character;
-			return true;
-		}
-		_finished = true;
-	}
-	return false;
-}
-
-const std::string & DigitExtractor::digits() const { return _digits; }
-
-void DigitExtractor::reset() {
-	_digits.clear();
-	_finished = false;
-}
-
 void StringCommandMatcher::add(std::string string, StringCommandMatcher::callback creator) {
 	_matcher.add(string.begin(), string.end(), creator);
 }
 
 std::pair<std::unique_ptr<Command>, MatchResult> StringCommandMatcher::match(const std::string &string) const {
-	DigitExtractor extractor;
 	auto iterator = string.begin();
-	while (iterator != string.end() && extractor.match(*iterator))
+	while (iterator != string.end() && isdigit(*iterator))
 		iterator++;
 	auto match_result = _matcher.match(iterator, string.end());
 	if (match_result.first)
 		return std::make_pair(
-				(*match_result.first)(extractor.digits(), std::string(match_result.second, string.end())),
+				(*match_result.first)(std::string(string.begin(), iterator), std::string(match_result.second, string.end())),
 				MatchResult::FullMatch
 		);
 	return std::make_pair(nullptr, match_result.second != string.begin() ? MatchResult::PartialMatch : MatchResult::NoMatch);
 }
+
+bool CharacterCommandMatcher::_matchToModifier(char character) {
+	if (_modifierFinished)
+		return false;
+	if (isdigit(character)) {
+		_modifier += character;
+		return true;
+	}
+	_modifierFinished = true;
+	return false;
+}
+
+CharacterCommandMatcher::CharacterCommandMatcher() : _modifierFinished(false) {}
 
 void CharacterCommandMatcher::add(std::string string, CharacterCommandMatcher::callback creator) {
 	_matcher.add(string.begin(), string.end(), creator);
@@ -46,10 +38,10 @@ void CharacterCommandMatcher::add(std::string string, CharacterCommandMatcher::c
 
 std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(char character) {
 	auto result = MatchResult::PartialMatch;
-	if (!_extractor.match(character)) {
+	if (!_matchToModifier(character)) {
 		auto match_result = _matcher.match(character);
 		if (match_result.first) {
-			auto command = (*match_result.first)(_extractor.digits(), "");
+			auto command = (*match_result.first)(_modifier, "");
 			reset();
 			return std::make_pair(std::move(command), MatchResult::FullMatch);
 		}
@@ -62,5 +54,6 @@ std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(
 
 void CharacterCommandMatcher::reset() {
 	_matcher.reset();
-	_extractor.reset();
+	_modifier.clear();
+	_modifierFinished = false;
 }
