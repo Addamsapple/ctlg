@@ -1,6 +1,6 @@
 #include "field.h"
 
-Field::Field(std::string &&string) : _string(std::move(string)) {}
+Field::Field(std::string string) : _string(std::move(string)) {}
 
 int Field::compare(const Field &field) const {
 	return (_string > field._string) - (_string < field._string);

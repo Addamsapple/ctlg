@@ -11,7 +11,7 @@ class Field {
 		std::string _string;
 
 	public:
-		Field(std::string &&string);
+		Field(std::string string);
 		virtual ~Field() = default;
 
 		virtual int compare(const Field &field) const;
