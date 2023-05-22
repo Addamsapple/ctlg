@@ -63,13 +63,13 @@ template<> float Number<float>::strton(const std::string &string) { return _strt
 template<> double Number<double>::strton(const std::string &string) { return _strton(strtod, string); }
 
 template<typename T>
-std::unique_ptr<Field> NumberFactory<T>::_createWithArgs(std::string field) const { return std::make_unique<Number<T>>(field, _precision); }
+std::unique_ptr<Field> NumberFactory<T>::_createWithArgs(std::string &&field) const { return std::make_unique<Number<T>>(std::move(field), _precision); }
 
 template<typename T>
-std::unique_ptr<Field> NumberFactory<T>::_createWithoutArgs(std::string field) const { return std::make_unique<Number<T>>(field); }
+std::unique_ptr<Field> NumberFactory<T>::_createWithoutArgs(std::string &&field) const { return std::make_unique<Number<T>>(std::move(field)); }
 
 template<typename T>
-NumberFactory<T>::NumberFactory(std::string arguments) : FieldFactory("") {
+NumberFactory<T>::NumberFactory(const std::string &arguments) : FieldFactory("") {
 	if (arguments.size() > 0) {
 		_precision = Number<T>::strton(arguments);
 		_callback = &NumberFactory<T>::_createWithArgs;
@@ -78,7 +78,7 @@ NumberFactory<T>::NumberFactory(std::string arguments) : FieldFactory("") {
 }
 
 template<typename T>
-std::unique_ptr<Field> NumberFactory<T>::create(std::string number) const { return (this->*_callback)(number); }
+std::unique_ptr<Field> NumberFactory<T>::create(std::string &&number) const { return (this->*_callback)(std::move(number)); }
 
 template class Number<size_t>;
 template class Number<long>;

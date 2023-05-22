@@ -9,7 +9,7 @@ using CommandConstructor = Command * (*)(std::string, std::string);
 
 class StringCommandMatcher {
 	protected:
-		using callback = std::unique_ptr<Command> (*)(std::string, std::string);
+		using callback = std::unique_ptr<Command> (*)(std::string &&, std::string &&);
 
 		StringMatcher<callback> _matcher;
 	public:
@@ -21,7 +21,7 @@ class StringCommandMatcher {
 //TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
 class CharacterCommandMatcher {
 	protected:
-		using callback = std::unique_ptr<Command> (*)(std::string, std::string);
+		using callback = std::unique_ptr<Command> (*)(std::string &&, std::string &&);
 
 		CharacterMatcher<callback> _matcher;
 

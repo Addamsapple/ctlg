@@ -12,7 +12,7 @@ void run(const std::string &command) {
 	loadTypes();
 	try {
 		initialize();
-		Read read("", command);
+		Read read("", std::string(command));
 		read.execute();
 		populateScreen();
 		doupdate();

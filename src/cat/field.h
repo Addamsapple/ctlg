@@ -25,9 +25,9 @@ class Field {
 //TODO: use auto return type
 class FieldFactory {
 	public:
-		FieldFactory(std::string);
+		FieldFactory(const std::string &args);
 
-		virtual std::unique_ptr<Field> create(std::string field) const;
+		virtual std::unique_ptr<Field> create(std::string &&field) const;
 };
 
 //TODO: remove? move?

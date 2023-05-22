@@ -3,7 +3,7 @@
 #include "interface.h"
 #include "write.h"
 
-Write::Write(std::string modifier, std::string args) : _file(std::move(args)) {}
+Write::Write(std::string &&modifier, std::string &&args) : _file(std::move(args)) {}
 bool Write::execute() {
 	std::ofstream file(_file);
 	file << table.types() << '\n';

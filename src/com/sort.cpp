@@ -5,7 +5,7 @@
 #include "number.h"
 #include "interface.h"
 
-Sort::Sort(std::string modifier, std::string args) {
+Sort::Sort(std::string &&modifier, std::string &&args) {
 	std::istringstream stream(std::move(args));
 	size_t column;
 	while (stream >> column)

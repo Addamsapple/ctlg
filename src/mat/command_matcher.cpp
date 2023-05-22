@@ -41,7 +41,7 @@ std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(
 	if (!_matchToModifier(character)) {
 		auto match_result = _matcher.match(character);
 		if (match_result.first) {
-			auto command = (*match_result.first)(_modifier, "");
+			auto command = (*match_result.first)(std::move(_modifier), "");
 			reset();
 			return std::make_pair(std::move(command), MatchResult::FullMatch);
 		}

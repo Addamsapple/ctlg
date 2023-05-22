@@ -12,11 +12,9 @@
 #include "write.h"
 #include "sort.h"
 
-//WARNING: pass by value at the moment
 template<typename T>
-std::unique_ptr<Command> commandConstructor(std::string modifier, std::string arguments) {
-	//return new T(modifier, arguments);
-	return std::make_unique<T>(modifier, arguments);
+std::unique_ptr<Command> commandConstructor(std::string &&modifier, std::string &&arguments) {
+	return std::make_unique<T>(std::move(modifier), std::move(arguments));
 }
 
 #define ADD_INC_RULE(string, command)\

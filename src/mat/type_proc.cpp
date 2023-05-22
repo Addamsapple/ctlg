@@ -3,8 +3,8 @@
 #include "number.h"
 
 template<typename T>
-std::unique_ptr<FieldFactory> fieldFactoryConstructor(std::string arguments) {
-	return std::make_unique<T>(std::move(arguments));
+std::unique_ptr<FieldFactory> fieldFactoryConstructor(const std::string &arguments) {
+	return std::make_unique<T>(arguments);
 }
 
 #define ADD_TYPE_RULE(string, command)\

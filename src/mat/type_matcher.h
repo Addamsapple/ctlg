@@ -7,7 +7,7 @@
 
 class StringTypeMatcher {
 	protected:
-		using callback = std::unique_ptr<FieldFactory> (*)(std::string);
+		using callback = std::unique_ptr<FieldFactory> (*)(const std::string &);
 
 		StringMatcher<callback> _matcher;
 	public:

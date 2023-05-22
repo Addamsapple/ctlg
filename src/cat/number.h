@@ -25,14 +25,14 @@ class NumberFactory : public FieldFactory {
 	protected:
 		int _precision;
 
-		std::unique_ptr<Field> (NumberFactory<T>::*_callback)(std::string) const;
+		std::unique_ptr<Field> (NumberFactory<T>::*_callback)(std::string &&) const;
 
-		std::unique_ptr<Field> _createWithArgs(std::string field) const;
-		std::unique_ptr<Field> _createWithoutArgs(std::string field) const;
+		std::unique_ptr<Field> _createWithArgs(std::string &&field) const;
+		std::unique_ptr<Field> _createWithoutArgs(std::string &&field) const;
 	public:
-		NumberFactory(std::string arguments);
+		NumberFactory(const std::string &arguments);
 
-		virtual std::unique_ptr<Field> create(std::string number) const override;
+		virtual std::unique_ptr<Field> create(std::string &&number) const override;
 };
 
 //#include "number_t.cpp"

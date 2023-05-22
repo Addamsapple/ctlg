@@ -50,10 +50,10 @@ template<typename T>
 void CharacterMatcher<T>::reset() { _matchedNode = &(this->_root); }
 
 //TODO: Include arguments defined elsewhere
-template class Trie<std::unique_ptr<FieldFactory> (*)(std::string)>;
-template class Trie<std::unique_ptr<Command> (*)(std::string, std::string)>;
+template class Trie<std::unique_ptr<FieldFactory> (*)(const std::string &)>;
+template class Trie<std::unique_ptr<Command> (*)(std::string &&, std::string &&)>;
 
 //TODO: Const std::string & args
-template class StringMatcher<std::unique_ptr<FieldFactory> (*)(std::string)>;
-template class StringMatcher<std::unique_ptr<Command> (*)(std::string, std::string)>;
-template class CharacterMatcher<std::unique_ptr<Command> (*)(std::string, std::string)>;
+template class StringMatcher<std::unique_ptr<FieldFactory> (*)(const std::string &)>;
+template class StringMatcher<std::unique_ptr<Command> (*)(std::string &&, std::string &&)>;
+template class CharacterMatcher<std::unique_ptr<Command> (*)(std::string &&, std::string &&)>;
