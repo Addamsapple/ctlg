@@ -18,7 +18,6 @@ class StringCommandMatcher {
 		std::pair<std::unique_ptr<Command>, MatchResult>  match(const std::string &string) const;
 };
 
-//TODO: Use Command * (*)(std::string) instead of Command * (*)(std::string, std::string), since suffix arguments cannot be obtained.
 class CharacterCommandMatcher {
 	protected:
 		using callback = std::unique_ptr<Command> (*)(std::string &&, std::string &&);
