@@ -24,7 +24,6 @@ class UndoableCommand : public Command {
 		virtual bool undoable() override { return true; }
 };
 
-//TODO: allow for different constructors
 #define COMMAND(command, ...)\
 	class command : public Command {\
 		protected:\

@@ -2,25 +2,32 @@
 #include "interface.h"
 #include "populate.h"
 #include "return.h"
+#include "number.h"
 
-InsertColumn::InsertColumn(std::string &&modifier, std::string &&args) : _type(std::move(args)),  _position(itemColumnView.firstElement() + itemColumnView.selectedElement()) {}
+InsertColumn::InsertColumn(std::string &&modifier, std::string &&args) : _columns(1), _type(std::move(args)) {
+	if (modifier.size() > 0)
+		_columns = Number<size_t>::strton(modifier);
+}
+
+//TODO: check result of (first) operation if non-empty type is supplied
 bool InsertColumn::execute() {
-	//_position = itemColumnView.firstElement() + itemColumnView.selectedElement();
-	std::vector<std::string> fields;
-	//fields.push_back(std::move(arguments[0]));
-	fields.push_back(std::move(_type));
-	fields.push_back(std::string());
-	fields.insert(fields.end(), table.items(), std::string());
-	table.insertColumn(std::move(fields), _position);
+	size_t position = itemColumnView.firstElement() + itemColumnView.selectedElement();
+	for (size_t column = 0; column < _columns; column++) {
+		std::vector<std::string> fields;
+		fields.push_back(_type);//can't move type because reused
+		fields.push_back(std::string());
+		fields.insert(fields.end(), table.items(), std::string());
+		table.insertColumn(std::move(fields), position + column);
+	}
 	return returnCode() == 0;
 }
 
 void InsertColumn::undo() {
-	table.undo();
-	//_action = table.process(std::move(*_action));
+	for (size_t column = 0; column < _columns; column++)
+		table.undo();
 }
 
 void InsertColumn::redo() {
-	table.redo();
-	//_action = table.process(std::move(*_action));
+	for (size_t column = 0; column < _columns; column++)
+		table.redo();
 }

@@ -1,6 +1,7 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
+//TODO: use size_t and prevent overflow/underflow
 //add effectiveElement?/effectiveSelectedElement?
 class Viewport {
 	protected:

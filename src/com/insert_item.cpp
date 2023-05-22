@@ -3,23 +3,24 @@
 #include "populate.h"
 #include "number.h"
 
-//need to extend token/matcher functionality to accomodate variadic string lists, for items that may have an arbitrary number of fields
-InsertItem::InsertItem(std::string &&modifier, std::string &&args) : _position(itemView.firstElement() + itemView.selectedElement()) {}
+InsertItem::InsertItem(std::string &&modifier, std::string &&args) : _items(1){
+	if (modifier.size() > 0)
+		_items = Number<size_t>::strton(modifier);
+}
+
 bool InsertItem::execute() {
-	/*if (arguments.size() == 1) {
-		//_position = Number<size_t>::strton(arguments[0]);
-		if (returnCode() != 0)
-			return false;
-	} else*/
-		_position = itemView.firstElement() + itemView.selectedElement();
-	table.insertItem(repeatField("", table.fields()), _position, true);
+	int position = itemView.firstElement() + itemView.selectedElement();
+	for (int item = 0; item < _items; item++)
+		table.insertItem(repeatField("", table.fields()), position + item, true);
 	return true;
 }
 
 void InsertItem::undo() {
-	table.undo();
+	for (int item = 0; item < _items; item++)
+		table.undo();
 }
 
 void InsertItem::redo() {
-	table.redo();
+	for (int item = 0; item < _items; item++)
+		table.redo();
 }
