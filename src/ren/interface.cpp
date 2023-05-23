@@ -8,7 +8,6 @@
 #include "read.h"
 
 void run(const std::string &command) {
-	loadCommands();
 	loadTypes();
 	try {
 		initialize();

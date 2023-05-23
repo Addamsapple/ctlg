@@ -3,8 +3,8 @@
 
 #include "command_matcher.h"
 
-inline CharacterCommandMatcher incrementalProcessor;
-inline StringCommandMatcher immediateProcessor;
+extern CharacterCommandMatcher incrementalProcessor;
+extern StringCommandMatcher immediateProcessor;
 
 //TODO: construct above matchers without load command?
 void loadCommands();

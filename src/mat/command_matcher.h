@@ -13,6 +13,10 @@ class StringCommandMatcher {
 
 		StringMatcher<callback> _matcher;
 	public:
+		template<typename... Ts> StringCommandMatcher(Ts... arguments) {
+			(add(arguments.first, arguments.second), ...);
+		}
+
 		void add(std::string string, callback creator);
 
 		std::pair<std::unique_ptr<Command>, MatchResult>  match(const std::string &string) const;
@@ -29,7 +33,9 @@ class CharacterCommandMatcher {
 
 		bool _matchToModifier(char character);
 	public:
-		CharacterCommandMatcher();
+		template<typename... Ts> CharacterCommandMatcher(Ts... arguments) {
+			(add(arguments.first, arguments.second), ...);
+		}
 
 		void add(std::string string, callback creator);
 

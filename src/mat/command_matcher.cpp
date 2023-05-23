@@ -30,8 +30,6 @@ bool CharacterCommandMatcher::_matchToModifier(char character) {
 	return false;
 }
 
-CharacterCommandMatcher::CharacterCommandMatcher() : _modifierFinished(false) {}
-
 void CharacterCommandMatcher::add(std::string string, CharacterCommandMatcher::callback creator) {
 	_matcher.add(string.begin(), string.end(), creator);
 }

@@ -17,59 +17,38 @@ std::unique_ptr<Command> commandConstructor(std::string &&modifier, std::string 
 	return std::make_unique<T>(std::move(modifier), std::move(arguments));
 }
 
-#define ADD_INC_RULE(string, command)\
-	incrementalProcessor.add(string, commandConstructor<command>)
+#define PAIR(string_, command)\
+	std::make_pair(std::string(string_), commandConstructor<command>)
 
-#define ADD_IMM_RULE(string, command)\
-	immediateProcessor.add(string, commandConstructor<command>)
-void loadIncrementalCommands() {
-	ADD_INC_RULE("K", ScrollUp);
-	ADD_INC_RULE("J", ScrollDown);
-	ADD_INC_RULE("H", ScrollLeft);
-	ADD_INC_RULE("L", ScrollRight);
-	ADD_INC_RULE("k", MoveUp);
-	ADD_INC_RULE("j", MoveDown);
-	ADD_INC_RULE("h", MoveLeft);
-	ADD_INC_RULE("l", MoveRight);
+CharacterCommandMatcher incrementalProcessor(
+	PAIR("K", ScrollUp),
+	PAIR("J", ScrollDown),
+	PAIR("H", ScrollLeft),
+	PAIR("L", ScrollRight),
+	PAIR("k", MoveUp),
+	PAIR("j", MoveDown),
+	PAIR("h", MoveLeft),
+	PAIR("l", MoveRight),
+	PAIR("gg", MoveToFirstItem),
+	PAIR("G", MoveToItem),
+	PAIR("|", MoveToColumn),
+	PAIR("$", MoveToLastColumn),
+	PAIR("ii", InsertItem),
+	PAIR("dd", DeleteItem),
+	PAIR("dc", DeleteColumn),
+	PAIR("u", Undo),
+	PAIR("r", Redo),
+	PAIR(":", ProcessImmediateCommand)
+);
 
-	ADD_INC_RULE("gg", MoveToFirstItem);
-	ADD_INC_RULE("G", MoveToItem);
-
-	ADD_INC_RULE("|", MoveToColumn);
-	ADD_INC_RULE("$", MoveToLastColumn);
-	
-	ADD_INC_RULE("ii", InsertItem);
-	ADD_INC_RULE("dd", DeleteItem);
-	ADD_INC_RULE("dc", DeleteColumn);
-	ADD_INC_RULE("u", Undo);
-	ADD_INC_RULE("r", Redo);
-
-	ADD_INC_RULE(":", ProcessImmediateCommand);
-	/*ADD_INC_RULE(ProcessImmediateCommand, ':');
-	ADD_INC_RULE(MoveToFirstColumn, '0');
-	ADD_INC_RULE(MoveToLastColumn, '$');
-	ADD_INC_RULE(MoveToColumn, NUM_TOKEN, '|');
-	ADD_INC_RULE(ViewField, 'v');*/
-}
-
-#define ADD_IMM_RULE(string, command)\
-	immediateProcessor.add(string, commandConstructor<command>)
-
-//command string should include trailing space if arguments are optional: corresponding command should rather handle leading whitespace itself
-void loadImmediateCommands() {
-	ADD_IMM_RULE("e", Read);
-	ADD_IMM_RULE("w", Write);
-	ADD_IMM_RULE("q", Quit);
-	ADD_IMM_RULE("ic", InsertColumn);
-	ADD_IMM_RULE("s", Sort);
-	ADD_IMM_RULE("fs", SetField);
-}
-
-//TODO: pass pattern-command pairs via constructor, to avoid runtime calls to load functions
-void loadCommands() {
-	loadIncrementalCommands();
-	loadImmediateCommands();
-}
+StringCommandMatcher immediateProcessor(
+	PAIR("e", Read),
+	PAIR("w", Write),
+	PAIR("q", Quit),
+	PAIR("ic", InsertColumn),
+	PAIR("s", Sort),
+	PAIR("fs", SetField)
+);
 
 #include "undo.h"//TEMP
 //TODO: move these functions elsewhere
