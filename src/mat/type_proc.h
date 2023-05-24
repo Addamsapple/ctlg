@@ -3,8 +3,6 @@
 
 #include "type_matcher.h"
 
-inline StringTypeMatcher typeProcessor;
-
-void loadTypes();
+extern StringTypeMatcher typeProcessor;
 
 #endif

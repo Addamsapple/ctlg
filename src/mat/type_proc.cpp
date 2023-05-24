@@ -7,15 +7,12 @@ std::unique_ptr<FieldFactory> fieldFactoryConstructor(const std::string &argumen
 	return std::make_unique<T>(arguments);
 }
 
-#define ADD_TYPE_RULE(string, command)\
-	typeProcessor.add(string, CONSTRUCTOR(command))
+#define PAIR(string_, type)\
+	std::make_pair(std::string(string_), fieldFactoryConstructor<type>)
 
-#define CONSTRUCTOR(...)\
-	fieldFactoryConstructor<__VA_ARGS__>
-
-void loadTypes() {
-	ADD_TYPE_RULE("fld", FieldFactory);
-	ADD_TYPE_RULE("num-l", NumberFactory<long>);
-	ADD_TYPE_RULE("num-ul", NumberFactory<size_t>);
-	ADD_TYPE_RULE("num-f", NumberFactory<float>);
-}
+StringTypeMatcher typeProcessor(
+		PAIR("fld", FieldFactory),
+		PAIR("num-l", NumberFactory<long>),
+		PAIR("num-ul", NumberFactory<size_t>),
+		PAIR("num-f", NumberFactory<float>)
+);

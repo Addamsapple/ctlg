@@ -11,6 +11,10 @@ class StringTypeMatcher {
 
 		StringMatcher<callback> _matcher;
 	public:
+		template<typename... Ts> StringTypeMatcher(Ts... arguments) {
+			(add(arguments.first, arguments.second), ...);
+		}
+
 		void add(const std::string &string, callback creator);
 
 		std::pair<std::unique_ptr<FieldFactory>, MatchResult> match(const std::string &string) const;
