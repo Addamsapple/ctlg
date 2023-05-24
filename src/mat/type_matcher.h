@@ -17,7 +17,7 @@ class StringTypeMatcher {
 
 		void add(const std::string &string, callback creator);
 
-		std::pair<std::unique_ptr<FieldFactory>, MatchResult> match(const std::string &string) const;
+		std::pair<std::unique_ptr<FieldFactory>, MatchResult> match(const std::string &string) const noexcept;
 };
 
 #endif

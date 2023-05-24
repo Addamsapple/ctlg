@@ -21,7 +21,7 @@ class Trie {
 template<typename T>
 class StringMatcher : public Trie<T> {
 	public:
-		std::pair<const T * const, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end) const;
+		std::pair<const T * const, std::string::const_iterator> match(std::string::const_iterator begin, std::string::const_iterator end) const noexcept;
 };
 
 enum class MatchResult {
@@ -37,9 +37,9 @@ class CharacterMatcher : public Trie<T> {
 	public:
 		CharacterMatcher();
 
-		std::pair<const T * const, MatchResult> match(char character);
+		std::pair<const T * const, MatchResult> match(char character) noexcept;
 
-		void reset();
+		void reset() noexcept;
 };
 
 #endif

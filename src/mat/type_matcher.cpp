@@ -4,7 +4,7 @@ void StringTypeMatcher::add(const std::string &string, StringTypeMatcher::callba
 	_matcher.add(string.begin(), string.end(), creator);
 }
 
-std::pair<std::unique_ptr<FieldFactory>, MatchResult> StringTypeMatcher::match(const std::string &string) const {
+std::pair<std::unique_ptr<FieldFactory>, MatchResult> StringTypeMatcher::match(const std::string &string) const noexcept {
 	auto match_result = _matcher.match(string.begin(), string.end());
 	if (match_result.first)
 		return std::make_pair(

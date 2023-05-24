@@ -19,7 +19,7 @@ class StringCommandMatcher {
 
 		void add(std::string string, callback creator);
 
-		std::pair<std::unique_ptr<Command>, MatchResult>  match(const std::string &string) const;
+		std::pair<std::unique_ptr<Command>, MatchResult>  match(const std::string &string) const noexcept;
 };
 
 class CharacterCommandMatcher {
@@ -39,9 +39,9 @@ class CharacterCommandMatcher {
 
 		void add(std::string string, callback creator);
 
-		std::pair<std::unique_ptr<Command>, MatchResult> match(char character);
+		std::pair<std::unique_ptr<Command>, MatchResult> match(char character) noexcept;
 
-		void reset();
+		void reset() noexcept;
 };
 
 #endif

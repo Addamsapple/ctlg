@@ -6,7 +6,7 @@ void StringCommandMatcher::add(std::string string, StringCommandMatcher::callbac
 	_matcher.add(string.begin(), string.end(), creator);
 }
 
-std::pair<std::unique_ptr<Command>, MatchResult> StringCommandMatcher::match(const std::string &string) const {
+std::pair<std::unique_ptr<Command>, MatchResult> StringCommandMatcher::match(const std::string &string) const noexcept {
 	auto iterator = string.begin();
 	while (iterator != string.end() && isdigit(*iterator))
 		iterator++;
@@ -34,7 +34,7 @@ void CharacterCommandMatcher::add(std::string string, CharacterCommandMatcher::c
 	_matcher.add(string.begin(), string.end(), creator);
 }
 
-std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(char character) {
+std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(char character) noexcept {
 	auto result = MatchResult::PartialMatch;
 	if (!_matchToModifier(character)) {
 		auto match_result = _matcher.match(character);
@@ -50,7 +50,7 @@ std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(
 	return std::make_pair(nullptr, result);
 }
 
-void CharacterCommandMatcher::reset() {
+void CharacterCommandMatcher::reset() noexcept {
 	_matcher.reset();
 	_modifier.clear();
 	_modifierFinished = false;
