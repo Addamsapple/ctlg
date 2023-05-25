@@ -7,12 +7,12 @@ TMP_DIR = tmp
 SRC_FOLDERS = $(shell find $(SRC_DIR) -type d)
 TMP_FOLDERS = $(patsubst $(SRC_DIR)%, $(TMP_DIR)%, $(SRC_FOLDERS))
 
-SRC_FILES = $(shell find $(SRC_DIR) -name "*.cpp" ! -name "*_t.cpp")
+SRC_FILES = $(shell find $(SRC_DIR) -name "*.cpp")
 TMP_FILES = $(patsubst $(SRC_DIR)%.cpp, $(TMP_DIR)%.o, $(SRC_FILES))
 
 BINARY = $(BIN_DIR)/ctlg
 
-COMPILER_FLAG = -std=c++20 -Wall
+COMPILER_FLAG = -std=c++20 -Wall -fno-rtti
 
 LIB_FLAG = -L ~
 HDR_FLAG = -I ~ $(addprefix -I $(CURDIR)/, $(SRC_FOLDERS))
@@ -22,7 +22,6 @@ release: LIB_FLAG += -lncurses -ltinfo
 
 debug: COMPILER_FLAG += -O0 -g
 debug: LIB_FLAG += -lncurses -ltinfo
-#debug: LIB_FLAG += //-lncurses_g -ltinfo_g
 
 release debug: $(TMP_FOLDERS) $(BIN_DIR) $(BINARY)
 
