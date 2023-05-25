@@ -2,12 +2,13 @@
 #define TRIE_H
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 
 template<typename T>
 struct Node {
 	std::unordered_map<char, std::unique_ptr<Node>> children;
-	std::unique_ptr<T> value;
+	std::optional<T> value;
 };
 
 template<typename T>

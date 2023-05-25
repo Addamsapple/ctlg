@@ -13,20 +13,20 @@ void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator
 		node = nextNode.get();
 	}
 	if (begin != end)
-		node->value = std::make_unique<T>(std::move(value));
+		node->value = std::move(value);
 }
 
 template<typename T>
 std::pair<const T * const, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) const noexcept {
-	const T * matchedValue = nullptr;
+	const T *matchedValue = nullptr;
 	auto matchedIterator = begin;
 	auto nextNode = &(this->_root);
 	for (auto characterIterator = begin; begin != end; characterIterator++) {
 		auto nodeIterator = nextNode->children.find(*characterIterator);
 		if (nodeIterator == nextNode->children.end()) break;
 		nextNode = nodeIterator->second.get();
-		if (nextNode->value.get()) {
-			matchedValue = nextNode->value.get();
+		if (nextNode->value) {
+			matchedValue = &(nextNode->value.value());
 			matchedIterator = characterIterator + 1;
 		}
 	}
@@ -40,9 +40,9 @@ template<typename T>
 std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char character) noexcept {
 	auto iterator = _matchedNode->children.find(character);
 	if (iterator == _matchedNode->children.end())
-		return std::make_pair(_matchedNode->value.get(), MatchResult::NoMatch);
+		return std::make_pair(nullptr, MatchResult::NoMatch);
 	_matchedNode = iterator->second.get();
-	const T * matchedValue = iterator->second.get()->value.get();
+	const T *matchedValue = iterator->second.get()->value ? &(iterator->second.get()->value.value()) : nullptr;
 	return std::make_pair(matchedValue, matchedValue ? MatchResult::FullMatch : MatchResult::PartialMatch);
 }
 
