@@ -37,7 +37,7 @@ template<typename T>
 CharacterMatcher<T>::CharacterMatcher() { reset(); }
 
 template<typename T>
-std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char character) noexcept {
+std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char character) const noexcept {
 	auto iterator = _matchedNode->children.find(character);
 	if (iterator == _matchedNode->children.end())
 		return std::make_pair(nullptr, MatchResult::NoMatch);
@@ -47,7 +47,7 @@ std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char characte
 }
 
 template<typename T>
-void CharacterMatcher<T>::reset() noexcept { _matchedNode = &(this->_root); }
+void CharacterMatcher<T>::reset() const noexcept { _matchedNode = &(this->_root); }
 
 //TODO: Include arguments defined elsewhere
 template class Trie<std::unique_ptr<FieldFactory> (*)(const std::string &)>;

@@ -19,7 +19,7 @@ std::pair<std::unique_ptr<Command>, MatchResult> StringCommandMatcher::match(con
 	return std::make_pair(nullptr, match_result.second != string.begin() ? MatchResult::PartialMatch : MatchResult::NoMatch);
 }
 
-bool CharacterCommandMatcher::_matchToModifier(char character) {
+bool CharacterCommandMatcher::_matchToModifier(char character) const {
 	if (_modifierFinished)
 		return false;
 	if (isdigit(character)) {
@@ -34,7 +34,7 @@ void CharacterCommandMatcher::add(std::string string, CharacterCommandMatcher::c
 	_matcher.add(string.begin(), string.end(), creator);
 }
 
-std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(char character) noexcept {
+std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(char character) const noexcept {
 	auto result = MatchResult::PartialMatch;
 	if (!_matchToModifier(character)) {
 		auto match_result = _matcher.match(character);
@@ -50,7 +50,7 @@ std::pair<std::unique_ptr<Command>, MatchResult> CharacterCommandMatcher::match(
 	return std::make_pair(nullptr, result);
 }
 
-void CharacterCommandMatcher::reset() noexcept {
+void CharacterCommandMatcher::reset() const noexcept {
 	_matcher.reset();
 	_modifier.clear();
 	_modifierFinished = false;

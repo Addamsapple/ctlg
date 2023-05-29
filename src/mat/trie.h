@@ -34,13 +34,13 @@ enum class MatchResult {
 template<typename T>
 class CharacterMatcher : public Trie<T> {
 	protected:
-		Node<T> *_matchedNode;
+		mutable const Node<T> *_matchedNode;
 	public:
 		CharacterMatcher();
 
-		std::pair<const T * const, MatchResult> match(char character) noexcept;
+		std::pair<const T * const, MatchResult> match(char character) const noexcept;
 
-		void reset() noexcept;
+		void reset() const noexcept;
 };
 
 #endif

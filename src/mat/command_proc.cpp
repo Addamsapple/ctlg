@@ -20,7 +20,7 @@ std::unique_ptr<Command> commandConstructor(std::string &&modifier, std::string 
 #define PAIR(string_, command)\
 	std::make_pair(std::string(string_), commandConstructor<command>)
 
-CharacterCommandMatcher incrementalProcessor(
+const CharacterCommandMatcher incrementalProcessor(
 	PAIR("K", ScrollUp),
 	PAIR("J", ScrollDown),
 	PAIR("H", ScrollLeft),
@@ -41,7 +41,7 @@ CharacterCommandMatcher incrementalProcessor(
 	PAIR(":", ProcessImmediateCommand)
 );
 
-StringCommandMatcher immediateProcessor(
+const StringCommandMatcher immediateProcessor(
 	PAIR("e", Read),
 	PAIR("w", Write),
 	PAIR("q", Quit),

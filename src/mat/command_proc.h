@@ -3,8 +3,8 @@
 
 #include "command_matcher.h"
 
-extern CharacterCommandMatcher incrementalProcessor;
-extern StringCommandMatcher immediateProcessor;
+extern const CharacterCommandMatcher incrementalProcessor;
+extern const StringCommandMatcher immediateProcessor;
 
 void runCommand(char character);
 void runCommand(std::string string);
