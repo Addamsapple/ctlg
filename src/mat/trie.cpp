@@ -6,12 +6,8 @@
 template<typename T>
 void Trie<T>::add(std::string::const_iterator begin, std::string::const_iterator end, T value) {
 	auto node = &_root;
-	for (auto iterator = begin; iterator != end; iterator++) {
-		auto &nextNode = node->children[*iterator];
-		if (!nextNode)
-			nextNode = std::make_unique<Node<T>>();
-		node = nextNode.get();
-	}
+	for (auto iterator = begin; iterator != end; iterator++)
+		node = &(node->children[*iterator]);
 	if (begin != end)
 		node->value = std::move(value);
 }
@@ -20,13 +16,13 @@ template<typename T>
 std::pair<const T * const, std::string::const_iterator> StringMatcher<T>::match(std::string::const_iterator begin, std::string::const_iterator end) const noexcept {
 	const T *matchedValue = nullptr;
 	auto matchedIterator = begin;
-	auto nextNode = &(this->_root);
+	auto node = &(this->_root);
 	for (auto characterIterator = begin; begin != end; characterIterator++) {
-		auto nodeIterator = nextNode->children.find(*characterIterator);
-		if (nodeIterator == nextNode->children.end()) break;
-		nextNode = nodeIterator->second.get();
-		if (nextNode->value) {
-			matchedValue = &(nextNode->value.value());
+		auto nodeIterator = node->children.find(*characterIterator);
+		if (nodeIterator == node->children.end()) break;
+		node = &(nodeIterator->second);
+		if (node->value) {
+			matchedValue = &(node->value.value());
 			matchedIterator = characterIterator + 1;
 		}
 	}
@@ -41,8 +37,8 @@ std::pair<const T * const, MatchResult> CharacterMatcher<T>::match(char characte
 	auto iterator = _matchedNode->children.find(character);
 	if (iterator == _matchedNode->children.end())
 		return std::make_pair(nullptr, MatchResult::NoMatch);
-	_matchedNode = iterator->second.get();
-	const T *matchedValue = iterator->second.get()->value ? &(iterator->second.get()->value.value()) : nullptr;
+	_matchedNode = &(iterator->second);
+	const T *matchedValue = _matchedNode->value ? &(_matchedNode->value.value()) : nullptr;
 	return std::make_pair(matchedValue, matchedValue ? MatchResult::FullMatch : MatchResult::PartialMatch);
 }
 

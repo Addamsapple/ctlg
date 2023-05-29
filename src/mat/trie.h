@@ -7,7 +7,7 @@
 
 template<typename T>
 struct Node {
-	std::unordered_map<char, std::unique_ptr<Node>> children;
+	std::unordered_map<char, Node> children;
 	std::optional<T> value;
 };
 
