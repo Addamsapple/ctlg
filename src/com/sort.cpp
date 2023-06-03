@@ -20,14 +20,14 @@ Sort::Sort(std::string &&modifier, std::string &&args) {
 }
 
 bool Sort::execute() {
-	table.sortItems(std::move(_columns));
+	//table.sortItems(std::move(_columns));
 	return true;
 }
 
 void Sort::undo() {
-	table.undo();
+	//table.undo();
 }
 
 void Sort::redo() {
-	table.redo();
+	//table.redo();
 }

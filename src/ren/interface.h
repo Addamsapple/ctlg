@@ -4,10 +4,10 @@
 #include <string>
 
 #include "table_actions.h"
-//#include "table.h"
-#include "undoable_table.h"
+#include "table.h"
+//#include "undoable_table.h"
 
-inline UndoableTable table;
+inline Table table;
 
 void run(const std::string &command);
 
