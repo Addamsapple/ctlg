@@ -15,25 +15,30 @@ void Table::_record(std::unique_ptr<Table::Action> &&action) {
 	}
 }
 
-void Table::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
+bool Table::insertItem(const std::string &item, const size_t position, const bool ignoreErrors) {
 	setReturnCode(0, "");
 	Item item_(item, _itemConstructor);
 	if (returnCode() == 0 || ignoreErrors) {
 		_record(InsertItemAction(std::move(item_), position).perform(*this));
-		if (returnCode() != 0) setReturnCode(0, "");
+		if (returnCode() != 0)
+			setReturnCode(0, "");
+		return true;
 	} else
 		setReturnCode(55555, returnMessage());
+	return false;
 }
 
-void Table::deleteItem(const size_t item) {
+bool Table::deleteItem(const size_t item) {
 	setReturnCode(0, "");
-	if (item < items())
+	if (item < items()) {
 		_record(DeleteItemAction(item).perform(*this));
-	else
+		return true;
+	} else
 		setReturnCode(424242, "item x out of range");
+	return false;
 }
 
-void Table::insertColumn(std::vector<std::string> &&fields, const size_t position) {
+bool Table::insertColumn(std::vector<std::string> &&fields, const size_t position) {
 	setReturnCode(0, "");
 	auto matchResult = typeProcessor.match(fields[0]);
 	if (matchResult.first) {
@@ -44,23 +49,30 @@ void Table::insertColumn(std::vector<std::string> &&fields, const size_t positio
 		for (size_t item = 0; item < items(); item++)
 			fields_.emplace_back(matchResult.first->create(std::move(fields[item + _header.size()])));
 		_record(InsertColumnAction(std::move(fields_), std::move(matchResult.first), position).perform(*this));
+		return true;
 	} else
 		setReturnCode(2222, "Invalid column type");
+	return false;
 }
 
-void Table::deleteColumn(const size_t position) {
+bool Table::deleteColumn(const size_t position) {
 	setReturnCode(0, "");
 	_record(DeleteColumnAction(position).perform(*this));
+	return true;
 }
 
-void Table::setField(std::string &&field, size_t item, size_t column) {
+bool Table::setField(std::string &&field, size_t item, size_t column) {
 	auto field_ = std::unique_ptr<Field>(_itemConstructor[column]->create(std::move(field)));
-	if (returnCode() == 0)
+	if (returnCode() == 0) {
 		_record(SetFieldAction(std::move(field_), item, column).perform(*this));
+		return true;
+	}
+	return false;
 }
 
-void Table::setTitle(std::string &&title, const size_t position) {
+bool Table::setTitle(std::string &&title, const size_t position) {
 	_record(SetTitleAction(std::make_unique<Field>(std::move(title)), position).perform(*this));
+	return true;
 }
 
 void Table::clear() {

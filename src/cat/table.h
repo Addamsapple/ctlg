@@ -31,12 +31,12 @@ class Table {
 
 		void _record(std::unique_ptr<Action> &&action);
 	public:
-		void insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
-		void deleteItem(const size_t item);
-		void insertColumn(std::vector<std::string> &&fields, const size_t position);
-		void deleteColumn(const size_t position);
-		void setField(std::string &&field, size_t item, size_t column);
-		void setTitle(std::string &&title, const size_t position);
+		bool insertItem(const std::string &string, const size_t position, const bool ignoreErrors);
+		bool deleteItem(const size_t item);
+		bool insertColumn(std::vector<std::string> &&fields, const size_t position);
+		bool deleteColumn(const size_t position);
+		bool setField(std::string &&field, size_t item, size_t column);
+		bool setTitle(std::string &&title, const size_t position);
 
 		void clear();
 		//void setType()???

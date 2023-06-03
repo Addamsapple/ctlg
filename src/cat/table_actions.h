@@ -12,8 +12,7 @@ class Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table) = 0;
 };
 
-
-//add override keywords
+//TODO: add override keywords
 class Table::InsertItemAction : public Table::Action {
 	protected:
 		Item _item;
