@@ -21,6 +21,7 @@ class Field {
 		size_t length() const;
 };
 
+
 //TODO: make templated
 //TODO: use auto return type
 class FieldFactory {

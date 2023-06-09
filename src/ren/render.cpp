@@ -81,9 +81,9 @@ void mvwaddfield(WINDOW *window, int row, int column, const Field &field) {
 		waddch(window, ' ');
 }
 
-void mvwaddfields(WINDOW *window, int row, int column, const ConstFieldIterator &begin, const ConstFieldIterator &end) {
+void mvwaddfields(WINDOW *window, int row, int column, __ItemIterator begin, __ItemIterator end) {
 	for (auto iterator = begin; iterator != end; iterator++)
-		mvwaddfield(window, row, (column + (iterator - begin)) * COLUMN_WIDTH, **iterator);
+		mvwaddfield(window, row, (column + (iterator - begin)) * COLUMN_WIDTH, *iterator);
 }
 
 void changeColumnColour(WINDOW* window, const int row, const int column, const int colour) {

@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "table.h"
+#include "table_view.h"
 #include "curses.h"
 
 //move constants that are not used in other files to cpp file
@@ -75,7 +75,7 @@ void updateIO();
 void refreshPads();
 
 void mvwaddfield(WINDOW *window, int row, int column, const Field &field);
-void mvwaddfields(WINDOW *window, int row, int column, const ConstFieldIterator &begin, const ConstFieldIterator &end);
+void mvwaddfields(WINDOW *window, int row, int column, __ItemIterator begin, __ItemIterator end);
 
 void changeColumnColour(WINDOW *window, const int row, const int column, const int colour);
 void changeItemColour(const int row, const int colour);

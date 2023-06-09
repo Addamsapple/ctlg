@@ -3,11 +3,9 @@
 
 #include <string>
 
-#include "table_actions.h"
-#include "table.h"
-//#include "undoable_table.h"
+#include "table_view_actions.h"
 
-inline Table table;
+inline TableView table;
 
 void run(const std::string &command);
 

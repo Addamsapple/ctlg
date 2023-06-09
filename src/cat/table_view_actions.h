@@ -1,3 +1,6 @@
+#ifndef TABLE_VIEW_ACTIONS_H
+#define TABLE_VIEW_ACTIONS_H
+
 #include "table_view.h"
 
 class TableView::Action {
@@ -44,3 +47,5 @@ class TableView::DeleteColumnAction : public TableView::Action {
 
 		virtual std::unique_ptr<TableView::Action> perform(TableView &view) override;
 };
+
+#endif

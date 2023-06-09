@@ -25,7 +25,7 @@ Viewport ioView(
 
 void populateTitles(const int sc, const int ec) {
 	int ec_ = std::min(ec, std::min(itemColumns(), (int) table.fields() - itemColumnView.firstElement()) - sc);//change variable types
-	auto begin = table.titles().cbegin() + itemColumnView.firstElement() + sc;
+	auto begin = table.titles().begin() + itemColumnView.firstElement() + sc;
 	mvwaddfields(headerWindow, 0, sc * COLUMN_WIDTH, begin, begin + ec_ - sc);
 	wnoutrefresh(headerWindow);
 }
@@ -35,7 +35,7 @@ void populateItems(const int sr, const int er, const int sc, const int ec) {
 	int ec_ = std::min(ec, std::min(itemColumns(), (int) table.fields() - itemColumnView.firstElement()) - sc);//change variable types
 	auto ibegin = table.begin() + itemView.firstElement() + sr;
 	for (auto iterator = ibegin; iterator < ibegin + er_ - sr; iterator++) {
-		auto fbegin = (*iterator).cbegin() + itemColumnView.firstElement() + sc;
+		auto fbegin = (*iterator).begin() + itemColumnView.firstElement() + sc;
 		mvwaddfields(itemWindow, sr + (iterator - ibegin), sc * COLUMN_WIDTH, fbegin, fbegin + ec_ - sc);
 		if (iterator - ibegin == itemView.selectedElement())
 			for (size_t column = 0; column < ec_; column++) {

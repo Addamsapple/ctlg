@@ -1,7 +1,5 @@
 #include "table_view_actions.h"
 
-//#include "table_view.h"
-
 void TableView::_record(TableView::record_type &&action) {
 	if (action.first || action.second) {
 		_redoableActions.clear();
@@ -41,16 +39,16 @@ void TableView::setTitle(std::string &&title, const size_t position) {
 
 //void TableView::clear();
 
-const Item & TableView::types() const { return _table.types(); }
-const Item & TableView::titles() const { return _table.titles(); }
+ItemView TableView::types() const { return ItemView(&(_table.types()), &_fields) ;}
+ItemView TableView::titles() const { return ItemView(&(_table.titles()), &_fields); }
 
 //should not return raw item, but rather a vector of std::refs?
 //const Item & TableView::operator[](size_t item) const { return _table[item]; }
 
 const Field & TableView::field(size_t row, size_t column) const { return _table[_items[row]].get(_fields[column]); }
 
-ConstItemIterator TableView::begin() const { return _table.begin(); }
-ConstItemIterator TableView::end() const { return _table.end(); }
+TableIterator TableView::begin() const { return TableIterator(&_table, _items.begin(), &_fields); }
+TableIterator TableView::end() const { return TableIterator(&_table, _items.end(), &_fields); }//could use nullptr in place of &_fields
 
 size_t TableView::items() const { return _items.size(); }
 size_t TableView::fields() const { return _fields.size(); }
@@ -77,4 +75,8 @@ void TableView::redo() {
 		_undoableActions.push_back(std::make_pair(std::move(action), _redoableActions.back().second));
 		_redoableActions.pop_back();
 	}
+}
+
+void TableView::clear() {
+
 }
