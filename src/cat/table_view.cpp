@@ -47,8 +47,8 @@ ItemView TableView::titles() const { return ItemView(&(_table.titles()), &_field
 
 const Field & TableView::field(size_t row, size_t column) const { return _table[_items[row]].get(_fields[column]); }
 
-TableIterator TableView::begin() const { return TableIterator(&_table, _items.begin(), &_fields); }
-TableIterator TableView::end() const { return TableIterator(&_table, _items.end(), &_fields); }//could use nullptr in place of &_fields
+TableViewIterator TableView::begin() const { return TableViewIterator(&_table, _items.begin(), &_fields); }
+TableViewIterator TableView::end() const { return TableViewIterator(&_table, _items.end(), &_fields); }//could use nullptr in place of &_fields
 
 size_t TableView::items() const { return _items.size(); }
 size_t TableView::fields() const { return _fields.size(); }

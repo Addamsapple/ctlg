@@ -81,7 +81,7 @@ void mvwaddfield(WINDOW *window, int row, int column, const Field &field) {
 		waddch(window, ' ');
 }
 
-void mvwaddfields(WINDOW *window, int row, int column, __ItemIterator begin, __ItemIterator end) {
+void mvwaddfields(WINDOW *window, int row, int column, ItemViewIterator begin, ItemViewIterator end) {
 	for (auto iterator = begin; iterator != end; iterator++)
 		mvwaddfield(window, row, (column + (iterator - begin)) * COLUMN_WIDTH, *iterator);
 }
