@@ -8,14 +8,15 @@ Viewport::Viewport(int (*viewableElements)(), int (*totalElements)()) :
 		_viewableElements(viewableElements),
 		_totalElements(totalElements) {}
 
-int Viewport::firstElement() const { return _firstElement; }
+int Viewport::firstElement() const noexcept { return _firstElement; }
 
-int Viewport::selectedElement() const { return _selectedElement; }
+int Viewport::selectedElement() const noexcept { return _selectedElement; }
 
 int Viewport::viewableElements() const { return _viewableElements(); }
 
 int Viewport::totalElements() const { return _totalElements(); }
 
+//TODO: look for opportunites to make constexpr
 template<const int & (*Function)(const int &, const int &)>
 int clamp(int &value, int increment, int limit) {
 	int result = Function(value + increment, limit) - value;
