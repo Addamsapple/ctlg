@@ -9,7 +9,7 @@ std::unique_ptr<TableView::Action> TableView::InsertItemAction::perform(TableVie
 		if (val >= _value)
 			val++;
 	view._items.insert(view._items.begin() + _item, _value);
-	return std::unique_ptr<TableView::Action>();
+	return std::make_unique<TableView::DeleteItemAction>(_item);
 }
 
 TableView::DeleteItemAction::DeleteItemAction(size_t item) : _item(item) {}
