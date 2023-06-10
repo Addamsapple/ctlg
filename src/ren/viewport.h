@@ -13,8 +13,8 @@ class Viewport {
 	public:
 		Viewport(int (*viewableElements)(), int (*totalElements)());
 
-		int firstElement() const;
-		int selectedElement() const;
+		int firstElement() const noexcept;
+		int selectedElement() const noexcept;
 
 		int viewableElements() const;
 		int totalElements() const;
