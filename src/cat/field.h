@@ -21,6 +21,7 @@ class Field {
 		size_t length() const;
 };
 
+std::ostream & operator<<(std::ostream &stream, const Field &field);
 
 //TODO: make templated
 //TODO: use auto return type

@@ -18,12 +18,11 @@ class ItemView {
 		size_t size() const { return _fields->size(); }
 };
 
-//TODO: define operator<< for Field
 inline std::ostream & operator<<(std::ostream &stream, const ItemView &view) {
 	if (view.size() > 0)
-		stream << view[0].string();
+		stream << view[0];
 	for (size_t field = 1; field < view.size(); field++)
-		stream << KEY_DELIMITER << view[field].string();
+		stream << KEY_DELIMITER << view[field];
 	return stream;
 }
 

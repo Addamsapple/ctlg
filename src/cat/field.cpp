@@ -18,6 +18,8 @@ size_t Field::length() const {
 	return _string.length();
 }
 
+std::ostream & operator<<(std::ostream &stream, const Field &field) { return stream << field.string(); }
+
 FieldFactory::FieldFactory(const std::string &args) {}
 
 std::unique_ptr<Field> FieldFactory::create(std::string &&field) const {
