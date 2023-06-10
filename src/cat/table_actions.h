@@ -12,7 +12,6 @@ class Table::Action {
 		virtual std::unique_ptr<Table::Action> perform(Table &table) = 0;
 };
 
-//TODO: add override keywords
 class Table::InsertItemAction : public Table::Action {
 	protected:
 		Item _item;
@@ -20,7 +19,7 @@ class Table::InsertItemAction : public Table::Action {
 	public:
 		InsertItemAction(Item &&item, size_t index);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 class Table::InsertColumnAction : public Table::Action {
@@ -31,7 +30,7 @@ class Table::InsertColumnAction : public Table::Action {
 	public:
 		InsertColumnAction(std::vector<std::unique_ptr<Field>> &&fields, std::unique_ptr<FieldFactory> &&fieldConstructor, size_t column);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 class Table::DeleteItemAction : public Table::Action {
@@ -40,7 +39,7 @@ class Table::DeleteItemAction : public Table::Action {
 	public:
 		DeleteItemAction(size_t item);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 class Table::DeleteColumnAction : public Table::Action {
@@ -49,7 +48,7 @@ class Table::DeleteColumnAction : public Table::Action {
 	public:
 		DeleteColumnAction(size_t column);
 
-		virtual std::unique_ptr<Table::Action>  perform(Table &table);
+		virtual std::unique_ptr<Table::Action>  perform(Table &table) override;
 };
 
 class Table::SetFieldAction : public Table::Action {
@@ -60,7 +59,7 @@ class Table::SetFieldAction : public Table::Action {
 	public:
 		SetFieldAction(std::unique_ptr<Field> &&field, size_t item, size_t column);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 class Table::SetTitleAction : public Table::Action {
@@ -70,7 +69,7 @@ class Table::SetTitleAction : public Table::Action {
 	public:
 		SetTitleAction(std::unique_ptr<Field> &&title, size_t column);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 class Table::SetOrderAction : public Table::Action {
@@ -79,7 +78,7 @@ class Table::SetOrderAction : public Table::Action {
 	public:
 		SetOrderAction(std::vector<size_t> &&order);
 
-		virtual std::unique_ptr<Table::Action> perform(Table &table);
+		virtual std::unique_ptr<Table::Action> perform(Table &table) override;
 };
 
 #endif
