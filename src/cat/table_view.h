@@ -1,6 +1,8 @@
 #ifndef TABLE_VIEW_H
 #define TABLE_VIEW_H
 
+#include <limits>
+
 #include "table_actions.h"
 #include "table_view_iterator.h"
 
@@ -31,13 +33,14 @@ class TableView {
 		void setField(std::string &&field, size_t item, size_t column);
 		void setTitle(std::string &&title, const size_t position);
 
+		template<typename T> void filter(T predicate);
+
 		void clear();
 
 		ItemView types() const;
 		ItemView titles() const;
 
-		//const Item & operator[](size_t item) const;
-		const Field & field(size_t row, size_t column) const;
+		ItemView operator[](size_t item) const;
 
 		TableViewIterator begin() const;
 		TableViewIterator end() const;
@@ -48,5 +51,12 @@ class TableView {
 		void undo();
 		void redo();
 };
+
+template<typename T>
+void TableView::filter(T predicate) {
+	for (size_t item = _items.size() - 1; item < std::numeric_limits<size_t>::max(); item--)
+		if (!predicate((*this)[_items[item]]))
+			_items.erase(_items.begin() + item);
+}
 
 #endif

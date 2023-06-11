@@ -4,6 +4,7 @@
 #include "insert_column.h"
 #include "delete_column.h"
 #include "set_field.h"
+#include "filter.h"
 
 #include "navigation_commands.h"
 #include "commands.h"
@@ -47,7 +48,8 @@ const StringCommandMatcher immediateProcessor(
 	PAIR("q", Quit),
 	PAIR("ic", InsertColumn),
 	PAIR("s", Sort),
-	PAIR("fs", SetField)
+	PAIR("fs", SetField),
+	PAIR("ff", Filter)
 );
 
 #include "undo.h"//TEMP

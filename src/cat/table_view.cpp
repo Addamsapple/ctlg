@@ -37,15 +37,12 @@ void TableView::setTitle(std::string &&title, const size_t position) {
 		_record(std::make_pair(std::unique_ptr<Action>(), true));
 }
 
-//void TableView::clear();
-
 ItemView TableView::types() const { return ItemView(&(_table.types()), &_fields) ;}
 ItemView TableView::titles() const { return ItemView(&(_table.titles()), &_fields); }
 
-//should not return raw item, but rather a vector of std::refs?
-//const Item & TableView::operator[](size_t item) const { return _table[item]; }
+ItemView TableView::operator[](size_t item) const { return ItemView(&(_table[_items[item]]), &_fields); }
 
-const Field & TableView::field(size_t row, size_t column) const { return _table[_items[row]].get(_fields[column]); }
+//const Field & TableView::field(size_t row, size_t column) const { return _table[_items[row]].get(_fields[column]); }
 
 TableViewIterator TableView::begin() const { return TableViewIterator(&_table, _items.begin(), &_fields); }
 TableViewIterator TableView::end() const { return TableViewIterator(&_table, _items.end(), &_fields); }//could use nullptr in place of &_fields

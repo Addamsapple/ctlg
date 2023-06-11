@@ -31,7 +31,7 @@ bool ProcessImmediateCommand::execute() {
 //change choice of string to int conversion function
 ViewField::ViewField(std::string &&modifier, std::string &&args) {}
 bool ViewField::execute() {
-	setOutput(table.field(itemView.firstElement() + itemView.selectedElement(), itemColumnView.firstElement() + itemColumnView.selectedElement()).string());
+	setOutput(table[itemView.firstElement() + itemView.selectedElement()][itemColumnView.firstElement() + itemColumnView.selectedElement()].string());
 	return true;
 }
 
