@@ -3,17 +3,7 @@
 
 Filter::Filter(std::string &&modifier, std::string &&arguments) {}
 
-class Filterer {
-	private:
-		size_t n = 0;
-	public:
-		bool operator()(ItemView view) {
-			n++;
-			return n & 1;
-		}
-};
-
 bool Filter::execute() {
-	table.filter(Filterer());
+	table.filter([count = size_t(0)](ItemView) mutable { return count++ & 1; });
 	return true;
 }

@@ -35,6 +35,8 @@ class TableView {
 
 		template<typename T> void filter(T predicate);
 
+		void reset();
+
 		void clear();
 
 		ItemView types() const;

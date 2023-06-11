@@ -74,6 +74,13 @@ void TableView::redo() {
 	}
 }
 
+void TableView::reset() {
+	for (size_t item = 0; item < _items.size(); item++)
+		_items[item] = item;
+	while (_items.size() < _table.items())
+		_items.push_back(_items.size());
+}
+
 void TableView::clear() {
 
 }
